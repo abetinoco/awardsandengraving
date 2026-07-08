@@ -353,6 +353,7 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
   .nav-burger{display:block}
   .nav-float{top:12px;padding:0 14px}
   .nav-float nav{padding:8px 10px 8px 16px;border-radius:26px}
+  .bg .wash{background:none}
 }
 @media (min-width:821px){.nav-burger,.nav-menu{display:none!important}}
 @media (max-width:600px){
