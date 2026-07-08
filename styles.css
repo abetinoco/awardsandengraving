@@ -326,8 +326,9 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
 
 /* ---------- responsive ---------- */
 @media (max-width:960px){
-  .hero-grid{grid-template-columns:1fr;gap:6px}
-  .hero-media{display:none}
+  .hero-grid{grid-template-columns:1fr;gap:16px}
+  .hero-media{display:block;max-width:none;margin-top:2px}
+  .hero-media .plate img{aspect-ratio:16/10;max-height:30svh;object-position:center 30%}
   .svc-item,.svc-item:nth-child(even){grid-template-columns:1fr;gap:16px}
   .svc-item:nth-child(even) .svc-num,.svc-item:nth-child(even) .svc-media,.svc-item:nth-child(even) .svc-txt{order:0}
   .svc-media{order:-1;max-width:520px}
