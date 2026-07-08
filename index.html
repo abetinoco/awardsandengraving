@@ -4,12 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Awards &amp; Engraving of Libertyville — Trophies, Plaques &amp; Custom Engraving Since 1949</title>
-<meta name="description" content="Libertyville's trophy shop since 1949, now family-owned by Daniel & Bailey Mattson. Custom trophies, plaques, engraving and personalized gifts for local schools, teams, businesses and families. Custom · Tailored · Handcrafted." />
-<meta name="theme-color" content="#1f3d2c" />
-<meta name="color-scheme" content="light" />
+<meta name="description" content="Libertyville's trophy shop since 1949, family-owned by Daniel & Bailey Mattson. Custom trophies, plaques, engraving and personalized gifts for local schools, teams, businesses and families. Custom · Tailored · Handcrafted." />
+<meta name="theme-color" content="#132038" />
+<meta name="color-scheme" content="dark" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Awards &amp; Engraving of Libertyville — Since 1949" />
 <meta property="og:description" content="Custom trophies, plaques, engraving and personalized gifts in downtown Libertyville. Custom · Tailored · Handcrafted." />
+<meta property="og:image" content="/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/assets/og.jpg" />
 <link rel="icon" href="/assets/logo.png" />
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
@@ -17,10 +22,16 @@
 <link rel="stylesheet" href="/styles.css" />
 </head>
 <body id="top">
+<div class="preloader" id="preloader">
+  <div class="pre-logo">
+    <svg class="pre-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/></svg>
+    <img src="/assets/logo.png" alt="Awards & Engraving" />
+  </div>
+</div>
 <div class="bg" aria-hidden="true"><div class="wash"></div></div>
 <div class="grain" aria-hidden="true"></div>
 
-<!-- ============ NAV ============ -->
+<!-- NAV -->
 <div class="nav-float" id="navFloat">
   <nav>
     <a href="#top" class="brand" aria-label="Awards & Engraving — home">
@@ -33,9 +44,9 @@
       <li><a href="#work">Work</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#visit">Visit</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="/contact">Contact</a></li>
     </ul>
-    <a class="nav-cta" href="#contact">Get a quote <span aria-hidden="true">&rarr;</span></a>
+    <a class="nav-cta" href="/contact">Get a quote <span aria-hidden="true">&rarr;</span></a>
     <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span></button>
   </nav>
 </div>
@@ -48,10 +59,10 @@
       <a href="#work"><span class="nm-n">iii</span><span class="nm-t">Work</span></a>
       <a href="#about"><span class="nm-n">iv</span><span class="nm-t">About</span></a>
       <a href="#visit"><span class="nm-n">v</span><span class="nm-t">Visit</span></a>
-      <a href="#contact"><span class="nm-n">vi</span><span class="nm-t">Contact</span></a>
+      <a href="/contact"><span class="nm-n">vi</span><span class="nm-t">Contact</span></a>
     </nav>
     <div class="nm-foot">
-      <a class="btn btn-brass" href="#contact">Get a quote <span class="arrow">&rarr;</span></a>
+      <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
       <div class="nm-meta">
         <a href="tel:+18475491923">(847) 549-1923</a>
         <a href="mailto:orders@awardsandengraving.com">orders@awardsandengraving.com</a>
@@ -60,134 +71,136 @@
   </div>
 </div>
 
-<!-- ============ HERO ============ -->
-<header class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <p class="kicker hero-kick">Libertyville, IL <span class="diamond">&#10022;</span> Since 1949</p>
-        <h1 class="hero-h1">
-          <span class="l l1"><span>Awards <span class="amp">&amp;</span></span></span>
-          <span class="l l2"><span>Engraving</span></span>
-          <span class="sm">of Libertyville</span>
-        </h1>
-        <p class="hero-sub">For over 76 years, downtown Libertyville's trophy shop &mdash; now family-owned by Daniel &amp; Bailey Mattson. Custom trophies, plaques, engraving and one-of-a-kind personalized pieces for local schools, teams, businesses and families.</p>
-        <p class="kicker" style="margin-bottom:28px">Custom <span class="diamond">&#10022;</span> Tailored <span class="diamond">&#10022;</span> Handcrafted</p>
-        <div class="hero-cta">
-          <a class="btn btn-green" href="#contact">Get a quote <span class="arrow">&rarr;</span></a>
-          <a class="btn btn-line" href="#work">See our work</a>
+<!-- HERO + TRUST (one screen) -->
+<div class="hero-wrap">
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="kicker hero-kick">Libertyville, IL <span class="diamond">&#10022;</span> Since 1949</p>
+          <h1 class="hero-h1">
+            <span class="l l1"><span>Awards <span class="amp">&amp;</span></span></span>
+            <span class="l l2"><span>Engraving</span></span>
+            <span class="sm">of Libertyville</span>
+          </h1>
+          <p class="hero-sub">For over 76 years, downtown Libertyville's trophy shop &mdash; now family-owned by Daniel &amp; Bailey Mattson. Custom trophies, plaques, engraving and one-of-a-kind personalized pieces.</p>
+          <p class="kicker hero-tag">Custom <span class="diamond">&#10022;</span> Tailored <span class="diamond">&#10022;</span> Handcrafted</p>
+          <div class="hero-cta">
+            <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
+            <a class="btn btn-line" href="#work">See our work</a>
+          </div>
+        </div>
+        <div class="hero-media">
+          <div class="plate"><span class="cc"></span><img src="/assets/storefront.jpg" alt="Awards & Engraving storefront with its green-and-white awning in downtown Libertyville" /></div>
         </div>
       </div>
-      <div class="hero-media">
-        <div class="plate"><span class="cc"></span><img src="/assets/storefront.jpg" alt="Awards & Engraving storefront in downtown Libertyville with its green-and-white awning" /></div>
-      </div>
     </div>
-  </div>
-</header>
-
-<!-- ============ TRUST STRIP (replaces marquee) ============ -->
-<div class="trust">
-  <div class="trust-in">
-    <div class="trust-item"><b>Since 1949</b><span>76 years in downtown Libertyville</span></div>
-    <div class="trust-item"><b>Local</b><span>Schools, teams &amp; businesses across Lake County</span></div>
-    <div class="trust-item"><b>In&#8209;house</b><span class="em">Custom &#10022; Tailored &#10022; Handcrafted</span></div>
-    <div class="trust-item"><b>Family&#8209;run</b><span>New chapter under Daniel &amp; Bailey, 2025</span></div>
+  </header>
+  <div class="trust">
+    <div class="trust-in">
+      <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 5.5L20 9.2l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.7z"/></svg><b>Since 1949</b><span>76 years in downtown Libertyville</span></div>
+      <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg><b>Local</b><span>Schools, teams &amp; businesses, Lake County</span></div>
+      <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3 6 9l6 12 6-12-3-6"/></svg><b>In&#8209;house</b><span class="em">Custom &#10022; Tailored &#10022; Handcrafted</span></div>
+      <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 6.5a4.5 4.5 0 0 0-7-.6L12 7l-1.5-1.1a4.5 4.5 0 1 0-6 6.7L12 21l7.5-8.4a4.5 4.5 0 0 0 1-6.1Z"/></svg><b>Family&#8209;run</b><span>Daniel &amp; Bailey, since 2025</span></div>
+    </div>
   </div>
 </div>
 
-<!-- ============ PRODUCTS ============ -->
-<section class="section" id="products">
+<!-- PRODUCTS -->
+<section class="section" id="products" style="border-top:none">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="eyebrow">What we make</p>
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>What we make</p>
       <h2 class="sec-title">Recognition, <em>handcrafted</em> to fit.</h2>
       <p class="sec-sub">Our expertise reaches well beyond engraving. From championship trophies to memorial plaques to a monogram on your own leather gloves &mdash; if it can be personalized, we&rsquo;d love to make it.</p>
     </div>
     <div class="svc-list">
-      <div class="svc-item reveal">
-        <span class="svc-num">I</span>
-        <div class="svc-txt"><h3>Trophies &amp; <em>Awards</em></h3><p>Crystal, acrylic and metal awards for lifetime achievement, competition and recognition &mdash; like this Aldridge Lifetime Achievement piece.</p><span class="more">Request a quote</span></div>
-        <div class="svc-media"><img src="/assets/w-aldridge.jpg" alt="Aldridge Lifetime Achievement Award, black acrylic on a metal base" loading="lazy" /></div>
-      </div>
-      <div class="svc-item reveal">
-        <span class="svc-num">II</span>
-        <div class="svc-txt"><h3>Plaques &amp; <em>Memorials</em></h3><p>Wood, metal and bronze plaques for honors, dedications and lasting tributes &mdash; engraved with care, made to endure.</p><span class="more">Request a quote</span></div>
-        <div class="svc-media"><img src="/assets/w-memorial.jpg" alt="Black and gold memorial plaque reading Lead With Kindness" loading="lazy" /></div>
-      </div>
-      <div class="svc-item reveal">
-        <span class="svc-num">III</span>
-        <div class="svc-txt"><h3>School &amp; <em>Team Spirit</em></h3><p>Pride awards, championship plaques and team recognition for Vernon Hills, Libertyville and Lake County schools and leagues.</p><span class="more">Request a quote</span></div>
-        <div class="svc-media"><img src="/assets/w-vhhs.jpg" alt="Vernon Hills High School Football Pride Award plaque" loading="lazy" /></div>
-      </div>
-      <div class="svc-item reveal">
-        <span class="svc-num">IV</span>
-        <div class="svc-txt"><h3>Custom <em>Engraving</em></h3><p>If it holds still, we can engrave it &mdash; leather gloves, tumblers, tools, glassware. Bring your own item and we&rsquo;ll personalize it too.</p><span class="more">Request a quote</span></div>
-        <div class="svc-media"><img src="/assets/w-gloves.jpg" alt="Tan leather work gloves engraved with a monogram" loading="lazy" /></div>
-      </div>
-      <div class="svc-item reveal">
-        <span class="svc-num">V</span>
-        <div class="svc-txt"><h3>Personalized <em>Gifts</em></h3><p>Monogrammed drinkware, keepsakes and one-of-a-kind gifts for weddings, retirements, teams and milestones.</p><span class="more">Request a quote</span></div>
-        <div class="svc-media"><img src="/assets/w-tumbler.jpg" alt="Red insulated tumbler personalized with the name Vanessa" loading="lazy" /></div>
-      </div>
-      <div class="svc-item reveal">
-        <span class="svc-num">VI</span>
-        <div class="svc-txt"><h3>Corporate <em>Recognition</em></h3><p>Business awards and employee recognition that reflect your brand &mdash; like this Heritage Woods of Gurnee 30-under-30 honor.</p><span class="more">Request a quote</span></div>
-        <div class="svc-media"><img src="/assets/w-30under30.jpg" alt="30 under 30 Business Edition acrylic award for Heritage Woods of Gurnee" loading="lazy" /></div>
-      </div>
+      <div class="svc-item reveal"><span class="svc-num">I</span>
+        <div class="svc-txt"><h3>Trophies &amp; <em>Awards</em></h3><p>Crystal, acrylic and metal awards for lifetime achievement, competition and recognition &mdash; like this Aldridge Lifetime Achievement piece.</p><a class="more" href="/contact">Request a quote</a></div>
+        <div class="svc-media"><img src="/assets/w-aldridge.jpg" alt="Aldridge Lifetime Achievement Award" loading="lazy" /></div></div>
+      <div class="svc-item reveal"><span class="svc-num">II</span>
+        <div class="svc-txt"><h3>Plaques &amp; <em>Memorials</em></h3><p>Wood, metal and bronze plaques for honors, dedications and lasting tributes &mdash; engraved with care, made to endure.</p><a class="more" href="/contact">Request a quote</a></div>
+        <div class="svc-media"><img src="/assets/w-memorial.jpg" alt="Engraved memorial plaque" loading="lazy" /></div></div>
+      <div class="svc-item reveal"><span class="svc-num">III</span>
+        <div class="svc-txt"><h3>School &amp; <em>Team Spirit</em></h3><p>Pride awards, championship plaques and team recognition for Vernon Hills, Libertyville and Lake County schools and leagues.</p><a class="more" href="/contact">Request a quote</a></div>
+        <div class="svc-media"><img src="/assets/w-vhhs.jpg" alt="Vernon Hills High School Football Pride Award" loading="lazy" /></div></div>
+      <div class="svc-item reveal"><span class="svc-num">IV</span>
+        <div class="svc-txt"><h3>Custom <em>Engraving</em></h3><p>If it holds still, we can engrave it &mdash; leather gloves, tumblers, tools, glassware. Bring your own item and we&rsquo;ll personalize it too.</p><a class="more" href="/contact">Request a quote</a></div>
+        <div class="svc-media"><img src="/assets/w-gloves.jpg" alt="Monogrammed leather work gloves" loading="lazy" /></div></div>
+      <div class="svc-item reveal"><span class="svc-num">V</span>
+        <div class="svc-txt"><h3>Personalized <em>Gifts</em></h3><p>Monogrammed drinkware, keepsakes and one-of-a-kind gifts for weddings, retirements, teams and milestones.</p><a class="more" href="/contact">Request a quote</a></div>
+        <div class="svc-media"><img src="/assets/w-tumbler.jpg" alt="Personalized insulated tumbler" loading="lazy" /></div></div>
+      <div class="svc-item reveal"><span class="svc-num">VI</span>
+        <div class="svc-txt"><h3>Corporate <em>Recognition</em></h3><p>Business awards and employee recognition that reflect your brand &mdash; like this Heritage Woods of Gurnee 30-under-30 honor.</p><a class="more" href="/contact">Request a quote</a></div>
+        <div class="svc-media"><img src="/assets/w-30under30.jpg" alt="30 under 30 business award for Heritage Woods of Gurnee" loading="lazy" /></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ WORK / GALLERY ============ -->
-<section class="section" id="work" style="padding-top:0">
+<!-- WORK -->
+<section class="section" id="work">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="eyebrow">Recent work</p>
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-4.5-4.5L5 21"/></svg>Recent work</p>
       <h2 class="sec-title">From our <em>bench.</em></h2>
     </div>
     <div class="gal reveal">
-      <figure class="wide"><img src="/assets/interior-1.jpg" alt="Inside the Awards & Engraving showroom with plaques and display cabinets" loading="lazy" /><figcaption><b>The showroom</b>Downtown Libertyville</figcaption></figure>
-      <figure class="tall"><img src="/assets/w-perfume.jpg" alt="Engraved perfume bottle keepsake" loading="lazy" /><figcaption><b>Engraved keepsake</b>Personalized fragrance</figcaption></figure>
-      <figure><img src="/assets/w-pawtag.jpg" alt="Gold paw-shaped pet tag engraved Love, Winnie" loading="lazy" /><figcaption><b>Pet tag</b>&ldquo;Love, Winnie&rdquo;</figcaption></figure>
+      <figure><img src="/assets/interior-1.jpg" alt="Awards & Engraving showroom" loading="lazy" /><figcaption><b>The showroom</b>Downtown Libertyville</figcaption></figure>
+      <figure><img src="/assets/w-memorial.jpg" alt="Engraved memorial plaque" loading="lazy" /><figcaption><b>Memorial plaque</b>In loving memory</figcaption></figure>
+      <figure><img src="/assets/w-gloves.jpg" alt="Monogrammed leather gloves" loading="lazy" /><figcaption><b>Monogrammed gloves</b>Bring your own item</figcaption></figure>
+      <figure><img src="/assets/w-perfume.jpg" alt="Engraved perfume bottle keepsake" loading="lazy" /><figcaption><b>Engraved keepsake</b>Personalized fragrance</figcaption></figure>
       <figure><img src="/assets/w-tumbler.jpg" alt="Personalized insulated tumbler" loading="lazy" /><figcaption><b>Custom drinkware</b>Monogrammed</figcaption></figure>
-      <figure class="wide"><img src="/assets/w-memorial.jpg" alt="Engraved memorial plaque" loading="lazy" /><figcaption><b>Memorial plaque</b>In loving memory</figcaption></figure>
-      <figure class="tall"><img src="/assets/w-gloves.jpg" alt="Monogrammed leather gloves" loading="lazy" /><figcaption><b>Monogrammed gloves</b>Bring your own item</figcaption></figure>
-      <figure><img src="/assets/interior-2.jpg" alt="The front counter and samples inside the shop" loading="lazy" /><figcaption><b>The counter</b>Samples &amp; ideas</figcaption></figure>
+      <figure><img src="/assets/w-pawtag.jpg" alt="Gold paw-shaped pet tag" loading="lazy" /><figcaption><b>Pet tag</b>&ldquo;Love, Winnie&rdquo;</figcaption></figure>
+      <figure><img src="/assets/interior-2.jpg" alt="Front counter and samples" loading="lazy" /><figcaption><b>The counter</b>Samples &amp; ideas</figcaption></figure>
+      <figure><img src="/assets/w-30under30.jpg" alt="Business award for Heritage Woods of Gurnee" loading="lazy" /><figcaption><b>Business award</b>Heritage Woods 30-under-30</figcaption></figure>
     </div>
   </div>
 </section>
 
-<!-- ============ TRUSTED-BY BAND ============ -->
+<!-- TRUSTED (beige) -->
 <section class="band" id="trusted">
   <div class="wrap">
-    <div class="sec-head reveal" style="margin-bottom:8px">
-      <p class="eyebrow">Trusted locally</p>
-      <h2 class="sec-title">The name Lake County <em>trusts.</em></h2>
-      <p class="sec-sub">For over seventy-six years, schools, teams, businesses and families across Libertyville and Lake County have come to us for recognition that lasts. A few we&rsquo;re proud to craft for:</p>
+    <div class="sec-head reveal" style="margin-bottom:0">
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M9 14.5 7.5 22l4.5-2.6L16.5 22 15 14.5"/></svg>Celebrating 76 years in Libertyville</p>
+      <h2 class="sec-title">Recognition that <em>lasts.</em></h2>
+      <p class="sec-sub">For more than seven decades, we&rsquo;ve created awards, plaques, trophies, and engraved gifts for the moments that matter most across Lake County.</p>
     </div>
-    <div class="client-row reveal">
-      <span class="client-chip">Vernon Hills High School</span>
-      <span class="client-chip">Heritage Woods of Gurnee</span>
-      <span class="client-chip">Aldridge</span>
-      <span class="client-chip">Local leagues &amp; teams</span>
-      <span class="client-chip">Libertyville businesses</span>
+    <hr class="grule reveal" />
+    <div class="tb-grid">
+      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><div><h4>Vernon Hills High School</h4><p>Athletic awards partner</p><span class="tag">For 20+ years</span></div></div>
+      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-6"/><path d="M12 16a5 5 0 0 1-5-5c0-1 .4-1.9 1-2.6C7.4 7.7 7 6.9 7 6a5 5 0 0 1 10 0c0 .9-.4 1.7-1 2.4.6.7 1 1.6 1 2.6a5 5 0 0 1-5 5Z"/></svg><div><h4>Heritage Woods of Gurnee</h4><p>Employee recognition program</p><span class="tag">Since 2018</span></div></div>
+      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6z"/><path d="m12 8 1 2 2.1.2-1.6 1.5.5 2.1L12 14.8l-2 1 .5-2.1L9 12.2 11 12z"/></svg><div><h4>Aldridge</h4><p>Custom awards &amp; recognition</p><span class="tag">Since 2015</span></div></div>
+      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.5 6.5C8 8.5 9 11 9 12s-1 3.5-3.5 5.5M18.5 6.5C16 8.5 15 11 15 12s1 3.5 3.5 5.5"/></svg><div><h4>Libertyville Little League</h4><p>Trophies for every season</p><span class="tag">For 15+ years</span></div></div>
+      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M4 9h16v11H4zM9 20v-6h6v6"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg><div><h4>Local Businesses</h4><p>Engraved gifts &amp; awards for every occasion</p><span class="tag">For generations</span></div></div>
+    </div>
+    <div class="tb-foot reveal">
+      <svg class="laurel" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <text x="50" y="60" text-anchor="middle" font-family="Zodiak,Georgia,serif" font-weight="700" font-size="30" fill="currentColor">76</text>
+        <g stroke="currentColor" stroke-width="1.5" fill="currentColor">
+          <path d="M35 84 C 21 72, 17 50, 27 30" fill="none"/>
+          <ellipse cx="25" cy="34" rx="4" ry="1.9" transform="rotate(-52 25 34)"/><ellipse cx="22" cy="44" rx="4" ry="1.9" transform="rotate(-36 22 44)"/><ellipse cx="21" cy="55" rx="4" ry="1.9" transform="rotate(-16 21 55)"/><ellipse cx="23" cy="66" rx="4" ry="1.9" transform="rotate(10 23 66)"/><ellipse cx="28" cy="76" rx="4" ry="1.9" transform="rotate(34 28 76)"/>
+          <path d="M65 84 C 79 72, 83 50, 73 30" fill="none"/>
+          <ellipse cx="75" cy="34" rx="4" ry="1.9" transform="rotate(52 75 34)"/><ellipse cx="78" cy="44" rx="4" ry="1.9" transform="rotate(36 78 44)"/><ellipse cx="79" cy="55" rx="4" ry="1.9" transform="rotate(16 79 55)"/><ellipse cx="77" cy="66" rx="4" ry="1.9" transform="rotate(-10 77 66)"/><ellipse cx="72" cy="76" rx="4" ry="1.9" transform="rotate(-34 72 76)"/>
+        </g>
+      </svg>
+      <p>Locally owned. Crafted with care. Proudly serving Libertyville and Lake County since 1949.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ ABOUT (compact) ============ -->
+<!-- ABOUT -->
 <section class="section about-compact" id="about">
   <div class="wrap">
     <div class="split">
       <div class="txt reveal">
-        <p class="eyebrow">Our story</p>
+        <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M4 9h16v11H4zM9 20v-6h6v6"/></svg>Our story</p>
         <h2>A Libertyville landmark, in caring <em>new hands.</em></h2>
-        <p>For over 76 years, Awards &amp; Engraving has been a cornerstone of Libertyville&rsquo;s historic downtown. In 2025, <b>Daniel &amp; Bailey Mattson</b> took the reins &mdash; keeping the craft, the machines and the corner exactly where they belong, with fresh energy behind them.</p>
+        <p>For over 76 years, Awards &amp; Engraving has been a cornerstone of Libertyville&rsquo;s historic downtown. In 2025, <b>Daniel &amp; Bailey Mattson</b> took the reins &mdash; keeping the craft, the machines and the corner exactly where they belong.</p>
         <p>Our niche expertise extends well beyond engraving. From trophies and memorial plaques to monogrammed gloves and one-off keepsakes, <b>we handcraft tailored solutions for your unique vision.</b></p>
-        <a class="btn btn-line" href="#contact" style="margin-top:6px">Work with us <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-line" href="/contact" style="margin-top:6px">Work with us <span class="arrow">&rarr;</span></a>
       </div>
       <div class="about-media reveal">
-        <div class="plate"><span class="cc"></span><img src="/assets/owners.jpg" alt="Owners Daniel and Bailey Mattson in front of the Awards & Engraving storefront" /></div>
+        <div class="plate"><span class="cc"></span><img src="/assets/owners.jpg" alt="Owners Daniel and Bailey Mattson at the Awards & Engraving storefront" /></div>
       </div>
     </div>
     <div class="stat-strip reveal">
@@ -199,48 +212,34 @@
   </div>
 </section>
 
-<!-- ============ INSTAGRAM ============ -->
-<section class="section" id="instagram" style="padding-top:0">
+<!-- INSTAGRAM -->
+<section class="section" id="instagram">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="eyebrow">@awardsandengraving_</p>
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@awardsandengraving_</p>
       <h2 class="sec-title">Follow the <em>craft.</em></h2>
     </div>
     <div class="ig-row reveal">
-      <a class="ig-card" href="https://www.instagram.com/reel/DaTkSj4pN2x/" target="_blank" rel="noopener" aria-label="Watch on Instagram">
-        <img src="/assets/w-tumbler.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span>
-      </a>
-      <a class="ig-card" href="https://www.instagram.com/reel/DaN_KPyx86b/" target="_blank" rel="noopener" aria-label="Watch on Instagram">
-        <img src="/assets/w-vhhs.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span>
-      </a>
-      <a class="ig-card" href="https://www.instagram.com/reel/DZ7_ornp-Zf/" target="_blank" rel="noopener" aria-label="Watch on Instagram">
-        <img src="/assets/w-gloves.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span>
-      </a>
-      <a class="ig-card" href="https://www.instagram.com/reel/DZyMOzCO7ML/" target="_blank" rel="noopener" aria-label="Watch on Instagram">
-        <img src="/assets/interior-2.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span>
-      </a>
+      <a class="ig-card" href="https://www.instagram.com/reel/DaTkSj4pN2x/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/w-tumbler.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
+      <a class="ig-card" href="https://www.instagram.com/reel/DaN_KPyx86b/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/w-vhhs.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
+      <a class="ig-card" href="https://www.instagram.com/reel/DZ7_ornp-Zf/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/w-gloves.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
+      <a class="ig-card" href="https://www.instagram.com/reel/DZyMOzCO7ML/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/interior-2.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
     </div>
   </div>
 </section>
 
-<!-- ============ VISIT / MAP ============ -->
-<section class="section" id="visit" style="padding-top:0">
+<!-- VISIT + MAP -->
+<section class="section" id="visit">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="eyebrow">Visit &amp; service area</p>
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>Visit &amp; service area</p>
       <h2 class="sec-title">Downtown Libertyville &amp; <em>all of Lake County.</em></h2>
     </div>
     <div class="area-grid">
       <div class="reveal">
         <ul class="area-list">
-          <li>Libertyville</li>
-          <li class="em">Mundelein</li>
-          <li>Vernon Hills</li>
-          <li class="em">Gurnee</li>
-          <li>Lake Forest</li>
-          <li class="em">Grayslake</li>
-          <li>Green Oaks</li>
-          <li class="em">Waukegan</li>
+          <li>Libertyville</li><li class="em">Mundelein</li><li>Vernon Hills</li><li class="em">Gurnee</li>
+          <li>Lake Forest</li><li class="em">Grayslake</li><li>Green Oaks</li><li class="em">Waukegan</li>
         </ul>
         <p class="sec-sub">Walk in at 332 N Milwaukee Avenue, Monday&ndash;Friday. Weekends by appointment. Team, school and corporate orders shipped anywhere.</p>
       </div>
@@ -256,65 +255,21 @@
   </div>
 </section>
 
-<!-- ============ CONTACT ============ -->
-<section class="section" id="contact" style="padding-top:0">
+<!-- FINAL CTA (blurred darkened photo) -->
+<section class="finalcta">
+  <div class="fc-bg" aria-hidden="true"><img src="/assets/interior-1.jpg" alt="" /></div>
   <div class="wrap">
-    <div class="contact-grid">
-      <div class="reveal">
-        <p class="eyebrow">Get a quote</p>
-        <h2 class="sec-title" style="font-size:clamp(30px,4.4vw,50px)">Tell us what you need <em>made.</em></h2>
-        <p class="sec-sub" style="margin-bottom:24px">Send the details and we&rsquo;ll get back to you &mdash; usually the same business day &mdash; with a price and a timeline. Not sure yet? Describe it and we&rsquo;ll help.</p>
-        <div class="form-card">
-          <form id="quoteForm" novalidate>
-            <div class="f-row">
-              <div><label for="name">Name</label><input id="name" name="name" type="text" placeholder="Your name" required /></div>
-              <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" placeholder="(847) 000-0000" /></div>
-            </div>
-            <div class="f-row">
-              <div><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@email.com" required /></div>
-              <div><label for="type">What do you need?</label>
-                <select id="type" name="type">
-                  <option>Trophies &amp; awards</option>
-                  <option>Plaques &amp; memorials</option>
-                  <option>School / team recognition</option>
-                  <option>Custom engraving (my own item)</option>
-                  <option>Personalized gift</option>
-                  <option>Corporate / business awards</option>
-                  <option>Not sure yet</option>
-                </select>
-              </div>
-            </div>
-            <div><label for="msg">Details</label><textarea id="msg" name="msg" placeholder="Quantity, item, wording to engrave, deadline&hellip;"></textarea></div>
-            <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button class="f-submit" type="submit">Send request <span class="arrow">&rarr;</span></button>
-            <p class="f-note demo">Demo form &mdash; not connected yet. Wire to orders@awardsandengraving.com to go live.</p>
-          </form>
-          <div class="form-success" id="formSuccess">
-            <div class="chk">&#10003;</div>
-            <h3>Thank you!</h3>
-            <p>This is a demo, so nothing was sent. On the live site this would reach the shop and you&rsquo;d hear back the same business day.</p>
-          </div>
-        </div>
-      </div>
-      <div class="side reveal">
-        <div class="side-card">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
-          <div><h3>Visit the shop</h3><address>332 N Milwaukee Ave<br>Libertyville, IL 60048</address></div>
-        </div>
-        <div class="side-card">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-          <div><h3>Hours</h3><p>Monday&ndash;Friday &middot; 11am&ndash;5pm<br>Saturday &amp; Sunday &middot; By appointment</p></div>
-        </div>
-        <div class="side-card">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span>
-          <div><h3>Call or email</h3><address><a href="tel:+18475491923">(847) 549-1923</a><br><a href="mailto:orders@awardsandengraving.com">orders@awardsandengraving.com</a></address></div>
-        </div>
-      </div>
+    <p class="eyebrow reveal">Let&rsquo;s make something</p>
+    <h2 class="reveal">Made to be <em>remembered.</em></h2>
+    <p class="reveal">Tell us what you need engraved &mdash; a single keepsake or a whole season of team awards. We&rsquo;ll get back to you the same business day.</p>
+    <div class="fc-cta reveal">
+      <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
+      <a class="btn btn-line" href="tel:+18475491923">Call (847) 549-1923</a>
     </div>
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
+<!-- FOOTER -->
 <footer>
   <div class="wrap">
     <svg class="foot-word" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Awards & Engraving">
@@ -322,10 +277,7 @@
     </svg>
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#top" class="brand" aria-label="Awards & Engraving — home">
-          <img class="brand-logo" src="/assets/logo.png" alt="Awards & Engraving monogram" />
-          <span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span>
-        </a>
+        <a href="#top" class="brand" aria-label="Awards & Engraving — home"><img class="brand-logo" src="/assets/logo.png" alt="Awards & Engraving monogram" /><span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span></a>
         <p>Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
         <div class="foot-social" aria-label="Social links">
           <a class="fsoc" href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
@@ -336,21 +288,21 @@
       <div>
         <h4>Products</h4>
         <ul>
-          <li><a href="#products">Trophies &amp; awards</a></li>
-          <li><a href="#products">Plaques &amp; memorials</a></li>
-          <li><a href="#products">School &amp; team</a></li>
-          <li><a href="#products">Custom engraving</a></li>
-          <li><a href="#products">Personalized gifts</a></li>
+          <li><a href="#products"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Trophies &amp; awards</a></li>
+          <li><a href="#products"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Plaques &amp; memorials</a></li>
+          <li><a href="#products"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>School &amp; team</a></li>
+          <li><a href="#products"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Custom engraving</a></li>
+          <li><a href="#products"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Personalized gifts</a></li>
         </ul>
       </div>
       <div>
         <h4>Shop</h4>
         <ul>
-          <li><a href="#work">Our work</a></li>
-          <li><a href="#about">About us</a></li>
-          <li><a href="#visit">Visit / map</a></li>
-          <li><a href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="#contact">Get a quote</a></li>
+          <li><a href="#work"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our work</a></li>
+          <li><a href="#about"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>About us</a></li>
+          <li><a href="#visit"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Visit / map</a></li>
+          <li><a href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Instagram</a></li>
+          <li><a href="/contact"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Get a quote</a></li>
         </ul>
       </div>
       <div>
