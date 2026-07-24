@@ -3,9 +3,24 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+/* Critical inline CSS — prevents a flash of unstyled content before the external
+   stylesheet loads: the preloader covers the viewport and is fully self-styled
+   (so its ring SVG can't render as a huge disc), and the sticky call bar and all
+   icon SVGs are constrained from the very first paint. */
+html{background:#132038}
+.preloader{position:fixed;inset:0;z-index:9999;background:#132038;display:grid;place-items:center}
+.pre-logo{position:relative;width:118px;height:118px;display:grid;place-items:center}
+.pre-logo img{width:60px;height:auto}
+.pre-ring{position:absolute;inset:0;width:118px;height:118px}
+.pre-ring circle{fill:none;stroke:#d3b878;stroke-width:2.5}
+.sticky-cta{display:none}
+svg{max-width:100%}
+.sticky-cta a svg,.eyebrow .eb-ic,.trust-item .ti-ic,.fl-ic,.eb-ic{width:18px;height:18px}
+</style>
 <title>About — Since 1949 | Awards &amp; Engraving of Libertyville</title>
 <meta name="description" content="Awards & Engraving has anchored downtown Libertyville since 1949. In 2025, Daniel & Bailey Mattson became its family owners — same corner, same machines, same craft. Custom · Tailored · Handcrafted." />
-<meta name="theme-color" content="#36494A" />
+<meta name="theme-color" content="#132038" />
 <meta name="color-scheme" content="light" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="About Awards &amp; Engraving of Libertyville — Since 1949" />
@@ -21,7 +36,7 @@
   "name": "Awards & Engraving of Libertyville",
   "description": "Custom trophies, plaques, engraving and personalized gifts in downtown Libertyville, IL. Family-owned since 1949.",
   "image": "/assets/storefront.jpg",
-  "logo": "/assets/ae-logomark-green.svg",
+  "logo": "/assets/ae-logomark-gold.svg",
   "telephone": "+1-847-549-1923",
   "email": "info@awardsandengraving.com",
   "foundingDate": "1949",
@@ -38,7 +53,7 @@
 <div class="preloader" id="preloader">
   <div class="pre-logo">
     <svg class="pre-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/></svg>
-    <img src="/assets/ae-logomark-green.svg" alt="Awards & Engraving" />
+    <img src="/assets/ae-logomark-gold.svg" alt="Awards & Engraving" />
   </div>
 </div>
 <div class="bg" aria-hidden="true"><div class="wash"></div></div>
@@ -48,7 +63,7 @@
 <div class="nav-float" id="navFloat">
   <nav>
     <a href="/" class="brand" aria-label="Awards & Engraving — home">
-      <img class="brand-logo" src="/assets/ae-logomark-green.svg" alt="Awards & Engraving monogram" />
+      <img class="brand-logo" src="/assets/ae-logomark-gold.svg" alt="Awards & Engraving monogram" />
       <span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span>
     </a>
     <ul class="nav-links">
@@ -181,7 +196,7 @@
   </div>
 </section>
 
-<!-- TRUSTED (beige) -->
+<!-- TRUSTED (deep band) -->
 <section class="band" id="trusted">
   <div class="wrap">
     <div class="sec-head reveal" style="margin-bottom:0">
