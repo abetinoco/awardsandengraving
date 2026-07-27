@@ -181,6 +181,14 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .gal figure figcaption b{font-family:var(--serif);font-weight:700;font-size:15px;display:block;color:var(--gold)}
 .gal figure:hover figcaption{opacity:1;transform:none}
 
+/* Shop gallery (our-shop.html) — two up, landscape. The default .gal is a
+   4-up 4:5 portrait grid built for product shots; shop photos are wide.
+   .gal.shop-gal outranks the plain .gal rules in the media queries below
+   on specificity, so the only breakpoint it needs is its own. */
+.gal.shop-gal{grid-template-columns:repeat(2,1fr)}
+.gal.shop-gal figure{aspect-ratio:3/2}
+@media(max-width:760px){.gal.shop-gal{grid-template-columns:1fr}}
+
 /* ---------- beige band + trusted redesign ---------- */
 .band{position:relative;z-index:2;background:var(--cream);color:var(--cream-ink);padding:74px 0;overflow:hidden;border-top:1px solid var(--divider)}
 .band .eyebrow{color:var(--gold-deep)}.band .eyebrow .eb-ic{color:var(--gold-deep)}
@@ -397,6 +405,13 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
   .bg .wash{background:none}
 }
 @media (min-width:821px){.nav-burger,.nav-menu{display:none!important}}
+/* Six nav items instead of five (Our Shop) crowd the bar on small laptops.
+   Tighten the link row in that band only — the desktop bar above 1060px is
+   untouched, and below 821px the burger takes over anyway. */
+@media (min-width:821px) and (max-width:1060px){
+  .nav-links{gap:14px}
+  .nav-links a{font-size:11px;letter-spacing:.04em;white-space:nowrap}
+}
 @media (max-width:600px){
   :root{--navpad:80px}
   .section{padding:54px 0}

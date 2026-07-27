@@ -3,6 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+/* Critical inline CSS — prevents a flash of unstyled content before the external
+   stylesheet loads: the preloader covers the viewport and is fully self-styled
+   (so its ring SVG can't render as a huge disc), and the sticky call bar and all
+   icon SVGs are constrained from the very first paint. */
+html{background:#132038}
+.preloader{position:fixed;inset:0;z-index:9999;background:#132038;display:grid;place-items:center}
+.pre-logo{position:relative;width:118px;height:118px;display:grid;place-items:center}
+.pre-logo img{width:60px;height:auto}
+.pre-ring{position:absolute;inset:0;width:118px;height:118px}
+.pre-ring circle{fill:none;stroke:#d3b878;stroke-width:2.5}
+.sticky-cta{display:none}
+svg{max-width:100%}
+.sticky-cta a svg,.eyebrow .eb-ic,.trust-item .ti-ic,.fl-ic,.eb-ic{width:18px;height:18px}
+</style>
 <title>Awards &amp; Engraving of Libertyville — Trophies, Plaques &amp; Custom Engraving Since 1949</title>
 <meta name="description" content="Libertyville's trophy shop since 1949, family-owned by Daniel & Bailey Mattson. Custom trophies, plaques, engraving and personalized gifts for local schools, teams, businesses and families. Custom · Tailored · Handcrafted." />
 <meta name="theme-color" content="#132038" />
@@ -15,10 +30,9 @@
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="/assets/og.jpg" />
-<link rel="icon" href="/assets/logo.png" />
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-<link href="https://api.fontshare.com/v2/css?f[]=zodiak@400,700,701,401&f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+<link rel="icon" href="/assets/favicon.svg" />
+<link rel="stylesheet" href="/assets/fonts.css" />
+<link rel="canonical" href="https://awardsandengraving.vercel.app/" />
 <link rel="stylesheet" href="/styles.css" />
 <script type="application/ld+json">
 {
@@ -27,9 +41,9 @@
   "name": "Awards & Engraving of Libertyville",
   "description": "Custom trophies, plaques, engraving and personalized gifts in downtown Libertyville, IL. Family-owned since 1949.",
   "image": "/assets/storefront.jpg",
-  "logo": "/assets/logo.png",
+  "logo": "/assets/ae-logomark-gold.svg",
   "telephone": "+1-847-549-1923",
-  "email": "orders@awardsandengraving.com",
+  "email": "info@awardsandengraving.com",
   "foundingDate": "1949",
   "priceRange": "$$",
   "address": {"@type": "PostalAddress", "streetAddress": "332 N Milwaukee Ave", "addressLocality": "Libertyville", "addressRegion": "IL", "postalCode": "60048", "addressCountry": "US"},
@@ -39,12 +53,19 @@
   "areaServed": ["Libertyville","Mundelein","Vernon Hills","Gurnee","Lake Forest","Grayslake","Green Oaks","Waukegan"]
 }
 </script>
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "xsb6nk4hf3");
+</script>
 </head>
 <body id="top">
 <div class="preloader" id="preloader">
   <div class="pre-logo">
     <svg class="pre-ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/></svg>
-    <img src="/assets/logo.png" alt="Awards & Engraving" />
+    <img src="/assets/ae-logomark-gold.svg" alt="Awards & Engraving" />
   </div>
 </div>
 <div class="bg" aria-hidden="true"><div class="wash"></div></div>
@@ -54,12 +75,13 @@
 <div class="nav-float" id="navFloat">
   <nav>
     <a href="#top" class="brand" aria-label="Awards & Engraving — home">
-      <img class="brand-logo" src="/assets/logo.png" alt="Awards & Engraving monogram" />
+      <img class="brand-logo" src="/assets/ae-logomark-gold.svg" alt="Awards & Engraving monogram" />
       <span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span>
     </a>
     <ul class="nav-links">
       <li><a href="#top" aria-current="page">Home</a></li>
       <li><a href="/services">Services</a></li>
+      <li><a href="/our-shop">Our Shop</a></li>
       <li><a href="/portfolio">Portfolio</a></li>
       <li><a href="/about">About</a></li>
       <li><a href="/contact">Contact</a></li>
@@ -74,9 +96,10 @@
     <nav class="nm-links" aria-label="Mobile navigation">
       <a href="#top" aria-current="page"><span class="nm-n">i</span><span class="nm-t">Home</span></a>
       <a href="/services"><span class="nm-n">ii</span><span class="nm-t">Services</span></a>
-      <a href="/portfolio"><span class="nm-n">iii</span><span class="nm-t">Portfolio</span></a>
-      <a href="/about"><span class="nm-n">iv</span><span class="nm-t">About</span></a>
-      <a href="/contact"><span class="nm-n">v</span><span class="nm-t">Contact</span></a>
+      <a href="/our-shop"><span class="nm-n">iii</span><span class="nm-t">Our Shop</span></a>
+      <a href="/portfolio"><span class="nm-n">iv</span><span class="nm-t">Portfolio</span></a>
+      <a href="/about"><span class="nm-n">v</span><span class="nm-t">About</span></a>
+      <a href="/contact"><span class="nm-n">vi</span><span class="nm-t">Contact</span></a>
     </nav>
     <div class="nm-foot">
       <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
@@ -335,7 +358,7 @@
     </svg>
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#top" class="brand" aria-label="Awards & Engraving — home"><img class="brand-logo" src="/assets/logo.png" alt="Awards & Engraving monogram" /><span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span></a>
+        <a href="#top" class="brand" aria-label="Awards & Engraving — home"><img class="brand-logo" src="/assets/ae-logomark-gold.svg" alt="Awards & Engraving monogram" /><span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span></a>
         <p>Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
         <div class="foot-social" aria-label="Social links">
           <a class="fsoc" href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
@@ -356,6 +379,7 @@
       <div>
         <h4>Shop</h4>
         <ul>
+          <li><a href="/our-shop"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our shop &amp; machines</a></li>
           <li><a href="/portfolio"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our work</a></li>
           <li><a href="/about"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>About us</a></li>
           <li><a href="#visit"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Visit / map</a></li>

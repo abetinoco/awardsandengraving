@@ -7,7 +7,7 @@
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://api.fontshare.com; font-src 'self' https://cdn.fontshare.com https://api.fontshare.com; img-src 'self' data:; connect-src 'self'; frame-src https://www.openstreetmap.org;" }
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' 'sha256-Gcz4LsOj0aHjEYHu6ZPC21t0jYXDztWz40yLgICKA1E=' https://www.clarity.ms https://c.clarity.ms; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://*.clarity.ms https://c.bing.com; connect-src 'self' https://*.clarity.ms https://c.bing.com; frame-src https://www.openstreetmap.org;" }
       ]
     }
   ],
