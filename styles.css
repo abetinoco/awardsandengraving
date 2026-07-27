@@ -198,6 +198,45 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .tb-foot .laurel{flex:0 0 auto;width:66px;height:66px;color:var(--gold-deep)}
 .tb-foot p{font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.9vw,20px);color:var(--cream-ink);max-width:62ch}
 
+/* ---------- clients wall (About -> #trusted) ---------------------------
+   One card per client. Each card holds a single <img> pointing at
+   assets/clients/<slug>.svg -- drop that file in and the logo appears.
+   With no file there the browser cannot render the image box, so it
+   paints .client-logo::after instead and the card falls back to the
+   client's name set as a wordmark.
+
+   That fallback is the design, not a stopgap. Naming a customer in text
+   is a statement of fact; showing their logo is use of someone else's
+   trademark. So a logo only ever appears here once the file has been
+   deliberately added -- the same moment we have the right to show it.
+
+   Written in CSS rather than an onerror handler because the site's CSP
+   is script-src 'self', which blocks inline handlers.
+   ---------------------------------------------------------------------- */
+.clients-wall{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:44px}
+.client{flex:1 1 196px;max-width:260px;min-width:0;min-height:106px;margin:0;padding:18px 16px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(176,142,78,.45);background:#f4eedf;
+  transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease)}
+.client-logo{position:relative;width:100%;height:70px;object-fit:contain}
+.client-logo::after{content:attr(alt);position:absolute;inset:0;background:#f4eedf;
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:0 2px;
+  font-family:var(--serif);font-weight:700;font-size:16.5px;line-height:1.2;
+  color:var(--cream-ink);transition:background .3s var(--ease)}
+@media (hover:hover){
+  .client:hover{border-color:var(--gold-deep);background:#f8f3e9;transform:translateY(-3px)}
+  .client:hover .client-logo::after{background:#f8f3e9}
+}
+.clients-also{max-width:66ch;margin:26px auto 0;text-align:center;
+  font-size:13.5px;line-height:1.6;color:var(--cream-ink-soft)}
+.clients-also strong{font-weight:600;color:var(--cream-ink)}
+@media (max-width:600px){
+  .clients-wall{gap:10px;margin-top:34px}
+  .client{flex:1 1 150px;min-height:94px;padding:14px 12px}
+  .client-logo{height:62px}
+  .client-logo::after{font-size:15px}
+}
+
 /* ---------- about ---------- */
 .about-compact{padding:62px 0}
 .split{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(26px,5vw,64px);align-items:center}
