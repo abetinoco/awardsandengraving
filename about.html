@@ -214,25 +214,33 @@ svg{max-width:100%}
       <h2 class="sec-title">Trusted by teams across the <em>country.</em></h2>
       <p class="sec-sub">Recognition and employee-award programs for Fortune 500s, hospital systems, pro sports and the U.S. armed forces &mdash; built with the same care as a single keepsake for a Lake County family.</p>
     </div>
-    <!-- Client logos live in assets/clients/. Add the file and the logo
-         appears; with no file the card shows the client's name instead,
-         which is the safe default - see the CSS note on .clients-wall.
-         Filenames are fixed: use exactly the src below. -->
+    <!-- Each client is an engraved-nameplate wordmark: the name set in the
+         house serif, letterspaced and lightly embossed, the way AE cuts a
+         brass plate. Uniform across all fourteen, which reads as deliberate.
+
+         Naming a customer in text is a statement of fact. Showing their logo
+         is use of someone else's trademark, and most of these brands forbid
+         vendor use of their marks without written permission. So this is the
+         shipping design, not a placeholder.
+
+         To drop a real logo in later, swap one span for
+         <img class="client-logo" src="assets/clients/<slug>.svg" alt="Name">
+         -- the .client-logo rule is still there and picks it straight up. -->
     <div class="clients-wall reveal">
-      <figure class="client"><img class="client-logo" src="assets/clients/chicago-bears.svg" alt="Chicago Bears" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/milwaukee-tool.svg" alt="Milwaukee Tool" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/home-depot.png" alt="The Home Depot" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/abbott.svg" alt="Abbott" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/abbvie.svg" alt="AbbVie" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/medline.svg" alt="Medline" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/baxter.svg" alt="Baxter" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/bcu.svg" alt="Baxter Credit Union" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/advocate-health-care.svg" alt="Advocate Condell" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/bath-concepts.svg" alt="Bath Concepts" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/bath-planet.svg" alt="Bath Planet" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/aramark.svg" alt="Aramark" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/mission-bbq.svg" alt="Mission BBQ" loading="lazy" decoding="async"></figure>
-      <figure class="client"><img class="client-logo" src="assets/clients/x-golf.svg" alt="X-Golf" loading="lazy" decoding="async"></figure>
+      <figure class="client"><span class="cw">Chicago Bears</span></figure>
+      <figure class="client"><span class="cw">Milwaukee Tool</span></figure>
+      <figure class="client"><span class="cw">The Home Depot</span></figure>
+      <figure class="client"><span class="cw">Abbott</span></figure>
+      <figure class="client"><span class="cw">AbbVie</span></figure>
+      <figure class="client"><span class="cw">Medline</span></figure>
+      <figure class="client"><span class="cw">Baxter</span></figure>
+      <figure class="client"><span class="cw long">Baxter Credit Union</span></figure>
+      <figure class="client"><span class="cw long">Advocate Condell</span></figure>
+      <figure class="client"><span class="cw">Bath Concepts</span></figure>
+      <figure class="client"><span class="cw">Bath Planet</span></figure>
+      <figure class="client"><span class="cw">Aramark</span></figure>
+      <figure class="client"><span class="cw">Mission BBQ</span></figure>
+      <figure class="client"><span class="cw">X&#8209;Golf</span></figure>
     </div>
     <p class="clients-also reveal">Plus recognition and award programs for the <strong>U.S.&nbsp;Marines</strong>, <strong>U.S.&nbsp;Army</strong> and <strong>U.S.&nbsp;Navy</strong>.</p>
     <div class="tb-foot reveal">
