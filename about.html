@@ -11,7 +11,8 @@
 html{background:#132038}
 .preloader{position:fixed;inset:0;z-index:9999;background:#132038;display:grid;place-items:center}
 .pre-logo{position:relative;width:118px;height:118px;display:grid;place-items:center}
-.pre-logo img{width:60px;height:auto}
+.pre-logo::before{content:"";position:absolute;left:50%;top:50%;width:66px;height:66px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(211,184,120,.4)}
+.pre-logo img{width:66px;height:66px;object-fit:contain;padding:12px}
 .pre-ring{position:absolute;inset:0;width:118px;height:118px}
 .pre-ring circle{fill:none;stroke:#d3b878;stroke-width:2.5}
 .sticky-cta{display:none}
@@ -24,7 +25,7 @@ svg{max-width:100%}
 <meta name="color-scheme" content="light" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="About Awards &amp; Engraving of Libertyville — Since 1949" />
-<meta property="og:description" content="Seventy-seven years on Milwaukee Avenue. Family-owned by Daniel &amp; Bailey Mattson since 2025." />
+<meta property="og:description" content="On Milwaukee Avenue since 1949. Family-owned by Daniel &amp; Bailey Mattson since 2025." />
 <meta property="og:image" content="/assets/og.jpg" />
 <link rel="icon" href="/assets/favicon.svg" />
 <link rel="stylesheet" href="/assets/fonts.css" />
@@ -39,13 +40,13 @@ svg{max-width:100%}
   "image": "/assets/storefront.jpg",
   "logo": "/assets/ae-logomark-gold.svg",
   "telephone": "+1-847-549-1923",
-  "email": "info@awardsandengraving.com",
+  "email": "daniel@awardsandengraving.com",
   "foundingDate": "1949",
   "priceRange": "$$",
   "address": {"@type": "PostalAddress", "streetAddress": "332 N Milwaukee Ave", "addressLocality": "Libertyville", "addressRegion": "IL", "postalCode": "60048", "addressCountry": "US"},
   "geo": {"@type": "GeoCoordinates", "latitude": 42.2836, "longitude": -87.952},
   "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "11:00", "closes": "17:00"}],
-  "sameAs": ["https://www.instagram.com/awardsandengraving_/"],
+  "sameAs": ["https://www.instagram.com/awardsandengraving_/", "https://www.tiktok.com/@awards_engraving"],
   "areaServed": ["Libertyville","Mundelein","Vernon Hills","Gurnee","Lake Forest","Grayslake","Green Oaks","Waukegan"]
 }
 </script>
@@ -79,10 +80,11 @@ svg{max-width:100%}
       <li><a href="/services">Services</a></li>
       <li><a href="/our-shop">Our Shop</a></li>
       <li><a href="/portfolio">Portfolio</a></li>
+      <li><a href="/reviews">Reviews</a></li>
       <li><a href="/about" aria-current="page">About</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
-    <a class="nav-cta" href="/contact">Get a quote <span aria-hidden="true">&rarr;</span></a>
+    <a class="nav-cta" href="/contact"><span data-ae-field="site.nav_cta">Get a quote</span> <span aria-hidden="true">&rarr;</span></a>
     <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span></button>
   </nav>
 </div>
@@ -94,14 +96,15 @@ svg{max-width:100%}
       <a href="/services"><span class="nm-n">ii</span><span class="nm-t">Services</span></a>
       <a href="/our-shop"><span class="nm-n">iii</span><span class="nm-t">Our Shop</span></a>
       <a href="/portfolio"><span class="nm-n">iv</span><span class="nm-t">Portfolio</span></a>
-      <a href="/about" aria-current="page"><span class="nm-n">v</span><span class="nm-t">About</span></a>
-      <a href="/contact"><span class="nm-n">vi</span><span class="nm-t">Contact</span></a>
+      <a href="/reviews"><span class="nm-n">v</span><span class="nm-t">Reviews</span></a>
+      <a href="/about" aria-current="page"><span class="nm-n">vi</span><span class="nm-t">About</span></a>
+      <a href="/contact"><span class="nm-n">vii</span><span class="nm-t">Contact</span></a>
     </nav>
     <div class="nm-foot">
       <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
       <div class="nm-meta">
-        <a href="tel:+18475491923">(847) 549-1923</a>
-        <a href="mailto:info@awardsandengraving.com">info@awardsandengraving.com</a>
+        <a href="tel:+18475491923"><span data-ae-field="site.phone">(847) 549-1923</span></a>
+        <a href="mailto:daniel@awardsandengraving.com"><span data-ae-field="site.email">daniel@awardsandengraving.com</span></a>
       </div>
     </div>
   </div>
@@ -116,8 +119,8 @@ svg{max-width:100%}
 <div class="wrap">
   <div class="page-hero">
     <p class="kicker">Our story <span class="diamond">&#10022;</span> Since 1949</p>
-    <h1>Seventy-seven years on <em>Milwaukee Avenue.</em></h1>
-    <p class="sec-sub">Presidents have come and gone, downtown has changed around us, and through all of it this corner shop has kept doing one thing: putting names on the moments that matter.</p>
+    <h1><span class="yrs" data-format="words">Seventy-seven</span> years on <em>Milwaukee Avenue.</em></h1>
+    <p class="sec-sub" data-ae-field="about_intro" data-ae-type="multiline">Presidents have come and gone, downtown has changed around us, and through all of it this corner shop has kept doing one thing: putting names on the moments that matter.</p>
   </div>
 </div>
 
@@ -131,15 +134,15 @@ svg{max-width:100%}
         <p>Awards &amp; Engraving opened its doors on Milwaukee Avenue in 1949, and it has anchored Libertyville&rsquo;s historic downtown ever since. Generations of Lake County families have walked through the same door for the same reason &mdash; a season of little-league trophies, a retirement plaque, a memorial engraved with care.</p>
         <p>In 2025, <b>Daniel &amp; Bailey Mattson</b> took the reins as family owners. They kept the craft, the machines and the corner exactly where they belong &mdash; and brought a new generation&rsquo;s energy to a shop that&rsquo;s never needed a reinvention, just good hands.</p>
         <p>Our niche expertise extends well beyond engraving. From trophies and memorial plaques to monogrammed gloves and one-off keepsakes, <b>we handcraft tailored solutions for your unique vision.</b></p>
-        <a class="btn btn-line" href="/portfolio" style="margin-top:6px">See what we make <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-gold" href="/portfolio" style="margin-top:6px">See what we make <span class="arrow">&rarr;</span></a>
       </div>
       <div class="about-media reveal">
-        <div class="plate"><span class="cc"></span><img src="/assets/owners.jpg" alt="Owners Daniel and Bailey Mattson at the Awards & Engraving storefront" /></div>
+        <div class="plate"><span class="cc"></span><img src="/assets/storefront.jpg" alt="The Awards &amp; Engraving storefront with its green-and-white awning on Milwaukee Avenue in downtown Libertyville" /></div>
       </div>
     </div>
     <div class="stat-strip reveal">
       <div class="st"><b>1949</b><span>Established</span></div>
-      <div class="st"><b>77+</b><span>Years downtown</span></div>
+      <div class="st"><b><span class="yrs">77</span>+</b><span>Years downtown</span></div>
       <div class="st"><b>2025</b><span>New ownership</span></div>
       <div class="st"><b>Local</b><span>Schools &amp; business</span></div>
     </div>
@@ -172,7 +175,7 @@ svg{max-width:100%}
       <div class="tl-item">
         <span class="tl-y">2025</span>
         <h3>Daniel &amp; Bailey take the reins</h3>
-        <p>The Mattsons become the shop&rsquo;s family owners &mdash; same corner, same machines, same standards. The next seventy-seven years start here.</p>
+        <p>The Mattsons become the shop&rsquo;s family owners &mdash; same corner, same machines, same standards. The next <span class="yrs" data-format="words">seventy-seven</span> years start here.</p>
       </div>
     </div>
   </div>
@@ -214,38 +217,40 @@ svg{max-width:100%}
       <h2 class="sec-title">Trusted by teams across the <em>country.</em></h2>
       <p class="sec-sub">Recognition and employee-award programs for Fortune 500s, hospital systems, pro sports and the U.S. armed forces &mdash; built with the same care as a single keepsake for a Lake County family.</p>
     </div>
-    <!-- Each client is an engraved-nameplate wordmark: the name set in the
-         house serif, letterspaced and lightly embossed, the way AE cuts a
-         brass plate. Uniform across all fourteen, which reads as deliberate.
+        <!-- Client logos live in assets/clients/. Heavy multi-colour seals (the service
+         branches, Mission BBQ) are rasterised PNGs at 2x the 70px display height —
+         as SVG they ran 130-350KB each for no visible gain at this size.
 
-         Naming a customer in text is a statement of fact. Showing their logo
-         is use of someone else's trademark, and most of these brands forbid
-         vendor use of their marks without written permission. So this is the
-         shipping design, not a placeholder.
+         Bath Concepts and Bath Planet stay as engraved-nameplate wordmarks: both sites
+         run on a shared HubSpot portal that serves a sibling brand's logo (PuroStone)
+         as the header asset, so there is no correct file to use yet. Drop one in and
+         swap the span for an <img class="client-logo"> to match the rest.
 
-         To drop a real logo in later, swap one span for
-         <img class="client-logo" src="assets/clients/<slug>.svg" alt="Name">
-         -- the .client-logo rule is still there and picks it straight up. -->
+         X-Golf only publishes a white-on-transparent mark, which is invisible on this
+         cream band, so it carries .on-light to render as dark ink. -->
     <div class="clients-wall reveal">
-      <figure class="client"><span class="cw">Chicago Bears</span></figure>
-      <figure class="client"><span class="cw">Milwaukee Tool</span></figure>
-      <figure class="client"><span class="cw">The Home Depot</span></figure>
-      <figure class="client"><span class="cw">Abbott</span></figure>
-      <figure class="client"><span class="cw">AbbVie</span></figure>
-      <figure class="client"><span class="cw">Medline</span></figure>
-      <figure class="client"><span class="cw">Baxter</span></figure>
-      <figure class="client"><span class="cw long">Baxter Credit Union</span></figure>
-      <figure class="client"><span class="cw long">Advocate Condell</span></figure>
-      <figure class="client"><span class="cw">Bath Concepts</span></figure>
-      <figure class="client"><span class="cw">Bath Planet</span></figure>
-      <figure class="client"><span class="cw">Aramark</span></figure>
-      <figure class="client"><span class="cw">Mission BBQ</span></figure>
-      <figure class="client"><span class="cw">X&#8209;Golf</span></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/chicago-bears.svg" alt="Chicago Bears" loading="lazy" /><figcaption class="client-meta"><b>Chicago Bears</b><span>Professional football</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/milwaukee-tool.svg" alt="Milwaukee Tool" loading="lazy" /><figcaption class="client-meta"><b>Milwaukee Tool</b><span>Tools &amp; manufacturing</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/home-depot.svg" alt="The Home Depot" loading="lazy" /><figcaption class="client-meta"><b>The Home Depot</b><span>Home improvement retail</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/abbott.svg" alt="Abbott" loading="lazy" /><figcaption class="client-meta"><b>Abbott</b><span>Healthcare</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/abbvie.svg" alt="AbbVie" loading="lazy" /><figcaption class="client-meta"><b>AbbVie</b><span>Pharmaceuticals</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/medline.svg" alt="Medline" loading="lazy" /><figcaption class="client-meta"><b>Medline</b><span>Medical supplies</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/baxter.svg" alt="Baxter" loading="lazy" /><figcaption class="client-meta"><b>Baxter</b><span>Medical technology</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/baxter-credit-union.svg" alt="Baxter Credit Union" loading="lazy" /><figcaption class="client-meta"><b>Baxter Credit Union</b><span>Credit union</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/advocate-condell.png" alt="Advocate Condell Medical" loading="lazy" /><figcaption class="client-meta"><b>Advocate Condell Medical</b><span>Hospital &amp; health system</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/aramark.svg" alt="Aramark" loading="lazy" /><figcaption class="client-meta"><b>Aramark</b><span>Food &amp; facilities services</span></figcaption></figure>
+      <figure class="client"><img class="client-logo" src="/assets/clients/mission-bbq.png" alt="Mission BBQ" loading="lazy" /><figcaption class="client-meta"><b>Mission BBQ</b><span>Restaurants</span></figcaption></figure>
+      <figure class="client"><img class="client-logo on-light" src="/assets/clients/xgolf.png" alt="X-Golf" loading="lazy" /><figcaption class="client-meta"><b>X&#8209;Golf</b><span>Golf entertainment</span></figcaption></figure>
+      <figure class="client"><span class="cw">Bath Concepts</span><figcaption class="client-meta"><span>Home remodeling</span></figcaption></figure>
+      <figure class="client"><span class="cw">Bath Planet</span><figcaption class="client-meta"><span>Bath remodeling</span></figcaption></figure>
+      <figure class="client"><img class="client-logo mark" src="/assets/clients/marines.png" alt="U.S. Marine Corps" loading="lazy" /><figcaption class="client-meta"><b>U.S. Marine Corps</b><span>U.S. armed forces</span></figcaption></figure>
+      <figure class="client"><img class="client-logo mark" src="/assets/clients/army.png" alt="U.S. Army" loading="lazy" /><figcaption class="client-meta"><b>U.S. Army</b><span>U.S. armed forces</span></figcaption></figure>
+      <figure class="client"><img class="client-logo mark" src="/assets/clients/navy.png" alt="U.S. Navy" loading="lazy" /><figcaption class="client-meta"><b>U.S. Navy</b><span>U.S. armed forces</span></figcaption></figure>
     </div>
-    <p class="clients-also reveal">Plus recognition and award programs for the <strong>U.S.&nbsp;Marines</strong>, <strong>U.S.&nbsp;Army</strong> and <strong>U.S.&nbsp;Navy</strong>.</p>
+    <p class="clients-also reveal">Plus the schools, leagues, hospitals and family businesses of Lake County &mdash; from a single retirement plaque to a whole season of team awards.</p>
     <div class="tb-foot reveal">
       <svg class="laurel" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <text x="50" y="60" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-weight="700" font-size="30" fill="currentColor">77</text>
+        <text x="50" y="60" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-weight="700" font-size="30" fill="currentColor" class="yrs">77</text>
         <g stroke="currentColor" stroke-width="1.5" fill="currentColor">
           <path d="M35 84 C 21 72, 17 50, 27 30" fill="none"/>
           <ellipse cx="25" cy="34" rx="4" ry="1.9" transform="rotate(-52 25 34)"/><ellipse cx="22" cy="44" rx="4" ry="1.9" transform="rotate(-36 22 44)"/><ellipse cx="21" cy="55" rx="4" ry="1.9" transform="rotate(-16 21 55)"/><ellipse cx="23" cy="66" rx="4" ry="1.9" transform="rotate(10 23 66)"/><ellipse cx="28" cy="76" rx="4" ry="1.9" transform="rotate(34 28 76)"/>
@@ -253,7 +258,7 @@ svg{max-width:100%}
           <ellipse cx="75" cy="34" rx="4" ry="1.9" transform="rotate(52 75 34)"/><ellipse cx="78" cy="44" rx="4" ry="1.9" transform="rotate(36 78 44)"/><ellipse cx="79" cy="55" rx="4" ry="1.9" transform="rotate(16 79 55)"/><ellipse cx="77" cy="66" rx="4" ry="1.9" transform="rotate(-10 77 66)"/><ellipse cx="72" cy="76" rx="4" ry="1.9" transform="rotate(-34 72 76)"/>
         </g>
       </svg>
-      <p>Supplying quality recognition products for 77 years &mdash; locally owned and handcrafted in downtown Libertyville since 1949.</p>
+      <p>Supplying quality recognition products for <span class="yrs">77</span> years &mdash; locally owned and handcrafted in downtown Libertyville since 1949.</p>
     </div>
   </div>
 </section>
@@ -287,11 +292,11 @@ svg{max-width:100%}
 
 <!-- FINAL CTA -->
 <section class="finalcta">
-  <div class="fc-bg" aria-hidden="true"><img src="/assets/storefront.jpg" alt="" /></div>
+  <div class="fc-bg" aria-hidden="true"><img src="/assets/interior-1.jpg" alt="" /></div>
   <div class="wrap">
-    <p class="eyebrow reveal">Come say hello</p>
-    <h2 class="reveal">Stop by the <em>corner.</em></h2>
-    <p class="reveal">Walk in with an idea, an item, or just a question &mdash; we&rsquo;re at 332 N Milwaukee Ave, Monday through Friday. Or send the details and we&rsquo;ll reply the same business day.</p>
+    <p class="eyebrow reveal">Let&rsquo;s make something</p>
+    <h2 class="reveal">Made to be <em>remembered.</em></h2>
+    <p class="reveal">Tell us what you need engraved &mdash; a single keepsake or a whole season of team awards. We&rsquo;ll get back to you the same business day.</p>
     <div class="fc-cta reveal">
       <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
       <a class="btn btn-line" href="tel:+18475491923">Call (847) 549-1923</a>
@@ -306,15 +311,15 @@ svg{max-width:100%}
     <div class="foot-grid">
       <div class="foot-brand">
         <a href="/" class="brand" aria-label="Awards & Engraving — home"><img class="brand-logo" src="/assets/ae-logomark-paper.svg" alt="Awards & Engraving monogram" /><span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span></a>
-        <p>Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
+        <p data-ae-field="site.footer_blurb" data-ae-type="multiline">Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
         <div class="foot-social" aria-label="Social links">
           <a class="fsoc" href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-          <a class="fsoc" href="#" aria-label="Facebook (add link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a class="fsoc" href="https://www.tiktok.com/@awards_engraving" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg></a>
           <a class="fsoc" href="https://maps.google.com/?q=332+N+Milwaukee+Ave+Libertyville+IL+60048" target="_blank" rel="noopener" aria-label="Google Maps"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 11h-9.5v3.5h5.4c-.5 2.5-2.5 4-5.4 4-3.3 0-6-2.7-6-6s2.7-6 6-6c1.4 0 2.7.5 3.7 1.3l2.5-2.5C16.9 3.5 14.6 2.5 12 2.5 6.5 2.5 2 7 2 12.5S6.5 22.5 12 22.5c5.8 0 9.6-4 9.6-9.7 0-.6 0-1.2-.1-1.8z"/></svg></a>
         </div>
       </div>
       <div>
-        <h4>Services</h4>
+        <h4 data-ae-field="site.foot_h_services">Services</h4>
         <ul>
           <li><a href="/services#trophies"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Trophies &amp; awards</a></li>
           <li><a href="/services#plaques"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Plaques &amp; memorials</a></li>
@@ -324,10 +329,11 @@ svg{max-width:100%}
         </ul>
       </div>
       <div>
-        <h4>Shop</h4>
+        <h4 data-ae-field="site.foot_h_shop">Shop</h4>
         <ul>
           <li><a href="/our-shop"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our shop &amp; machines</a></li>
           <li><a href="/portfolio"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our work</a></li>
+          <li><a href="/reviews"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Reviews</a></li>
           <li><a href="/about"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>About us</a></li>
           <li><a href="/#visit"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Visit / map</a></li>
           <li><a href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Instagram</a></li>
@@ -335,12 +341,12 @@ svg{max-width:100%}
         </ul>
       </div>
       <div>
-        <h4>Visit us</h4>
+        <h4 data-ae-field="site.foot_h_visit">Visit us</h4>
         <div class="foot-contact">
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span>332 N Milwaukee Ave<br>Libertyville, IL 60048</span></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span><a href="tel:+18475491923">(847) 549-1923</a></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><a href="mailto:info@awardsandengraving.com">info@awardsandengraving.com</a></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>Mon&ndash;Fri 11am&ndash;5pm<br>Sat &amp; Sun by appointment</span></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span data-ae-field="site.address" data-ae-type="multiline">332 N Milwaukee Ave<br>Libertyville, IL 60048</span></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span><a href="tel:+18475491923"><span data-ae-field="site.phone">(847) 549-1923</span></a></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><a href="mailto:daniel@awardsandengraving.com"><span data-ae-field="site.email">daniel@awardsandengraving.com</span></a></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span data-ae-field="site.hours" data-ae-type="multiline">Mon&ndash;Fri 11am&ndash;5pm<br>Sat &amp; Sun by appointment</span></div>
         </div>
       </div>
     </div>
@@ -351,6 +357,8 @@ svg{max-width:100%}
   </div>
 </footer>
 
+<script src="/site-config.js"></script>
+<script src="/site-content.js"></script>
 <script src="/site.js"></script>
 </body>
 </html>

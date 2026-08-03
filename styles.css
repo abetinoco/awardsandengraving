@@ -42,7 +42,11 @@ section[id],[id]{scroll-margin-top:110px}
   transition:opacity .55s var(--ease),visibility .55s}
 .preloader.done{opacity:0;visibility:hidden}
 .pre-logo{position:relative;width:118px;height:118px;display:grid;place-items:center}
-.pre-logo img{width:66px;height:66px;border-radius:50%;border:1px solid var(--gold-soft)}
+/* Ring on the wrapper, same reason as .brand::before — border-radius on the <img>
+   clips the art to a disc inscribed in its own content box. */
+.pre-logo::before{content:"";position:absolute;left:50%;top:50%;width:66px;height:66px;
+  transform:translate(-50%,-50%);border-radius:50%;border:1px solid var(--gold-soft);pointer-events:none}
+.pre-logo img{width:66px;height:66px;object-fit:contain;padding:12px}
 .pre-ring{position:absolute;inset:0;width:118px;height:118px;animation:preSpin .95s linear infinite}
 .pre-ring circle{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:60 250}
 @keyframes preSpin{to{transform:rotate(360deg)}}
@@ -56,8 +60,17 @@ section[id],[id]{scroll-margin-top:110px}
   border:1px solid var(--gold-soft);border-radius:100px;padding:9px 12px 9px 18px;
   box-shadow:0 14px 40px rgba(0,0,0,.4);transition:padding .3s var(--ease),background .3s,box-shadow .3s,border-color .3s}
 .nav-float.scrolled nav{padding-top:7px;padding-bottom:7px;background:rgba(11,19,36,.95);border-color:rgba(211,184,120,.55)}
-.brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;flex:0 0 auto}
-.brand-logo{width:42px;height:42px;flex:0 0 auto;border-radius:50%;object-fit:cover;border:1px solid var(--gold-soft)}
+.brand{position:relative;display:inline-flex;align-items:center;gap:11px;text-decoration:none;flex:0 0 auto}
+/* The ring is drawn here, not on the <img>. border-radius on a replaced element clips
+   its content to the *content box's* corner radius, which is
+   (border-radius - border-width - padding) — so padding shrinks the clip circle just
+   as fast as it insets the art, and the monogram's bottom-right serif was sheared off
+   at every padding value. Ring on the parent, image unclipped. */
+.brand::before{content:"";position:absolute;left:0;top:50%;width:42px;height:42px;margin-top:-21px;
+  border-radius:50%;border:1px solid var(--gold-soft);pointer-events:none}
+/* No border-radius/border here — see .brand::before. Padding only insets the art so it
+   sits inside that ring; nothing clips it. */
+.brand-logo{width:42px;height:42px;flex:0 0 auto;object-fit:contain;padding:8px}
 .brand .btext{font-family:var(--serif);font-weight:700;font-size:17px;color:var(--cream);line-height:1}
 .brand .btext small{display:block;font-family:var(--sans);font-weight:600;font-size:9px;letter-spacing:.24em;
   text-transform:uppercase;color:var(--gold);margin-top:4px}
@@ -87,8 +100,11 @@ body.nav-open .nav-burger span:nth-child(2){bottom:calc(50% - 1px);transform:rot
 .btn .arrow{transition:transform .3s var(--ease)}.btn:hover .arrow{transform:translateX(4px)}
 .btn-gold{background:var(--gold);color:var(--navy);border-color:var(--gold);box-shadow:0 10px 28px rgba(211,184,120,.22)}
 .btn-gold:hover{transform:translateY(-2px);background:var(--gold-2);box-shadow:0 16px 38px rgba(211,184,120,.34)}
-.btn-line{background:transparent;color:var(--cream);border-color:var(--gold-soft)}
-.btn-line:hover{transform:translateY(-2px);border-color:var(--gold);color:var(--gold)}
+/* Secondary CTAs sit beside a gold primary, so they stay outline rather than filled —
+   but they carry the same gold as "Get a quote" instead of cream, so every call to
+   action on the site reads as one colour. */
+.btn-line{background:transparent;color:var(--gold);border-color:var(--gold)}
+.btn-line:hover{transform:translateY(-2px);border-color:var(--gold);color:var(--navy);background:var(--gold)}
 
 /* ---------- type ---------- */
 .kicker{display:inline-flex;align-items:center;gap:12px;font-family:var(--sans);font-size:12px;font-weight:600;
@@ -108,14 +124,31 @@ body.nav-open .nav-burger span:nth-child(2){bottom:calc(50% - 1px);transform:rot
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
 
 /* ---------- hero fits viewport ---------- */
-.hero-wrap{position:relative;z-index:2;min-height:calc(100svh - var(--navpad));display:flex;flex-direction:column}
-header.hero{flex:1 1 auto;display:flex;align-items:center;padding:24px 0 30px}
-header.hero .wrap{width:100%}
-.hero-grid{display:grid;grid-template-columns:1.08fr .8fr;grid-template-areas:"kick media" "title media" "rest media";column-gap:clamp(24px,4vw,54px);align-items:start;width:100%}
+/* Cancel body's padding-top so the hero starts at the very top of the viewport and the
+   photograph runs behind the floating nav. Without this the pill sits on a flat navy
+   strip with a hard seam where the photo begins. The nav is a backdrop-blur glass pill,
+   so it reads cleanly over the image. Net height is unchanged (was 100svh - navpad
+   starting below the nav), so nothing downstream shifts. */
+.hero-wrap{position:relative;z-index:2;margin-top:calc(-1 * var(--navpad));min-height:100svh;display:flex;flex-direction:column;overflow:hidden}
+
+/* Full-bleed hero photograph. It lives inside header.hero rather than .hero-wrap so it
+   stops at the trust bar — spanning the whole wrap meant the bar's solid background
+   sliced through the bottom of the monogram. The scrim is angled rather than flat so
+   the mark stays legible on the right while the headline keeps contrast on the left. */
+.hero-photo{position:absolute;inset:0;z-index:0}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.hero-photo::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(19,32,56,.96) 0%,rgba(19,32,56,.92) 30%,rgba(19,32,56,.7) 52%,rgba(19,32,56,.4) 74%,rgba(19,32,56,.34) 100%)}
+.hero-wrap .trust{position:relative;z-index:1}
+
+/* Top padding replaces the body offset the hero just cancelled, keeping the headline
+   clear of the nav while the photo behind it still reaches y=0. */
+header.hero{position:relative;overflow:hidden;flex:1 1 auto;display:flex;align-items:center;padding:calc(var(--navpad) + 24px) 0 30px}
+header.hero .wrap{position:relative;z-index:1;width:100%}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"kick" "title" "rest";align-items:start;width:100%;max-width:min(760px,64%)}
 .hero-grid>*{min-width:0}
 .hero-kick{grid-area:kick}
 .hero-h1{grid-area:title}
-.hero-media{grid-area:media;align-self:center}
 .hero-rest{grid-area:rest}
 .hero-kick{margin-bottom:18px;opacity:0;animation:fadeUp .7s var(--ease) .5s forwards}
 h1.hero-h1{font-family:var(--serif);font-weight:700;color:var(--cream);line-height:.98;letter-spacing:-.015em;font-size:clamp(40px,6vw,82px)}
@@ -152,7 +185,12 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 
 /* ---------- section shell ---------- */
 .section{padding:74px 0;border-top:1px solid var(--divider)}
-.sec-head{max-width:680px;margin:0 0 12px}
+/* 680px held roughly 24 characters per line at the 62px display size, so any headline
+   past ~48 characters spilled to three or four lines. 980px (of 1112px available in
+   .wrap) keeps every title on two lines at the widest breakpoint, where the clamp
+   maxes the type out at 62px. .sec-sub stays capped at 56ch, so body copy below is
+   unaffected by the wider heading measure. */
+.sec-head{max-width:980px;margin:0 0 12px}
 
 /* ---------- products ---------- */
 .svc-list{margin-top:40px;border-top:1px solid var(--line-strong)}
@@ -163,8 +201,15 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .svc-txt h3{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3vw,37px);color:var(--cream);line-height:1.05;margin-bottom:10px}
 .svc-txt h3 em{font-style:italic;color:var(--gold)}
 .svc-txt p{color:var(--ink-soft);font-size:15px;line-height:1.65;max-width:52ch}
-.svc-txt .more{display:inline-block;margin-top:12px;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold-soft);padding-bottom:2px;transition:border-color .25s}
-.svc-item:hover .svc-txt .more{border-color:var(--gold)}
+/* Read as an inline text link, not a button. The old uppercase + letterspaced label
+   sitting on a full-width bottom border looked like a button someone forgot to
+   finish, so: sentence case, normal tracking, and a real underline set off the
+   baseline rather than a box edge. */
+.svc-txt .more{display:inline-block;margin-top:14px;font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--gold);
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;text-decoration-color:rgba(211,184,120,.5);
+  transition:text-decoration-color .25s var(--ease),color .25s var(--ease)}
+.svc-txt .more:hover,.svc-item:hover .svc-txt .more{text-decoration-color:var(--gold)}
+.svc-txt .more:hover{color:var(--gold-2)}
 .svc-media{position:relative;overflow:hidden;border-radius:6px}
 .svc-media img{width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--gold-soft);border-radius:6px;transition:transform .6s var(--ease)}
 .svc-item:hover .svc-media img{transform:scale(1.05)}
@@ -187,7 +232,29 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
    on specificity, so the only breakpoint it needs is its own. */
 .gal.shop-gal{grid-template-columns:repeat(2,1fr)}
 .gal.shop-gal figure{aspect-ratio:3/2}
-@media(max-width:760px){.gal.shop-gal{grid-template-columns:1fr}}
+
+/* Mosaic variant — same column flow as the review wall (.testi-wall). Dropping the
+   forced 4/5 aspect is what makes it a mosaic: each photo keeps its own proportions,
+   so the tall ones stagger against the wide ones instead of every tile matching.
+   display:block is needed to leave grid, which also makes the grid-template-columns
+   in the media queries below inert for this variant. */
+.gal.mosaic{display:block;columns:3;column-gap:16px}
+.gal.mosaic figure{aspect-ratio:auto;margin:0 0 16px;break-inside:avoid;-webkit-column-break-inside:avoid}
+.gal.mosaic figure img{height:auto;display:block}
+@media (max-width:900px){.gal.mosaic{columns:2}}
+@media (max-width:600px){
+  .gal.mosaic{columns:2;column-gap:9px}
+  .gal.mosaic figure{margin-bottom:9px}
+  .gal.mosaic figure figcaption{padding:18px 9px 8px;font-size:11px;opacity:1;transform:none}
+  .gal.mosaic figure figcaption b{font-size:12px}
+}
+@media (max-width:380px){ .gal.mosaic{columns:1} }
+@media(max-width:760px){
+  .gal.shop-gal{grid-template-columns:repeat(2,1fr);gap:10px}
+  .gal.shop-gal figure figcaption{padding:16px 9px 8px;font-size:10.5px;opacity:1;transform:none}
+  .gal.shop-gal figure figcaption b{font-size:11.5px}
+}
+@media(max-width:380px){ .gal.shop-gal{grid-template-columns:1fr} }
 
 /* ---------- beige band + trusted redesign ---------- */
 .band{position:relative;z-index:2;background:var(--cream);color:var(--cream-ink);padding:74px 0;overflow:hidden;border-top:1px solid var(--divider)}
@@ -195,13 +262,42 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .band .sec-title{color:var(--cream-ink)}.band .sec-title em{color:var(--gold-deep)}
 .band .sec-sub{color:var(--cream-ink-soft)}
 .band .grule{border-top-color:rgba(176,142,78,.5);margin:30px 0 40px;width:90px}
+/* Split head: copy left, circular award photo right. The photo is decorative, so it
+   carries empty alt and aria-hidden — the section's meaning is in the text. */
+.tb-head{display:grid;grid-template-columns:1.05fr .85fr;gap:clamp(28px,5vw,64px);align-items:center;margin-bottom:44px}
+.tb-head-txt .sec-title{margin-bottom:0}
+.tb-rule{height:0;border:0;border-top:2px solid var(--gold-deep);width:78px;margin:18px 0 20px;opacity:.65}
+.tb-photo{position:relative;justify-self:end;width:100%;max-width:368px;aspect-ratio:1;border-radius:50%;overflow:hidden;
+  box-shadow:0 24px 60px rgba(19,32,56,.28);border:1px solid rgba(176,142,78,.5)}
+.tb-photo img{width:100%;height:100%;object-fit:cover;display:block}
+
 .tb-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
-.tb-card{flex:1 1 300px;max-width:362px;display:flex;align-items:center;gap:18px;border:1px solid rgba(176,142,78,.45);background:rgba(255,255,255,.28);padding:22px 24px}
-.tb-card .tb-ic{flex:0 0 44px;width:44px;height:44px;color:var(--gold-deep)}
+.tb-card{position:relative;flex:1 1 300px;max-width:362px;display:flex;align-items:center;gap:16px;
+  border:1px solid rgba(176,142,78,.45);background:rgba(255,255,255,.42);padding:24px 24px 24px 84px;min-height:136px;overflow:hidden;
+  transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease)}
+/* Curved number panel. border-radius with a slash makes the right edge a quarter
+   ellipse rather than a circle, so the sweep stays shallow at any card height.
+   Colour alternates navy/gold down the row. */
+.tb-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:58px;
+  background:var(--navy);border-radius:0 52% 52% 0 / 0 50% 50% 0}
+.tb-card:nth-child(even)::before{background:var(--gold-deep)}
+.tb-n{position:absolute;left:0;top:0;bottom:0;width:58px;z-index:1;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:400;font-size:23px;letter-spacing:.04em;color:rgba(255,255,255,.95)}
+/* On the gold panel, navy ink reads far better than white. */
+.tb-card:nth-child(even) .tb-n{color:var(--navy)}
+
+.tb-ring{flex:0 0 58px;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(176,142,78,.14);border:1px solid rgba(176,142,78,.4)}
+.tb-card .tb-ic{width:27px;height:27px;color:var(--gold-deep)}
+.tb-txt{min-width:0}
 .tb-card h4{font-family:var(--serif);font-weight:700;font-size:20px;color:var(--cream-ink);line-height:1.1}
 .tb-card p{font-size:13.5px;color:var(--cream-ink-soft);margin:5px 0 8px;line-height:1.4}
 .tb-card .tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}
 .tb-card .tag::before{content:"";width:16px;height:1px;background:var(--gold-deep)}
+@media (hover:hover){
+  .tb-card:hover{border-color:var(--gold-deep);background:rgba(255,255,255,.62);transform:translateY(-3px);
+    box-shadow:0 14px 30px rgba(19,32,56,.13)}
+}
 .tb-foot{display:flex;align-items:center;gap:22px;justify-content:center;margin-top:44px;padding-top:26px;border-top:1px solid rgba(176,142,78,.4);flex-wrap:wrap}
 .tb-foot .laurel{flex:0 0 auto;width:66px;height:66px;color:var(--gold-deep)}
 .tb-foot p{font-family:var(--serif);font-style:italic;font-size:clamp(15px,1.9vw,20px);color:var(--cream-ink);max-width:62ch}
@@ -212,17 +308,39 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
    swapping the span for an <img> is the only change ever needed.
    ---------------------------------------------------------------------- */
 .clients-wall{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:44px}
-.client{flex:1 1 196px;max-width:260px;min-width:0;min-height:106px;margin:0;padding:18px 16px;
-  display:flex;align-items:center;justify-content:center;
+/* Tall card: mark on top, name + sector pinned to the bottom. The mark sits in a
+   fixed-height box so every logo shares one baseline regardless of its proportions,
+   and margin-top:auto on the caption keeps the text flush to the bottom edge even
+   when a name wraps to two lines. */
+.client{flex:1 1 196px;max-width:238px;min-width:0;min-height:196px;margin:0;padding:24px 16px 18px;
+  display:flex;flex-direction:column;align-items:center;
   border:1px solid rgba(176,142,78,.45);background:#f4eedf;
   transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease)}
-.cw{display:block;width:100%;text-align:center;text-wrap:balance;
-  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.18;
+.cw{display:flex;align-items:center;justify-content:center;
+  width:100%;height:76px;flex:0 0 auto;text-align:center;text-wrap:balance;
+  font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.18;
   letter-spacing:.085em;text-transform:uppercase;color:var(--cream-ink);
   text-shadow:0 1px 0 rgba(255,255,255,.7);
   transition:color .3s var(--ease)}
 .cw.long{font-size:17px;letter-spacing:.065em}
-.client-logo{width:100%;height:70px;object-fit:contain}
+.client-logo{width:100%;height:76px;flex:0 0 auto;object-fit:contain}
+/* min-height reserves room for a two-line name (Advocate Condell Medical, U.S. Marine
+   Corps) so the divider rule lands at the same height on every card in a row —
+   otherwise the wrapped ones ride up and the rules look ragged. */
+.client-meta{margin-top:auto;padding-top:16px;min-height:74px;width:100%;text-align:center;
+  border-top:1px solid rgba(176,142,78,.3)}
+.client-meta b{display:block;font-family:var(--serif);font-weight:700;font-size:15px;
+  line-height:1.25;letter-spacing:.005em;color:var(--cream-ink);text-wrap:balance}
+.client-meta span{display:block;margin-top:5px;font-family:var(--sans);font-size:9.5px;
+  font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--cream-ink-soft)}
+/* X-Golf only ships a white-on-transparent mark, which disappears on the cream band.
+   brightness(0) flattens it to solid ink while keeping the alpha channel, so the
+   silhouette reads correctly instead of vanishing. */
+.client-logo.on-light{filter:brightness(0);opacity:.82}
+/* Round marks (the service seals) are square, so at a fixed height they cover far less
+   area than a wide wordmark filling the tile. The negative margin lets them run into
+   the tile padding so they carry comparable visual weight. */
+.client-logo.mark{height:84px;margin:-7px 0}
 @media (hover:hover){
   .client:hover{border-color:var(--gold-deep);background:#f8f3e9;transform:translateY(-3px)}
   .client:hover .cw{color:var(--gold-deep)}
@@ -232,16 +350,23 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .clients-also strong{font-weight:600;color:var(--cream-ink)}
 @media (max-width:600px){
   .clients-wall{gap:10px;margin-top:34px}
-  .client{flex:1 1 150px;min-height:94px;padding:14px 12px}
-  .cw{font-size:16.5px;letter-spacing:.07em}
-  .cw.long{font-size:15px}
-  .client-logo{height:62px}
+  .client{flex:1 1 150px;min-height:168px;padding:18px 11px 14px}
+  .cw{font-size:15px;letter-spacing:.06em;height:64px}
+  .cw.long{font-size:13.5px}
+  .client-meta{padding-top:12px;min-height:64px}
+  .client-meta b{font-size:13.5px}
+  .client-meta span{font-size:8.5px;letter-spacing:.11em}
+  .client-logo{height:64px}   /* matches .cw height so marks share one baseline */
+  .client-logo.mark{height:74px;margin:-5px 0}
 }
 
 /* ---------- about ---------- */
 .about-compact{padding:62px 0}
 .split{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(26px,5vw,64px);align-items:center}
-.split .txt h2{font-family:var(--serif);font-weight:700;font-size:clamp(30px,4.4vw,50px);color:var(--cream);line-height:1.06;margin-bottom:20px}
+/* Capped lower than .sec-title because this heading sits in the narrow (~480px) column
+   of the .split grid, where 50px only fits ~21 characters per line and pushed these to
+   three lines. */
+.split .txt h2{font-family:var(--serif);font-weight:700;font-size:clamp(30px,3.6vw,42px);color:var(--cream);line-height:1.06;margin-bottom:20px}
 .split .txt h2 em{font-style:italic;color:var(--gold)}
 .split .txt p{color:var(--ink-soft);font-size:15.5px;line-height:1.8;margin-bottom:14px}
 .split .txt p b{color:var(--cream);font-weight:600}
@@ -251,7 +376,9 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .stat-strip .st{padding:20px 18px 4px;border-right:1px solid var(--line-strong)}
 .stat-strip .st:first-child{padding-left:0}
 .stat-strip .st b{display:block;font-family:var(--serif);font-weight:700;font-size:clamp(24px,3.4vw,40px);line-height:1;color:var(--gold)}
-.stat-strip .st span{display:block;margin-top:8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
+/* Direct child only — the number inside <b> is its own <span class="yrs">, and a
+   descendant selector here would restyle it as the small uppercase label. */
+.stat-strip .st>span{display:block;margin-top:8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
 
 /* ---------- instagram ---------- */
 .ig-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
@@ -372,9 +499,12 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
 
 /* ---------- responsive ---------- */
 @media (max-width:960px){
-  .hero-grid{grid-template-columns:1fr;grid-template-areas:"kick" "title" "media" "rest";gap:16px}
-  .hero-media{display:block;max-width:none;margin:4px 0 2px}
-  .hero-media .plate img{aspect-ratio:16/10;max-height:30svh;object-position:center 30%}
+  .hero-grid{grid-template-columns:1fr;grid-template-areas:"kick" "title" "rest";gap:16px;max-width:none}
+  /* Portrait viewports crop the wide photo hard horizontally, so bias toward the
+     monogram rather than the extended wood. Scrim goes flat and darker instead of
+     angled — text spans the full width here, so an angled one leaves it unreadable. */
+  .hero-photo img{object-position:72% 45%}
+  .hero-photo::after{background:linear-gradient(180deg,rgba(19,32,56,.86) 0%,rgba(19,32,56,.8) 45%,rgba(19,32,56,.9) 100%)}
   .hero-rest .hero-sub{margin-top:0}
   .svc-item,.svc-item:nth-child(even){grid-template-columns:1fr;gap:16px}
   .svc-item:nth-child(even) .svc-num,.svc-item:nth-child(even) .svc-media,.svc-item:nth-child(even) .svc-txt{order:0}
@@ -417,6 +547,11 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
   .f-row{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr}
   .area-list{columns:1}
+  .tb-head{grid-template-columns:1fr;gap:26px;margin-bottom:32px}
+  .tb-photo{justify-self:center;max-width:300px}
+  .tb-card{padding:18px 18px 18px 68px;gap:13px}
+  .tb-card::before{width:50px}
+  .tb-ring{flex:0 0 46px;width:46px;height:46px}
   .tb-foot{flex-direction:column;text-align:center;gap:14px}
   header.hero{padding:8px 0 20px}
 }
@@ -476,7 +611,15 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
 .t-card{display:flex;flex-direction:column;gap:13px;border:1px solid var(--gold-soft);border-radius:10px;background:rgba(240,231,211,.03);padding:22px 22px;margin:0 0 16px;break-inside:avoid;-webkit-column-break-inside:avoid;transition:border-color .3s var(--ease),background .3s}
 .t-card:hover{border-color:var(--gold);background:rgba(240,231,211,.06)}
 @media (max-width:900px){.testi-featured{grid-template-columns:1fr}.testi-wall{columns:2}}
-@media (max-width:600px){.testi-wall{columns:1}}
+@media (max-width:600px){
+  .testi-wall{columns:2;column-gap:9px}
+  .t-card{padding:13px 12px;margin-bottom:9px;gap:9px}
+  .t-card blockquote{font-size:12.5px;line-height:1.5}
+  .t-card .t-ava{width:26px;height:26px;font-size:12px;flex:0 0 26px}
+  .t-card .t-who b{font-size:12px}
+  .t-card .t-who span{font-size:10.5px}
+}
+@media (max-width:380px){ .testi-wall{columns:1} }
 
 /* ---------- pull quote (beige band) ---------- */
 .pullquote{max-width:780px;margin:0 auto;text-align:center}
@@ -525,4 +668,59 @@ body.nav-open .sticky-cta{opacity:0;pointer-events:none}
 @media (max-width:600px){
   .process{grid-template-columns:1fr}
   .faq .fa{padding-right:0}
+}
+
+/* ---------- client logo rail (homepage) ----------
+   Deliberately NOT a marquee. Moving logos scroll past before anyone reads them,
+   and recognition is the entire point of showing them. Flattening every mark to
+   one ink tone also solves a real problem: the logos are wildly different in
+   colour and weight, and X-Golf ships white-on-transparent, which would vanish
+   on this cream band. Colour returns on hover for the one you look at. */
+.logo-rail{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:26px 30px;
+  align-items:center;margin:38px 0 6px;padding:0}
+.logo-rail li{display:grid;place-items:center;min-height:56px}
+/* grayscale, NOT brightness(0): several of these marks are a filled shape with
+   knocked-out white text (Home Depot, Medline) or a detailed seal (the service
+   branches). Flattening to one tone turned those into solid squares and circles.
+   Grayscale keeps the luminance difference so the artwork still reads. */
+.logo-rail img{max-width:100%;max-height:52px;object-fit:contain;
+  filter:grayscale(1) contrast(.92);opacity:.62;
+  transition:opacity .3s var(--ease),filter .3s var(--ease),transform .3s var(--ease)}
+/* X-Golf only ships a white-on-transparent mark, which is invisible on cream —
+   it is monochrome anyway, so inverting it to ink loses nothing. */
+.logo-rail img[src*="xgolf"]{filter:grayscale(1) brightness(0);opacity:.5}
+@media (hover:hover){ .logo-rail li:hover img[src*="xgolf"]{filter:brightness(0);opacity:.85} }
+@media (hover:hover){
+  .logo-rail li:hover img{filter:none;opacity:1;transform:scale(1.06)}
+}
+/* The service seals are round, so at a shared max-height they read much smaller
+   than a wide wordmark — same correction as the About wall. */
+.logo-rail li:nth-last-child(-n+3) img{max-height:62px}
+@media (max-width:900px){
+  .logo-rail{grid-template-columns:repeat(3,1fr);gap:22px}
+  .logo-rail img{max-height:44px;opacity:.5}
+}
+@media (max-width:520px){ .logo-rail{grid-template-columns:repeat(2,1fr)} }
+
+/* Cream-band corrections for the work mosaic, which was built for the dark page:
+   its caption sits on a gradient over the photo, so it still reads, but the tile
+   border and hover need the darker gold to show up on cream. */
+.band .gal figure{border-color:rgba(176,142,78,.45)}
+@media (hover:hover){ .band .gal figure:hover{border-color:var(--gold-deep)} }
+
+/* ---------- page hero photo (Our Shop) ----------
+   A full-bleed band above the page title. Sits outside .wrap so it can reach the
+   window edges, with a gradient foot so the navy page reads as continuing out of
+   the photograph rather than butting against it. */
+/* Pulled up by the nav offset so the photograph starts at the top of the window
+   and the glass nav pill floats over it, matching the homepage. */
+.ph-photo{position:relative;z-index:2;margin-top:calc(-1 * var(--navpad));width:100%;
+  aspect-ratio:2400/880;min-height:calc(var(--navpad) + 220px);max-height:62svh;overflow:hidden}
+.ph-photo img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
+.ph-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(19,32,56,.82) 0%,rgba(19,32,56,.30) 18%,rgba(19,32,56,0) 40%,rgba(19,32,56,0) 60%,rgba(19,32,56,.94) 100%)}
+.ph-photo + .wrap .page-hero{padding-top:26px}
+@media (max-width:760px){
+  .ph-photo{aspect-ratio:4/3;max-height:46svh;min-height:calc(var(--navpad) + 180px)}
+  .ph-photo img{object-position:center 45%}
 }

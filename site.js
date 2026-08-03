@@ -15,6 +15,32 @@
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
 
+  // Years-in-business counters. The markup ships with the correct number so crawlers
+  // and no-JS visitors see it; this just stops it going stale on New Year's Day.
+  // <span class="yrs">77</span>                      -> "78"
+  // <span class="yrs" data-format="words">…</span>   -> "seventy-eight" (case follows the markup)
+  // data-since="1949" overrides the founding year.
+  var ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+    'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+  var TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+  var inWords = function (n) {
+    if (n < 20) return ONES[n];
+    if (n > 99) return String(n); // past our vocabulary — digits are still correct
+    var tens = TENS[Math.floor(n / 10)], ones = n % 10;
+    return ones ? tens + '-' + ONES[ones] : tens;
+  };
+  document.querySelectorAll('.yrs').forEach(function (el) {
+    var since = parseInt(el.getAttribute('data-since'), 10) || 1949;
+    var years = new Date().getFullYear() - since;
+    if (!(years > 0)) return; // bad data-since — leave the markup alone
+    if (el.getAttribute('data-format') !== 'words') { el.textContent = String(years); return; }
+    var word = inWords(years);
+    // Match the capitalisation already in the markup, so a sentence-opening
+    // "Seventy-seven" doesn't come back lowercase.
+    if (/^[A-Z]/.test((el.textContent || '').trim())) word = word.charAt(0).toUpperCase() + word.slice(1);
+    el.textContent = word;
+  });
+
   // floating nav scroll state
   var navF = document.getElementById('navFloat');
   if (navF) {
@@ -67,10 +93,9 @@
     });
   }
 
-  // contact form — endpoint-ready.
-  // To go live: set data-endpoint="https://..." on #quoteForm (e.g. Web3Forms/Formspree URL,
-  // or a /api/quote serverless function) and allow that host in vercel.json CSP connect-src.
-  // With no endpoint set, the form runs in demo mode.
+  // contact form — posts JSON to the endpoint named in data-endpoint on #quoteForm.
+  // Live endpoint is /api/quote (Resend). Same-origin, so no CSP connect-src change needed;
+  // a third-party host would have to be allowed there. Empty endpoint = demo mode.
   var form = document.getElementById('quoteForm'), success = document.getElementById('formSuccess');
   if (form && success) {
     form.addEventListener('submit', function (e) {
@@ -84,12 +109,18 @@
       if (endpoint) {
         var btn = form.querySelector('.f-submit');
         btn.disabled = true; btn.textContent = 'Sending…';
-        fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+        var payload = {};
+        new FormData(form).forEach(function (v, k) { payload[k] = v; });
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        })
           .then(function (r) { if (!r.ok) throw new Error('send failed'); done(); })
           .catch(function () {
             btn.disabled = false;
             btn.innerHTML = 'Send request <span class="arrow">&rarr;</span>';
-            alert('Something went wrong sending your request — please call (847) 549-1923 or email info@awardsandengraving.com.');
+            alert('Something went wrong sending your request — please call (847) 549-1923 or email daniel@awardsandengraving.com.');
           });
       } else {
         done(); // demo mode

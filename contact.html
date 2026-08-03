@@ -11,7 +11,8 @@
 html{background:#132038}
 .preloader{position:fixed;inset:0;z-index:9999;background:#132038;display:grid;place-items:center}
 .pre-logo{position:relative;width:118px;height:118px;display:grid;place-items:center}
-.pre-logo img{width:60px;height:auto}
+.pre-logo::before{content:"";position:absolute;left:50%;top:50%;width:66px;height:66px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(211,184,120,.4)}
+.pre-logo img{width:66px;height:66px;object-fit:contain;padding:12px}
 .pre-ring{position:absolute;inset:0;width:118px;height:118px}
 .pre-ring circle{fill:none;stroke:#d3b878;stroke-width:2.5}
 .sticky-cta{display:none}
@@ -39,13 +40,13 @@ svg{max-width:100%}
   "image": "/assets/storefront.jpg",
   "logo": "/assets/ae-logomark-gold.svg",
   "telephone": "+1-847-549-1923",
-  "email": "info@awardsandengraving.com",
+  "email": "daniel@awardsandengraving.com",
   "foundingDate": "1949",
   "priceRange": "$$",
   "address": {"@type": "PostalAddress", "streetAddress": "332 N Milwaukee Ave", "addressLocality": "Libertyville", "addressRegion": "IL", "postalCode": "60048", "addressCountry": "US"},
   "geo": {"@type": "GeoCoordinates", "latitude": 42.2836, "longitude": -87.952},
   "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "11:00", "closes": "17:00"}],
-  "sameAs": ["https://www.instagram.com/awardsandengraving_/"],
+  "sameAs": ["https://www.instagram.com/awardsandengraving_/", "https://www.tiktok.com/@awards_engraving"],
   "areaServed": ["Libertyville","Mundelein","Vernon Hills","Gurnee","Lake Forest","Grayslake","Green Oaks","Waukegan"]
 }
 </script>
@@ -95,10 +96,11 @@ svg{max-width:100%}
       <li><a href="/services">Services</a></li>
       <li><a href="/our-shop">Our Shop</a></li>
       <li><a href="/portfolio">Portfolio</a></li>
+      <li><a href="/reviews">Reviews</a></li>
       <li><a href="/about">About</a></li>
       <li><a href="/contact" aria-current="page">Contact</a></li>
     </ul>
-    <a class="nav-cta" href="/contact">Get a quote <span aria-hidden="true">&rarr;</span></a>
+    <a class="nav-cta" href="/contact"><span data-ae-field="site.nav_cta">Get a quote</span> <span aria-hidden="true">&rarr;</span></a>
     <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span></button>
   </nav>
 </div>
@@ -110,14 +112,15 @@ svg{max-width:100%}
       <a href="/services"><span class="nm-n">ii</span><span class="nm-t">Services</span></a>
       <a href="/our-shop"><span class="nm-n">iii</span><span class="nm-t">Our Shop</span></a>
       <a href="/portfolio"><span class="nm-n">iv</span><span class="nm-t">Portfolio</span></a>
-      <a href="/about"><span class="nm-n">v</span><span class="nm-t">About</span></a>
-      <a href="/contact" aria-current="page"><span class="nm-n">vi</span><span class="nm-t">Contact</span></a>
+      <a href="/reviews"><span class="nm-n">v</span><span class="nm-t">Reviews</span></a>
+      <a href="/about"><span class="nm-n">vi</span><span class="nm-t">About</span></a>
+      <a href="/contact" aria-current="page"><span class="nm-n">vii</span><span class="nm-t">Contact</span></a>
     </nav>
     <div class="nm-foot">
       <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
       <div class="nm-meta">
-        <a href="tel:+18475491923">(847) 549-1923</a>
-        <a href="mailto:info@awardsandengraving.com">info@awardsandengraving.com</a>
+        <a href="tel:+18475491923"><span data-ae-field="site.phone">(847) 549-1923</span></a>
+        <a href="mailto:daniel@awardsandengraving.com"><span data-ae-field="site.email">daniel@awardsandengraving.com</span></a>
       </div>
     </div>
   </div>
@@ -142,9 +145,9 @@ svg{max-width:100%}
     <div class="contact-grid">
       <div class="reveal">
         <div class="form-card">
-          <!-- To go live: set data-endpoint to a form service URL (Web3Forms/Formspree) or /api/quote,
-               and allow that host in vercel.json CSP connect-src. Empty endpoint = demo mode. -->
-          <form id="quoteForm" method="post" data-endpoint="" novalidate>
+          <!-- Posts JSON to /api/quote, which emails the shop via Resend.
+               Requires RESEND_API_KEY / QUOTE_TO / QUOTE_FROM in the environment. -->
+          <form id="quoteForm" method="post" data-endpoint="/api/quote" novalidate>
             <div class="f-row">
               <div><label for="name">Name</label><input id="name" name="name" type="text" placeholder="Your name" required /></div>
               <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" placeholder="(847) 000-0000" /></div>
@@ -186,7 +189,7 @@ svg{max-width:100%}
         </div>
         <div class="side-card">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span>
-          <div><h3>Call or email</h3><address><a href="tel:+18475491923">(847) 549-1923</a><br><a href="mailto:info@awardsandengraving.com">info@awardsandengraving.com</a></address></div>
+          <div><h3>Call or email</h3><address><a href="tel:+18475491923"><span data-ae-field="site.phone">(847) 549-1923</span></a><br><a href="mailto:daniel@awardsandengraving.com"><span data-ae-field="site.email">daniel@awardsandengraving.com</span></a></address></div>
         </div>
       </div>
     </div>
@@ -257,15 +260,15 @@ svg{max-width:100%}
     <div class="foot-grid">
       <div class="foot-brand">
         <a href="/" class="brand" aria-label="Awards & Engraving — home"><img class="brand-logo" src="/assets/ae-logomark-paper.svg" alt="Awards & Engraving monogram" /><span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span></a>
-        <p>Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
+        <p data-ae-field="site.footer_blurb" data-ae-type="multiline">Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
         <div class="foot-social" aria-label="Social links">
           <a class="fsoc" href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-          <a class="fsoc" href="#" aria-label="Facebook (add link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a class="fsoc" href="https://www.tiktok.com/@awards_engraving" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg></a>
           <a class="fsoc" href="https://maps.google.com/?q=332+N+Milwaukee+Ave+Libertyville+IL+60048" target="_blank" rel="noopener" aria-label="Google Maps"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 11h-9.5v3.5h5.4c-.5 2.5-2.5 4-5.4 4-3.3 0-6-2.7-6-6s2.7-6 6-6c1.4 0 2.7.5 3.7 1.3l2.5-2.5C16.9 3.5 14.6 2.5 12 2.5 6.5 2.5 2 7 2 12.5S6.5 22.5 12 22.5c5.8 0 9.6-4 9.6-9.7 0-.6 0-1.2-.1-1.8z"/></svg></a>
         </div>
       </div>
       <div>
-        <h4>Services</h4>
+        <h4 data-ae-field="site.foot_h_services">Services</h4>
         <ul>
           <li><a href="/services#trophies"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Trophies &amp; awards</a></li>
           <li><a href="/services#plaques"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Plaques &amp; memorials</a></li>
@@ -275,22 +278,23 @@ svg{max-width:100%}
         </ul>
       </div>
       <div>
-        <h4>Shop</h4>
+        <h4 data-ae-field="site.foot_h_shop">Shop</h4>
         <ul>
           <li><a href="/our-shop"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our shop &amp; machines</a></li>
           <li><a href="/portfolio"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our work</a></li>
+          <li><a href="/reviews"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Reviews</a></li>
           <li><a href="/about"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>About us</a></li>
           <li><a href="/#visit"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Visit / map</a></li>
           <li><a href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Instagram</a></li>
         </ul>
       </div>
       <div>
-        <h4>Visit us</h4>
+        <h4 data-ae-field="site.foot_h_visit">Visit us</h4>
         <div class="foot-contact">
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span>332 N Milwaukee Ave<br>Libertyville, IL 60048</span></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span><a href="tel:+18475491923">(847) 549-1923</a></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><a href="mailto:info@awardsandengraving.com">info@awardsandengraving.com</a></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>Mon&ndash;Fri 11am&ndash;5pm<br>Sat &amp; Sun by appointment</span></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span data-ae-field="site.address" data-ae-type="multiline">332 N Milwaukee Ave<br>Libertyville, IL 60048</span></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span><a href="tel:+18475491923"><span data-ae-field="site.phone">(847) 549-1923</span></a></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><a href="mailto:daniel@awardsandengraving.com"><span data-ae-field="site.email">daniel@awardsandengraving.com</span></a></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span data-ae-field="site.hours" data-ae-type="multiline">Mon&ndash;Fri 11am&ndash;5pm<br>Sat &amp; Sun by appointment</span></div>
         </div>
       </div>
     </div>
@@ -301,6 +305,8 @@ svg{max-width:100%}
   </div>
 </footer>
 
+<script src="/site-config.js"></script>
+<script src="/site-content.js"></script>
 <script src="/site.js"></script>
 </body>
 </html>

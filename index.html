@@ -11,7 +11,8 @@
 html{background:#132038}
 .preloader{position:fixed;inset:0;z-index:9999;background:#132038;display:grid;place-items:center}
 .pre-logo{position:relative;width:118px;height:118px;display:grid;place-items:center}
-.pre-logo img{width:60px;height:auto}
+.pre-logo::before{content:"";position:absolute;left:50%;top:50%;width:66px;height:66px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(211,184,120,.4)}
+.pre-logo img{width:66px;height:66px;object-fit:contain;padding:12px}
 .pre-ring{position:absolute;inset:0;width:118px;height:118px}
 .pre-ring circle{fill:none;stroke:#d3b878;stroke-width:2.5}
 .sticky-cta{display:none}
@@ -43,13 +44,13 @@ svg{max-width:100%}
   "image": "/assets/storefront.jpg",
   "logo": "/assets/ae-logomark-gold.svg",
   "telephone": "+1-847-549-1923",
-  "email": "info@awardsandengraving.com",
+  "email": "daniel@awardsandengraving.com",
   "foundingDate": "1949",
   "priceRange": "$$",
   "address": {"@type": "PostalAddress", "streetAddress": "332 N Milwaukee Ave", "addressLocality": "Libertyville", "addressRegion": "IL", "postalCode": "60048", "addressCountry": "US"},
   "geo": {"@type": "GeoCoordinates", "latitude": 42.2836, "longitude": -87.952},
   "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "11:00", "closes": "17:00"}],
-  "sameAs": ["https://www.instagram.com/awardsandengraving_/"],
+  "sameAs": ["https://www.instagram.com/awardsandengraving_/", "https://www.tiktok.com/@awards_engraving"],
   "areaServed": ["Libertyville","Mundelein","Vernon Hills","Gurnee","Lake Forest","Grayslake","Green Oaks","Waukegan"]
 }
 </script>
@@ -83,10 +84,11 @@ svg{max-width:100%}
       <li><a href="/services">Services</a></li>
       <li><a href="/our-shop">Our Shop</a></li>
       <li><a href="/portfolio">Portfolio</a></li>
+      <li><a href="/reviews">Reviews</a></li>
       <li><a href="/about">About</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
-    <a class="nav-cta" href="/contact">Get a quote <span aria-hidden="true">&rarr;</span></a>
+    <a class="nav-cta" href="/contact"><span data-ae-field="site.nav_cta">Get a quote</span> <span aria-hidden="true">&rarr;</span></a>
     <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span></button>
   </nav>
 </div>
@@ -98,14 +100,15 @@ svg{max-width:100%}
       <a href="/services"><span class="nm-n">ii</span><span class="nm-t">Services</span></a>
       <a href="/our-shop"><span class="nm-n">iii</span><span class="nm-t">Our Shop</span></a>
       <a href="/portfolio"><span class="nm-n">iv</span><span class="nm-t">Portfolio</span></a>
-      <a href="/about"><span class="nm-n">v</span><span class="nm-t">About</span></a>
-      <a href="/contact"><span class="nm-n">vi</span><span class="nm-t">Contact</span></a>
+      <a href="/reviews"><span class="nm-n">v</span><span class="nm-t">Reviews</span></a>
+      <a href="/about"><span class="nm-n">vi</span><span class="nm-t">About</span></a>
+      <a href="/contact"><span class="nm-n">vii</span><span class="nm-t">Contact</span></a>
     </nav>
     <div class="nm-foot">
       <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
       <div class="nm-meta">
-        <a href="tel:+18475491923">(847) 549-1923</a>
-        <a href="mailto:orders@awardsandengraving.com">orders@awardsandengraving.com</a>
+        <a href="tel:+18475491923"><span data-ae-field="site.phone">(847) 549-1923</span></a>
+        <a href="mailto:daniel@awardsandengraving.com"><span data-ae-field="site.email">daniel@awardsandengraving.com</span></a>
       </div>
     </div>
   </div>
@@ -120,20 +123,22 @@ svg{max-width:100%}
 <!-- HERO + TRUST (one screen) -->
 <div class="hero-wrap">
   <header class="hero">
+    <div class="hero-photo" aria-hidden="true">
+      <img data-ae-field="hero_photo" src="/assets/hero-monogram-1600.jpg"
+           srcset="/assets/hero-monogram-1000.jpg 1000w, /assets/hero-monogram-1600.jpg 1600w, /assets/hero-monogram-2400.jpg 2400w"
+           sizes="100vw" alt="" fetchpriority="high" decoding="async" />
+    </div>
     <div class="wrap">
       <div class="hero-grid">
-        <p class="kicker hero-kick">Libertyville, IL <span class="diamond">&#10022;</span> Since 1949</p>
+        <p class="kicker hero-kick" data-ae-field="hero_kicker">Libertyville, IL <span class="diamond">&#10022;</span> Since 1949</p>
         <h1 class="hero-h1">
-          <span class="l l1"><span>Awards <span class="amp">&amp;</span></span></span>
-          <span class="l l2"><span>Engraving</span></span>
-          <span class="sm">of Libertyville</span>
+          <span class="l l1"><span><span data-ae-field="hero_title_1">Awards</span> <span class="amp">&amp;</span></span></span>
+          <span class="l l2"><span data-ae-field="hero_title_2">Engraving</span></span>
+          <span class="sm" data-ae-field="hero_title_sm">of Libertyville</span>
         </h1>
-        <div class="hero-media">
-          <div class="plate"><span class="cc"></span><img src="/assets/storefront.jpg" alt="Awards & Engraving storefront with its green-and-white awning in downtown Libertyville" /></div>
-        </div>
         <div class="hero-rest">
-          <p class="hero-sub">For over 76 years, downtown Libertyville's trophy shop &mdash; now family-owned by Daniel &amp; Bailey Mattson. Custom trophies, plaques, engraving and one-of-a-kind personalized pieces.</p>
-          <p class="kicker hero-tag">Custom <span class="diamond">&#10022;</span> Tailored <span class="diamond">&#10022;</span> Handcrafted</p>
+          <p class="hero-sub" data-ae-field="hero_sub" data-ae-type="multiline">For over <span class="yrs">77</span> years, downtown Libertyville's trophy shop &mdash; now family-owned by Daniel &amp; Bailey Mattson. Custom trophies, plaques, engraving and one-of-a-kind personalized pieces.</p>
+          <p class="kicker hero-tag" data-ae-field="hero_tag">Custom <span class="diamond">&#10022;</span> Tailored <span class="diamond">&#10022;</span> Handcrafted</p>
           <div class="hero-cta">
             <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
             <a class="btn btn-line" href="#portfolio">See our work</a>
@@ -144,7 +149,7 @@ svg{max-width:100%}
   </header>
   <div class="trust">
     <div class="trust-in">
-      <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 5.5L20 9.2l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.7z"/></svg><b>Since 1949</b><span>76 years in downtown Libertyville</span></div>
+      <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 5.5L20 9.2l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.7z"/></svg><b>Since 1949</b><span><span class="yrs">77</span> years in downtown Libertyville</span></div>
       <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg><b>Local</b><span>Schools, teams &amp; businesses, Lake County</span></div>
       <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3 6 9l6 12 6-12-3-6"/></svg><b>In&#8209;house</b><span class="em">Custom &#10022; Tailored &#10022; Handcrafted</span></div>
       <div class="trust-item"><svg class="ti-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 6.5a4.5 4.5 0 0 0-7-.6L12 7l-1.5-1.1a4.5 4.5 0 1 0-6 6.7L12 21l7.5-8.4a4.5 4.5 0 0 0 1-6.1Z"/></svg><b>Family&#8209;run</b><span>Daniel &amp; Bailey, since 2025</span></div>
@@ -156,9 +161,9 @@ svg{max-width:100%}
 <section class="section" id="services" style="border-top:none">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>What we make</p>
-      <h2 class="sec-title">Recognition, <em>handcrafted</em> to fit.</h2>
-      <p class="sec-sub">Our expertise reaches well beyond engraving. From championship trophies to memorial plaques to a monogram on your own leather gloves &mdash; if it can be personalized, we&rsquo;d love to make it.</p>
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span data-ae-field="svc_eyebrow">What we make</span></p>
+      <h2 class="sec-title" data-ae-field="svc_title" data-ae-type="rich">Recognition, <em>handcrafted</em> to fit.</h2>
+      <p class="sec-sub" data-ae-field="svc_sub" data-ae-type="multiline">Our expertise reaches well beyond engraving. From championship trophies to memorial plaques to a monogram on your own leather gloves &mdash; if it can be personalized, we&rsquo;d love to make it.</p>
     </div>
     <div class="svc-list">
       <div class="svc-item reveal"><span class="svc-num">I</span>
@@ -172,19 +177,19 @@ svg{max-width:100%}
         <div class="svc-media"><img src="/assets/w-gloves.jpg" alt="Monogrammed leather work gloves" loading="lazy" /></div></div>
     </div>
     <div class="sec-cta reveal">
-      <a class="btn btn-line" href="/services">All six services <span class="arrow">&rarr;</span></a>
+      <a class="btn btn-gold" href="/services">All six services <span class="arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
 
 <!-- WORK -->
-<section class="section" id="portfolio">
+<section class="band" id="portfolio">
   <div class="wrap">
     <div class="sec-head reveal">
       <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-4.5-4.5L5 21"/></svg>Recent work</p>
-      <h2 class="sec-title">From our <em>bench.</em></h2>
+      <h2 class="sec-title" data-ae-field="work_title" data-ae-type="rich">From our <em>bench.</em></h2>
     </div>
-    <div class="gal reveal">
+    <div class="gal mosaic reveal">
       <figure><img src="/assets/interior-1.jpg" alt="Awards & Engraving showroom" loading="lazy" /><figcaption><b>The showroom</b>Downtown Libertyville</figcaption></figure>
       <figure><img src="/assets/w-memorial.jpg" alt="Engraved memorial plaque" loading="lazy" /><figcaption><b>Memorial plaque</b>In loving memory</figcaption></figure>
       <figure><img src="/assets/w-gloves.jpg" alt="Monogrammed leather gloves" loading="lazy" /><figcaption><b>Monogrammed gloves</b>Bring your own item</figcaption></figure>
@@ -193,7 +198,27 @@ svg{max-width:100%}
       <figure><img src="/assets/w-pawtag.jpg" alt="Gold paw-shaped pet tag" loading="lazy" /><figcaption><b>Pet tag</b>&ldquo;Love, Winnie&rdquo;</figcaption></figure>
     </div>
     <div class="sec-cta reveal">
-      <a class="btn btn-line" href="/portfolio">See the full portfolio <span class="arrow">&rarr;</span></a>
+      <a class="btn btn-gold" href="/portfolio">See the full portfolio <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- THE SHOP / MACHINES -->
+<section class="section" id="machines">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>Our shop</p>
+      <h2 class="sec-title" data-ae-field="machines_title" data-ae-type="rich">Six machines, so the <em>material</em> never decides for you.</h2>
+      <p class="sec-sub">Laser engraving, rotary and diamond drag, metal marking and full-color UV printing &mdash; every one of those is a machine standing in our building on Milwaukee Avenue, not a promise we send out to somebody else.</p>
+    </div>
+    <div class="gal shop-gal reveal">
+      <figure><img src="/assets/shop/m-aeon-mira-7.jpg" alt="AEON MIRA 7 CO2 laser engraver" loading="lazy" /><figcaption><b>AEON MIRA 7</b>CO&#8322; laser &mdash; wood, acrylic, leather, glass.</figcaption></figure>
+      <figure><img src="/assets/shop/m-xtool-fiber.jpg" alt="xTool fiber laser marker with rotary attachment" loading="lazy" /><figcaption><b>Fiber laser marker</b>Permanent marks straight into bare metal.</figcaption></figure>
+      <figure><img src="/assets/shop/m-roland-lef-300.jpg" alt="Roland VersaUV LEF-300 UV flatbed printer" loading="lazy" /><figcaption><b>Roland VersaUV LEF-300</b>Full color printed onto the object itself.</figcaption></figure>
+      <figure><img src="/assets/shop/m-hermes-v3000.jpg" alt="New Hermes Vanguard 3000 rotary and diamond-drag engraver" loading="lazy" /><figcaption><b>New Hermes Vanguard 3000</b>Rotary cut and diamond drag, the old way.</figcaption></figure>
+    </div>
+    <div class="sec-cta reveal">
+      <a class="btn btn-gold" href="/our-shop#machines">See the whole shop <span class="arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -201,22 +226,35 @@ svg{max-width:100%}
 <!-- TRUSTED (beige) -->
 <section class="band" id="trusted">
   <div class="wrap">
-    <div class="sec-head reveal" style="margin-bottom:0">
-      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M9 14.5 7.5 22l4.5-2.6L16.5 22 15 14.5"/></svg>Celebrating 76 years in Libertyville</p>
-      <h2 class="sec-title">Recognition that <em>lasts.</em></h2>
-      <p class="sec-sub">For more than seven decades, we&rsquo;ve created awards, plaques, trophies, and engraved gifts for the moments that matter most across Lake County.</p>
+    <div class="tb-head">
+      <div class="tb-head-txt reveal">
+        <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M9 14.5 7.5 22l4.5-2.6L16.5 22 15 14.5"/></svg><span data-ae-field="trusted_eyebrow">Celebrating <span class="yrs">77</span> years in Libertyville</span></p>
+        <h2 class="sec-title" data-ae-field="trusted_title" data-ae-type="rich">Recognition that <em>lasts.</em></h2>
+        <hr class="tb-rule" />
+        <p class="sec-sub" data-ae-field="trusted_sub" data-ae-type="multiline">For more than seven decades we&rsquo;ve made the awards, plaques and engraved gifts that mark the moments people remember &mdash; across Libertyville and all of Lake County.</p>
+      </div>
+      <div class="tb-photo reveal" aria-hidden="true"><img data-ae-field="trusted_photo" src="/assets/w-aldridge.jpg" alt="" loading="lazy" /></div>
     </div>
-    <hr class="grule reveal" />
     <div class="tb-grid">
-      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><div><h4>Vernon Hills High School</h4><p>Athletic awards partner</p><span class="tag">For 20+ years</span></div></div>
-      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-6"/><path d="M12 16a5 5 0 0 1-5-5c0-1 .4-1.9 1-2.6C7.4 7.7 7 6.9 7 6a5 5 0 0 1 10 0c0 .9-.4 1.7-1 2.4.6.7 1 1.6 1 2.6a5 5 0 0 1-5 5Z"/></svg><div><h4>Heritage Woods of Gurnee</h4><p>Employee recognition program</p><span class="tag">Since 2018</span></div></div>
-      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6z"/><path d="m12 8 1 2 2.1.2-1.6 1.5.5 2.1L12 14.8l-2 1 .5-2.1L9 12.2 11 12z"/></svg><div><h4>Aldridge</h4><p>Custom awards &amp; recognition</p><span class="tag">Since 2015</span></div></div>
-      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.5 6.5C8 8.5 9 11 9 12s-1 3.5-3.5 5.5M18.5 6.5C16 8.5 15 11 15 12s1 3.5 3.5 5.5"/></svg><div><h4>Libertyville Little League</h4><p>Trophies for every season</p><span class="tag">For 15+ years</span></div></div>
-      <div class="tb-card reveal"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M4 9h16v11H4zM9 20v-6h6v6"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg><div><h4>Local Businesses</h4><p>Engraved gifts &amp; awards for every occasion</p><span class="tag">For generations</span></div></div>
+      <div class="tb-card reveal"><span class="tb-n">I</span>
+        <span class="tb-ring"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span>
+        <div class="tb-txt"><h4>Championships</h4><p>Season trophies, medals and pride awards for schools and leagues.</p><span class="tag">Every season</span></div></div>
+      <div class="tb-card reveal"><span class="tb-n">II</span>
+        <span class="tb-ring"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 6.5a4.5 4.5 0 0 0-7-.6L12 7l-1.5-1.1a4.5 4.5 0 1 0-6 6.7L12 21l7.5-8.4a4.5 4.5 0 0 0 1-6.1Z"/></svg></span>
+        <div class="tb-txt"><h4>Memorials</h4><p>Plaques, urns and dedications families keep for generations.</p><span class="tag">Proof first</span></div></div>
+      <div class="tb-card reveal"><span class="tb-n">III</span>
+        <span class="tb-ring"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 5.5L20 9.2l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.7z"/></svg></span>
+        <div class="tb-txt"><h4>Retirements</h4><p>Lifetime achievement and years-of-service pieces.</p><span class="tag">Crystal &amp; metal</span></div></div>
+      <div class="tb-card reveal"><span class="tb-n">IV</span>
+        <span class="tb-ring"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="14" r="5"/><circle cx="15" cy="10" r="5"/></svg></span>
+        <div class="tb-txt"><h4>Milestones</h4><p>Weddings, graduations, anniversaries and new beginnings.</p><span class="tag">One-of-a-kind</span></div></div>
+      <div class="tb-card reveal"><span class="tb-n">V</span>
+        <span class="tb-ring"><svg class="tb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3 6 9l6 12 6-12-3-6"/></svg></span>
+        <div class="tb-txt"><h4>Bring your own</h4><p>Gloves, tumblers, tools, glassware &mdash; if it holds still.</p><span class="tag">No minimums</span></div></div>
     </div>
     <div class="tb-foot reveal">
       <svg class="laurel" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <text x="50" y="60" text-anchor="middle" font-family="Zodiak,Georgia,serif" font-weight="700" font-size="30" fill="currentColor">76</text>
+        <text x="50" y="60" text-anchor="middle" font-family="Zodiak,Georgia,serif" font-weight="700" font-size="30" fill="currentColor" class="yrs">77</text>
         <g stroke="currentColor" stroke-width="1.5" fill="currentColor">
           <path d="M35 84 C 21 72, 17 50, 27 30" fill="none"/>
           <ellipse cx="25" cy="34" rx="4" ry="1.9" transform="rotate(-52 25 34)"/><ellipse cx="22" cy="44" rx="4" ry="1.9" transform="rotate(-36 22 44)"/><ellipse cx="21" cy="55" rx="4" ry="1.9" transform="rotate(-16 21 55)"/><ellipse cx="23" cy="66" rx="4" ry="1.9" transform="rotate(10 23 66)"/><ellipse cx="28" cy="76" rx="4" ry="1.9" transform="rotate(34 28 76)"/>
@@ -224,7 +262,7 @@ svg{max-width:100%}
           <ellipse cx="75" cy="34" rx="4" ry="1.9" transform="rotate(52 75 34)"/><ellipse cx="78" cy="44" rx="4" ry="1.9" transform="rotate(36 78 44)"/><ellipse cx="79" cy="55" rx="4" ry="1.9" transform="rotate(16 79 55)"/><ellipse cx="77" cy="66" rx="4" ry="1.9" transform="rotate(-10 77 66)"/><ellipse cx="72" cy="76" rx="4" ry="1.9" transform="rotate(-34 72 76)"/>
         </g>
       </svg>
-      <p>Locally owned. Crafted with care. Proudly serving Libertyville and Lake County since 1949.</p>
+      <p data-ae-field="trusted_foot" data-ae-type="multiline">Locally owned. Crafted with care. Proudly serving Libertyville and Lake County since 1949.</p>
     </div>
   </div>
 </section>
@@ -234,12 +272,12 @@ svg{max-width:100%}
   <div class="wrap">
     <div class="sec-head reveal">
       <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Kind words</p>
-      <h2 class="sec-title">Worth a thousand <em>thank-yous.</em></h2>
+      <h2 class="sec-title" data-ae-field="reviews_title" data-ae-type="rich">Worth a thousand <em>thank-yous.</em></h2>
       <p class="reviews-rate reveal"><span class="rr-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><b>4.7</b> on Google <span class="rr-dot">&middot;</span> a selection of recent five-star reviews</p>
     </div>
 
     <!-- featured long-form reviews -->
-    <div class="testi-featured">
+    <div class="testi-featured" data-ae-list="reviews-featured">
       <figure class="tf-card reveal">
         <div class="t-head"><span class="t-ava" style="--av:#b08e4e">M</span><span class="t-who"><b>Mike Scholl</b><span>a month ago &middot; Google</span></span></div>
         <span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -253,18 +291,44 @@ svg{max-width:100%}
     </div>
 
     <!-- review wall -->
-    <div class="testi-wall reveal">
+    <div class="testi-wall reveal" data-ae-list="reviews">
       <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#8a4f3a">D</span><span class="t-who"><b>Debbie Masura</b><span>2 months ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>I needed a glass etched for a work function with only a day&rsquo;s notice &mdash; a second attempt to fix a poor job by another company. Daniel said if he couldn&rsquo;t do better, he wouldn&rsquo;t attempt it. He delivered a perfect product! But it was more than the work &mdash; it was a chance to meet genuinely kind, exceptional people. Stop in and talk to them; you&rsquo;ll walk out as blessed as I did!</blockquote></figure>
       <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#4a5a7a">J</span><span class="t-who"><b>Jennifer McLeod</b><span>4 months ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>AMAZING! Spectacular service!! Daniel and his family really take care of the customer. A gorgeous store with high-quality products, and more to offer than you think. Incredibly helpful and fast, at a great price point. HIGHLY RECOMMEND &mdash; shop local. I&rsquo;ll definitely be returning!</blockquote></figure>
       <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#6b4a5a">B</span><span class="t-who"><b>Barbara Odonnell</b><span>Local Guide &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>I brought in a custom wooden urn to have my mom&rsquo;s dates engraved. There was concern it wouldn&rsquo;t fit his machine, so I left it for Daniel to take his time. He told me if he couldn&rsquo;t do it, he&rsquo;d find someone who could. He completed the engraving and it looks fantastic. Thank you for the time and effort on what may feel like a small project &mdash; but this was HUGE to me.</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#7a6b3e">J</span><span class="t-who"><b>Jessie Wood</b><span>a week ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>I went to Daniel &amp; Bailey for help coming up with race medals for a fun 5K my run club was hosting, and they did not disappoint. They also helped me design margarita glasses for the top 3 winners, since the race was margarita-themed! Highly recommend them for all your engraving needs.</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#7a5c3e">C</span><span class="t-who"><b>Christine Pietryla Wetzler</b><span>Local Guide &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>I came in with a last-minute idea for my husband&rsquo;s birthday. All he wanted was a hose reel, so I decided to make it &ldquo;special&rdquo; with a celebratory note on it. They were so nice and accommodating with a simple but strange request. Lovely to work with &mdash; I&rsquo;ll be back anytime I need something engraved.</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#3f6b6b">S</span><span class="t-who"><b>Shonte Pettiford</b><span>2 months ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>We&rsquo;ve had an excellent experience with our engravers, Daniel and Bailey. Their quick turnaround and flexibility consistently help us meet tight deadlines without sacrificing quality. Every piece is engraved with care and precision, and their customer service truly sets them apart. Responsive, professional, and always willing to go the extra mile.</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#6b4a5a">T</span><span class="t-who"><b>Travis Pons</b><span>3 months ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>I had the team create a piece for my wife&rsquo;s business to celebrate her launch anniversary. Done on time and it came out amazing! They took the time to understand what I was looking for and walked me through their process. Daniel and Bailey are great to work with for sure!</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#4a5a7a">M</span><span class="t-who"><b>Mindy Warren</b><span>3 months ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>I needed three gifts for graduating college seniors and found exactly what I was looking for! Daniel and Bailey are fantastic &mdash; they showed me options and made sure everything was just as I envisioned. We&rsquo;ve done lots of trophy work with them too, but they do so much more. Can&rsquo;t say enough good things!</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#8a4f3a">L</span><span class="t-who"><b>Lisa Debevec</b><span>2 months ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>I highly recommend Awards &amp; Engraving for any custom piece &mdash; Daniel and Bailey do it all, and then some. The quality is excellent and they truly care about each client&rsquo;s request. I&rsquo;m so grateful someone mentioned them for a special piece I wanted but couldn&rsquo;t quite describe. They came up with the perfect piece. :)</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#7a5c3e">J</span><span class="t-who"><b>James Krzeminski</b><span>2 months ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>Daniel and Bailey were so helpful and quick in getting a couple of race medals engraved. Friendly and fun experience. I&rsquo;ll definitely be going back.</blockquote></figure>
-      <figure class="t-card"><div class="t-head"><span class="t-ava" style="--av:#b08e4e">B</span><span class="t-who"><b>Bobby Kofler</b><span>a month ago &middot; Google</span></span></div><span class="stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><blockquote>This place is amazing! They&rsquo;ve bailed me out on more than one occasion, and their customer service is spectacular. Every piece they&rsquo;ve done for us has been amazing.</blockquote></figure>
+    </div>
+    <div class="sec-cta reveal">
+      <a class="btn btn-gold" href="/reviews">Read all reviews <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENT LOGOS (beige) -->
+<section class="band" id="clients">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:0">
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.5 5.5L20 9.2l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.7z"/></svg>Trusted since 1949</p>
+      <h2 class="sec-title">The names on our <em>bench.</em></h2>
+      <p class="sec-sub">Pro sports, Fortune 500s, hospital systems, the armed forces and the family businesses down the street &mdash; all engraved on the same machines.</p>
+    </div>
+    <ul class="logo-rail reveal">
+      <li><img src="/assets/clients/chicago-bears.svg" alt="Chicago Bears" loading="lazy" /></li>
+      <li><img src="/assets/clients/milwaukee-tool.svg" alt="Milwaukee Tool" loading="lazy" /></li>
+      <li><img src="/assets/clients/home-depot.svg" alt="The Home Depot" loading="lazy" /></li>
+      <li><img src="/assets/clients/abbott.svg" alt="Abbott" loading="lazy" /></li>
+      <li><img src="/assets/clients/abbvie.svg" alt="AbbVie" loading="lazy" /></li>
+      <li><img src="/assets/clients/medline.svg" alt="Medline" loading="lazy" /></li>
+      <li><img src="/assets/clients/baxter.svg" alt="Baxter" loading="lazy" /></li>
+      <li><img src="/assets/clients/baxter-credit-union.svg" alt="Baxter Credit Union" loading="lazy" /></li>
+      <li><img src="/assets/clients/advocate-condell.png" alt="Advocate Condell Medical" loading="lazy" /></li>
+      <li><img src="/assets/clients/aramark.svg" alt="Aramark" loading="lazy" /></li>
+      <li><img src="/assets/clients/mission-bbq.png" alt="Mission BBQ" loading="lazy" /></li>
+      <li><img src="/assets/clients/xgolf.png" alt="X-Golf" loading="lazy" /></li>
+      <li><img src="/assets/clients/marines.png" alt="U.S. Marine Corps" loading="lazy" /></li>
+      <li><img src="/assets/clients/army.png" alt="U.S. Army" loading="lazy" /></li>
+      <li><img src="/assets/clients/navy.png" alt="U.S. Navy" loading="lazy" /></li>
+    </ul>
+    <div class="sec-cta reveal">
+      <a class="btn btn-gold" href="/about#trusted">See who we work with <span class="arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -275,10 +339,10 @@ svg{max-width:100%}
     <div class="split">
       <div class="txt reveal">
         <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M4 9h16v11H4zM9 20v-6h6v6"/></svg>Our story</p>
-        <h2>A Libertyville landmark, in caring <em>new hands.</em></h2>
-        <p>For over 76 years, Awards &amp; Engraving has been a cornerstone of Libertyville&rsquo;s historic downtown. In 2025, <b>Daniel &amp; Bailey Mattson</b> took the reins &mdash; keeping the craft, the machines and the corner exactly where they belong.</p>
+        <h2 data-ae-field="about_title" data-ae-type="rich">A landmark, in caring <em>new hands.</em></h2>
+        <p>For over <span class="yrs">77</span> years, Awards &amp; Engraving has been a cornerstone of Libertyville&rsquo;s historic downtown. In 2025, <b>Daniel &amp; Bailey Mattson</b> took the reins &mdash; keeping the craft, the machines and the corner exactly where they belong.</p>
         <p>Our niche expertise extends well beyond engraving. From trophies and memorial plaques to monogrammed gloves and one-off keepsakes, <b>we handcraft tailored solutions for your unique vision.</b></p>
-        <a class="btn btn-line" href="/about" style="margin-top:6px">Read our story <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-gold" href="/about" style="margin-top:6px">Read our story <span class="arrow">&rarr;</span></a>
       </div>
       <div class="about-media reveal">
         <div class="plate"><span class="cc"></span><img src="/assets/owners.jpg" alt="Owners Daniel and Bailey Mattson at the Awards & Engraving storefront" /></div>
@@ -286,7 +350,7 @@ svg{max-width:100%}
     </div>
     <div class="stat-strip reveal">
       <div class="st"><b>1949</b><span>Established</span></div>
-      <div class="st"><b>76+</b><span>Years downtown</span></div>
+      <div class="st"><b><span class="yrs">77</span>+</b><span>Years downtown</span></div>
       <div class="st"><b>2025</b><span>New ownership</span></div>
       <div class="st"><b>Local</b><span>Schools &amp; business</span></div>
     </div>
@@ -297,14 +361,18 @@ svg{max-width:100%}
 <section class="section" id="instagram">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@awardsandengraving_</p>
-      <h2 class="sec-title">Follow the <em>craft.</em></h2>
+      <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@awardsandengraving_ &nbsp;&nbsp;<svg class="eb-ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>@awards_engraving</p>
+      <h2 class="sec-title" data-ae-field="social_title" data-ae-type="rich">Follow the <em>craft.</em></h2>
     </div>
     <div class="ig-row reveal">
       <a class="ig-card" href="https://www.instagram.com/reel/DaTkSj4pN2x/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/w-tumbler.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
       <a class="ig-card" href="https://www.instagram.com/reel/DaN_KPyx86b/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/w-vhhs.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
       <a class="ig-card" href="https://www.instagram.com/reel/DZ7_ornp-Zf/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/w-gloves.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
       <a class="ig-card" href="https://www.instagram.com/reel/DZyMOzCO7ML/" target="_blank" rel="noopener" aria-label="Watch on Instagram"><img src="/assets/interior-2.jpg" alt="" loading="lazy" /><span class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="tag">@awardsandengraving_</span></a>
+    </div>
+    <div class="sec-cta reveal" style="gap:14px;flex-wrap:wrap">
+      <a class="btn btn-gold" href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener">Instagram <span class="arrow">&rarr;</span></a>
+      <a class="btn btn-line" href="https://www.tiktok.com/@awards_engraving" target="_blank" rel="noopener">TikTok <span class="arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -314,7 +382,7 @@ svg{max-width:100%}
   <div class="wrap">
     <div class="sec-head reveal">
       <p class="eyebrow"><svg class="eb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>Visit &amp; service area</p>
-      <h2 class="sec-title">Downtown Libertyville &amp; <em>all of Lake County.</em></h2>
+      <h2 class="sec-title" data-ae-field="visit_title" data-ae-type="rich">Downtown Libertyville &amp; <em>all of Lake County.</em></h2>
     </div>
     <div class="area-grid">
       <div class="reveal">
@@ -340,9 +408,9 @@ svg{max-width:100%}
 <section class="finalcta">
   <div class="fc-bg" aria-hidden="true"><img src="/assets/interior-1.jpg" alt="" /></div>
   <div class="wrap">
-    <p class="eyebrow reveal">Let&rsquo;s make something</p>
-    <h2 class="reveal">Made to be <em>remembered.</em></h2>
-    <p class="reveal">Tell us what you need engraved &mdash; a single keepsake or a whole season of team awards. We&rsquo;ll get back to you the same business day.</p>
+    <p class="eyebrow reveal" data-ae-field="cta_eyebrow">Let&rsquo;s make something</p>
+    <h2 class="reveal" data-ae-field="cta_title" data-ae-type="rich">Made to be <em>remembered.</em></h2>
+    <p class="reveal" data-ae-field="cta_body" data-ae-type="multiline">Tell us what you need engraved &mdash; a single keepsake or a whole season of team awards. We&rsquo;ll get back to you the same business day.</p>
     <div class="fc-cta reveal">
       <a class="btn btn-gold" href="/contact">Get a quote <span class="arrow">&rarr;</span></a>
       <a class="btn btn-line" href="tel:+18475491923">Call (847) 549-1923</a>
@@ -353,21 +421,19 @@ svg{max-width:100%}
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
-    <svg class="foot-word" viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Awards & Engraving">
-      <text x="500" y="92" text-anchor="middle" textLength="960" lengthAdjust="spacingAndGlyphs" font-size="112">Awards &amp; Engraving</text>
-    </svg>
+    <img class="foot-word" src="/assets/ae-logo-paper.svg" alt="Awards &amp; Engraving of Libertyville" />
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#top" class="brand" aria-label="Awards & Engraving — home"><img class="brand-logo" src="/assets/ae-logomark-gold.svg" alt="Awards & Engraving monogram" /><span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span></a>
-        <p>Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
+        <a href="/" class="brand" aria-label="Awards & Engraving — home"><img class="brand-logo" src="/assets/ae-logomark-paper.svg" alt="Awards & Engraving monogram" /><span class="btext">Awards &amp; Engraving<small>of Libertyville</small></span></a>
+        <p data-ae-field="site.footer_blurb" data-ae-type="multiline">Quality recognition products since 1949. Custom &#10022; Tailored &#10022; Handcrafted &mdash; family-owned by Daniel &amp; Bailey Mattson.</p>
         <div class="foot-social" aria-label="Social links">
           <a class="fsoc" href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-          <a class="fsoc" href="#" aria-label="Facebook (add link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a class="fsoc" href="https://www.tiktok.com/@awards_engraving" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg></a>
           <a class="fsoc" href="https://maps.google.com/?q=332+N+Milwaukee+Ave+Libertyville+IL+60048" target="_blank" rel="noopener" aria-label="Google Maps"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 11h-9.5v3.5h5.4c-.5 2.5-2.5 4-5.4 4-3.3 0-6-2.7-6-6s2.7-6 6-6c1.4 0 2.7.5 3.7 1.3l2.5-2.5C16.9 3.5 14.6 2.5 12 2.5 6.5 2.5 2 7 2 12.5S6.5 22.5 12 22.5c5.8 0 9.6-4 9.6-9.7 0-.6 0-1.2-.1-1.8z"/></svg></a>
         </div>
       </div>
       <div>
-        <h4>Services</h4>
+        <h4 data-ae-field="site.foot_h_services">Services</h4>
         <ul>
           <li><a href="/services#trophies"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Trophies &amp; awards</a></li>
           <li><a href="/services#plaques"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Plaques &amp; memorials</a></li>
@@ -377,33 +443,36 @@ svg{max-width:100%}
         </ul>
       </div>
       <div>
-        <h4>Shop</h4>
+        <h4 data-ae-field="site.foot_h_shop">Shop</h4>
         <ul>
           <li><a href="/our-shop"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our shop &amp; machines</a></li>
           <li><a href="/portfolio"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Our work</a></li>
+          <li><a href="/reviews"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Reviews</a></li>
           <li><a href="/about"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>About us</a></li>
-          <li><a href="#visit"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Visit / map</a></li>
+          <li><a href="/#visit"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Visit / map</a></li>
           <li><a href="https://www.instagram.com/awardsandengraving_/" target="_blank" rel="noopener"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Instagram</a></li>
           <li><a href="/contact"><svg class="fl-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>Get a quote</a></li>
         </ul>
       </div>
       <div>
-        <h4>Visit us</h4>
+        <h4 data-ae-field="site.foot_h_visit">Visit us</h4>
         <div class="foot-contact">
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span>332 N Milwaukee Ave<br>Libertyville, IL 60048</span></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span><a href="tel:+18475491923">(847) 549-1923</a></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><a href="mailto:orders@awardsandengraving.com">orders@awardsandengraving.com</a></div>
-          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>Mon&ndash;Fri 11am&ndash;5pm<br>Sat &amp; Sun by appointment</span></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><span data-ae-field="site.address" data-ae-type="multiline">332 N Milwaukee Ave<br>Libertyville, IL 60048</span></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.85.7 2.72a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.36-1.27a2 2 0 0 1 2.11-.45c.87.34 1.78.57 2.72.7A2 2 0 0 1 22 16.92Z"/></svg></span><a href="tel:+18475491923"><span data-ae-field="site.phone">(847) 549-1923</span></a></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><a href="mailto:daniel@awardsandengraving.com"><span data-ae-field="site.email">daniel@awardsandengraving.com</span></a></div>
+          <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span data-ae-field="site.hours" data-ae-type="multiline">Mon&ndash;Fri 11am&ndash;5pm<br>Sat &amp; Sun by appointment</span></div>
         </div>
       </div>
     </div>
     <div class="foot-bottom">
       <span>&copy; <span id="yr"></span> Awards &amp; Engraving of Libertyville &middot; Est. 1949</span>
-      <span>Demo site &middot; Design by <a href="https://haloweb.agency" target="_blank" rel="noopener">Halo Web Agency</a></span>
+      <span>Site by <a href="https://haloweb.agency" target="_blank" rel="noopener">Halo Web Agency</a></span>
     </div>
   </div>
 </footer>
 
+<script src="/site-config.js"></script>
+<script src="/site-content.js"></script>
 <script src="/site.js"></script>
 </body>
 </html>
