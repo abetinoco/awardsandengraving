@@ -214,5 +214,10 @@ svg{max-width:100%}
 <script src="/site-config.js"></script>
 <script src="/site-content.js"></script>
 <script src="/site.js"></script>
+<!-- Vercel Web Analytics + Speed Insights. First-party paths, so the existing
+     CSP (script-src self, connect-src self) already permits them — no CSP change
+     and no third-party request. Both need enabling once in the Vercel dashboard. -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

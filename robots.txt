@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://awardsandengraving.vercel.app/sitemap.xml
+Sitemap: https://awardsandengraving.com/sitemap.xml

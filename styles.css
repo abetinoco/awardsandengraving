@@ -143,7 +143,7 @@ body.nav-open .nav-burger span:nth-child(2){bottom:calc(50% - 1px);transform:rot
 
 /* Top padding replaces the body offset the hero just cancelled, keeping the headline
    clear of the nav while the photo behind it still reaches y=0. */
-header.hero{position:relative;overflow:hidden;flex:1 1 auto;display:flex;align-items:center;padding:calc(var(--navpad) + 24px) 0 30px}
+header.hero{position:relative;overflow:hidden;flex:1 1 auto;display:flex;align-items:safe center;padding:calc(var(--navpad) + 24px) 0 30px}
 header.hero .wrap{position:relative;z-index:1;width:100%}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"kick" "title" "rest";align-items:start;width:100%;max-width:min(760px,64%)}
 .hero-grid>*{min-width:0}
@@ -553,7 +553,10 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
   .tb-card::before{width:50px}
   .tb-ring{flex:0 0 46px;width:46px;height:46px}
   .tb-foot{flex-direction:column;text-align:center;gap:14px}
-  header.hero{padding:8px 0 20px}
+  /* Must still clear the floating nav: the hero now starts at y=0 so the photo can
+     run behind the pill, which means the padding is the only thing keeping the
+     kicker out from under it. 8px used to be right when body padding did that job. */
+  header.hero{padding:calc(var(--navpad) + 10px) 0 20px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-delay:0s!important}
