@@ -13,6 +13,7 @@
 
   var MAX_EDGE = 2400;      // nothing on the site is displayed larger than this
   var QUALITY = 0.82;
+var TYPE = "image/webp";   // WebP out: smaller files mean less Supabase egress
 
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
@@ -113,7 +114,7 @@
             out.toBlob(function (blob) {
               if (!blob) return reject(new Error('Could not process that image.'));
               close(); resolve(blob);
-            }, 'image/jpeg', QUALITY);
+            }, TYPE, QUALITY);
           }
 
           var overlay = el('div', { class: 'crop-overlay' }, [

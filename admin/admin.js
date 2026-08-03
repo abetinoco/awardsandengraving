@@ -539,11 +539,11 @@
 
   function uploadImage(file, origName) {
     var safe = String(origName || file.name || 'photo.jpg').toLowerCase().replace(/[^a-z0-9.]+/g, '-').replace(/^-|-$/g, '');
-    safe = safe.replace(/\.(heic|heif|png|webp)$/, '.jpg');   // cropper always emits JPEG
+    safe = safe.replace(/\.(heic|heif|png|jpg|jpeg)$/, '.webp');  // cropper always emits WebP
     var path = Date.now() + '-' + safe;
     return fetch(SB + '/storage/v1/object/site-photos/' + encodeURIComponent(path), {
       method: 'POST',
-      headers: { apikey: ANON, Authorization: 'Bearer ' + session.access_token, 'Content-Type': file.type || 'image/jpeg' },
+      headers: { apikey: ANON, Authorization: 'Bearer ' + session.access_token, 'Content-Type': file.type || 'image/webp' },
       body: file,
     }).then(function (r) {
       if (!r.ok) return r.text().then(function (t) { throw new Error(t.slice(0, 120)); });
