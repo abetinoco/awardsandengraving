@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Site editor — Awards &amp; Engraving</title>
+<link rel="icon" href="/assets/favicon.svg" />
+<link rel="stylesheet" href="/assets/fonts.css" />
+<link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+
+<!-- ── login ───────────────────────────────────────────────────────────── -->
+<div class="login" id="loginView" hidden>
+  <form class="login-card" id="loginForm">
+    <img class="login-logo" src="/assets/ae-logomark-gold.svg" alt="" />
+    <h1>Site editor</h1>
+    <p class="muted">Sign in to edit the Awards &amp; Engraving website.</p>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="username" required />
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required />
+    <button class="btn-gold" type="submit" id="loginBtn">Sign in</button>
+    <p class="login-err" id="loginErr" hidden></p>
+  </form>
+</div>
+
+<!-- ── app ─────────────────────────────────────────────────────────────── -->
+<div class="app" id="appView" hidden>
+  <aside class="side">
+    <div class="side-brand">
+      <img src="/assets/ae-logomark-gold.svg" alt="" />
+      <span>Site editor</span>
+    </div>
+    <nav class="side-nav" id="sideNav"></nav>
+    <div class="side-foot">
+      <span class="avatar" id="whoInitial">?</span>
+      <span class="who-wrap">
+        <span class="who" id="whoAmI"></span>
+        <button class="linkish" id="signOut" type="button">Sign out</button>
+      </span>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="loading">Loading…</div>
+  </main>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="/site-config.js"></script>
+<script src="/admin/icons.js"></script>
+<script src="/admin/verses.js"></script>
+<script src="/admin/crop.js"></script>
+<script src="/admin/admin.js"></script>
+</body>
+</html>

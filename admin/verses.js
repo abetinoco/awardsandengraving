@@ -1,0 +1,102 @@
+/* One verse, chosen per day so it changes but does not flicker on every render
+   (same idea as the Patrick Manning dashboard). */
+window.AE_VERSES = [
+  { text: 'Whatever you do, work at it with all your heart, as working for the Lord.', ref: 'Colossians 3:23' },
+  { text: 'Commit to the Lord whatever you do, and he will establish your plans.', ref: 'Proverbs 16:3' },
+  { text: 'A good name is more desirable than great riches.', ref: 'Proverbs 22:1' },
+  { text: 'The plans of the diligent lead to profit as surely as haste leads to poverty.', ref: 'Proverbs 21:5' },
+  { text: 'Let all that you do be done in love.', ref: '1 Corinthians 16:14' },
+  { text: 'Whoever can be trusted with very little can also be trusted with much.', ref: 'Luke 16:10' },
+  { text: 'Do not grow weary in doing good, for at the proper time we will reap a harvest.', ref: 'Galatians 6:9' },
+  { text: 'This is the day the Lord has made; let us rejoice and be glad in it.', ref: 'Psalm 118:24' },
+  { text: 'Trust in the Lord with all your heart and lean not on your own understanding.', ref: 'Proverbs 3:5' },
+  { text: 'Let your light shine before others, that they may see your good deeds.', ref: 'Matthew 5:16' },
+  { text: 'Each of you should use whatever gift you have received to serve others.', ref: '1 Peter 4:10' },
+  { text: 'In their hearts humans plan their course, but the Lord establishes their steps.', ref: 'Proverbs 16:9' },
+  { text: 'Be joyful in hope, patient in affliction, faithful in prayer.', ref: 'Romans 12:12' },
+  { text: 'Unless the Lord builds the house, the builders labor in vain.', ref: 'Psalm 127:1' },
+  { text: 'Do everything without grumbling or arguing.', ref: 'Philippians 2:14' },
+  { text: 'Those who hope in the Lord will renew their strength.', ref: 'Isaiah 40:31' },
+  { text: 'Cast all your anxiety on him because he cares for you.', ref: '1 Peter 5:7' },
+  { text: 'God is our refuge and strength, an ever-present help in trouble.', ref: 'Psalm 46:1' },
+  { text: 'Be strong and courageous. Do not be afraid; the Lord your God goes with you.', ref: 'Joshua 1:9' },
+  { text: 'And we know that in all things God works for the good of those who love him.', ref: 'Romans 8:28' },
+];
+
+/* A fresh verse on every load. Avoids repeating the one just shown, so a quick
+   refresh visibly changes it rather than landing on the same line again. */
+window.AE_VERSE_OF_DAY = function () {
+  var v = window.AE_VERSES, last = null;
+  try { last = sessionStorage.getItem('ae_last_verse'); } catch (e) {}
+  var i = Math.floor(Math.random() * v.length);
+  if (v.length > 1 && String(i) === last) i = (i + 1) % v.length;
+  try { sessionStorage.setItem('ae_last_verse', String(i)); } catch (e) {}
+  return v[i];
+};
+
+/* "What's new" — written for Daniel, not for developers. Plain language, newest
+   first, one line on what changed and why it matters. */
+window.AE_CHANGELOG = [
+  { date: '2026-07-31', title: 'The whole site is editable',
+    body: 'Every heading, paragraph, caption and photo on all seven pages can now be changed here — the editor reads each page and lists what is on it.' },
+  { date: '2026-07-31', title: 'Live preview follows along',
+    body: 'The real website sits beside the form. Scroll the list and the preview keeps pace; click into a field and it rings that spot on the page.' },
+  { date: '2026-07-31', title: 'Undo a change',
+    body: 'Every edit keeps the previous wording. If something reads wrong after saving, press Restore to put it back.' },
+  { date: '2026-07-31', title: 'Site editor launched',
+    body: 'Sign in at /admin to edit the site yourself. Two logins so the activity log can tell who changed what.' },
+  { date: '2026-07-31', title: 'Quote requests are kept',
+    body: 'Every enquiry is stored here as well as emailed, so nothing is lost if email ever fails.' },
+  { date: '2026-07-31', title: 'Reviews moved into the editor',
+    body: 'All 13 Google reviews can be edited, hidden or featured without touching the website.' },
+
+  { date: '2026-07-30', title: 'New homepage picture',
+    body: 'The gold monogram on the barn wood now fills the top of the homepage and runs behind the menu.' },
+  { date: '2026-07-30', title: '“Recognition that lasts” rebuilt',
+    body: 'Now has the crystal award photo and five cards for the occasions you make pieces for.' },
+  { date: '2026-07-30', title: 'Client wall on the About page',
+    body: 'Fifteen client logos replaced the plain list — Chicago Bears, Milwaukee Tool, Abbott, the service branches and more.' },
+  { date: '2026-07-30', title: 'Recent work looks like a mosaic',
+    body: 'Gallery photos keep their own shape instead of being cropped to squares.' },
+  { date: '2026-07-30', title: 'Reviews page added',
+    body: 'All 13 reviews live at /reviews, with star ratings marked up so Google can show them in search.' },
+  { date: '2026-07-30', title: 'Our Shop section on the homepage',
+    body: 'The six machines now get a mention on the homepage with a link to the full page.' },
+  { date: '2026-07-30', title: 'The quote form actually sends',
+    body: 'It used to look like it worked and quietly drop the message. It now emails the shop every time.' },
+  { date: '2026-07-30', title: 'TikTok added',
+    body: 'Linked in the footer and the social section, alongside Instagram.' },
+  { date: '2026-07-30', title: 'One email address everywhere',
+    body: 'The site had two different addresses in different places. Everything now points to daniel@awardsandengraving.com.' },
+  { date: '2026-07-30', title: 'The year counts itself',
+    body: '“77 years” updates on its own each January instead of needing an edit.' },
+  { date: '2026-07-30', title: 'Logo no longer clipped',
+    body: 'The bottom of the E was being cut off by the circle in the menu and on the loading screen. Fixed in both.' },
+  { date: '2026-07-30', title: 'Custom “page not found” page',
+    body: 'A wrong link now lands on a proper Awards & Engraving page with a way back, not a blank error.' },
+
+  { date: '2026-07-28', title: 'Search wording tightened',
+    body: 'Page titles and descriptions trimmed so Google shows them in full instead of cutting them off mid-sentence.' },
+  { date: '2026-07-27', title: 'Our Shop page',
+    body: 'A page for the six machines on the floor and what each one means for a piece.' },
+  { date: '2026-07-27', title: 'Real Google reviews on the homepage',
+    body: 'Thirteen genuine reviews and the 4.7 rating replaced the placeholder text.' },
+  { date: '2026-07-27', title: 'Trusted-by wall on the About page',
+    body: 'The first version of the client wall, listing the businesses and teams you work with.' },
+  { date: '2026-07-26', title: 'Visitor tracking added',
+    body: 'Microsoft Clarity now records which pages people visit and where they lose interest.' },
+  { date: '2026-07-25', title: 'Link and address tidy-up',
+    body: 'Footer links squared away and each page told Google its proper address, so pages stop competing with each other in search.' },
+  { date: '2026-07-24', title: 'Dark navy theme',
+    body: 'The site moved to the deep navy and gold look it has now.' },
+  { date: '2026-07-23', title: 'Official brand identity',
+    body: 'The real Awards & Engraving logo, colours and typefaces replaced the stand-ins.' },
+  { date: '2026-07-22', title: 'Findable on Google',
+    body: 'Added a sitemap so Google can discover every page, and made shared links show the right preview picture.' },
+  { date: '2026-07-08', title: 'Mobile fixes',
+    body: 'The storefront photo now shows on phones, sits under the title where it belongs, and the background glow that muddied small screens is gone.' },
+  { date: '2026-07-08', title: 'The site takes shape',
+    body: 'Loading screen, a hero that fits the screen, the trust strip, the Recognition section, the closing call to action and the Contact page.' },
+  { date: '2026-07-08', title: 'First build',
+    body: 'The Awards & Engraving website begins — homepage for the Libertyville shop.' },
+];
