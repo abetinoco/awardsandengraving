@@ -6,5 +6,5 @@ window.__AE_CONFIG = {
   anonKey: "sb_publishable_PwYPcDGNRvAqxXXQWUa6sQ_ARninhCl",
   // Sentry DSN. A DSN is a write-only key — it can send events, not read
   // them — so it belongs in the browser. Empty string disables reporting.
-  sentryDsn: ""
+  sentryDsn: "https://b8fa35e3cc83a0ce1a5945ba13575802@o4510550975250432.ingest.us.sentry.io/4511786087743493"
 };
