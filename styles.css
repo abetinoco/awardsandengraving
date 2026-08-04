@@ -213,6 +213,18 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .svc-media{position:relative;overflow:hidden;border-radius:6px}
 .svc-media img{width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--gold-soft);border-radius:6px;transition:transform .6s var(--ease)}
 .svc-item:hover .svc-media img{transform:scale(1.05)}
+/* The privacy page borrows this row layout for its numerals and hairlines but
+   has no photo, so the 340px media column is dead space that squeezes headings
+   onto three lines. Collapse it and give the prose the page. */
+#privacy .svc-item{grid-template-columns:64px 1fr}
+#privacy .svc-item:nth-child(even){grid-template-columns:1fr 64px}
+#privacy .svc-txt{max-width:74ch}
+#privacy .svc-txt p + p{margin-top:13px}
+#privacy .svc-txt a.more{display:inline;font-size:inherit}
+@media(max-width:820px){
+  #privacy .svc-item,#privacy .svc-item:nth-child(even){grid-template-columns:1fr}
+  #privacy .svc-txt{max-width:none}
+}
 /* Same reason as .mach-gal: these are machines, not scenery — a 3:2 crop cuts
    them in half. Natural ratio at full column width, so rows differ in height. */
 #machines .svc-media img{aspect-ratio:auto;height:auto;display:block}
@@ -584,6 +596,13 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
 .p-step .pn{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:15px;color:var(--gold);margin-bottom:14px}
 .p-step h3{font-family:var(--serif);font-weight:700;font-size:20px;color:var(--cream);margin-bottom:9px;line-height:1.15}
 .p-step p{font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+/* .process was built for the dark sections only — on cream its cream headings
+   and 3%-cream card tint both vanish. Same override pattern as .band .sec-title. */
+.band .p-step{background:rgba(34,48,73,.035);border-color:rgba(176,142,78,.5)}
+.band .p-step:hover{border-color:var(--gold-deep)}
+.band .p-step .pn{color:var(--gold-deep)}
+.band .p-step h3{color:var(--cream-ink)}
+.band .p-step p{color:var(--cream-ink-soft)}
 
 /* ---------- svc meta tags (products page) ---------- */
 .svc-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
