@@ -37,6 +37,20 @@ window.AE_VERSE_OF_DAY = function () {
 /* "What's new" — written for Daniel, not for developers. Plain language, newest
    first, one line on what changed and why it matters. */
 window.AE_CHANGELOG = [
+  { date: '2026-08-04', title: 'Quote requests go to two inboxes',
+    body: 'Enquiries can now be sent to more than one person, so nothing waits on one inbox being checked.' },
+  { date: '2026-08-04', title: 'A privacy page',
+    body: 'The site now explains, in plain English, what it asks customers for, who else sees it, and how to have it deleted. Linked at the bottom of every page, and you can edit the wording here like any other page.' },
+  { date: '2026-08-04', title: 'We get told when something breaks',
+    body: 'If a page errors or a save fails, we are notified automatically instead of waiting for you to run into it. You do not have to report anything.' },
+  { date: '2026-08-04', title: 'Every machine shows in full',
+    body: 'The machine photos were being cropped to a fixed shape, which cut the top off the tall ones. Each one now shows the whole machine.' },
+  { date: '2026-08-04', title: 'Our Shop reads better',
+    body: 'The page ran the same dark blue from top to bottom. The materials section is cream again, so it breaks up properly as you scroll.' },
+  { date: '2026-08-03', title: 'Your own machine photos',
+    body: 'The photos you sent replaced the ones on the shop page, and two machines that were never listed — the second fibre marker and the sublimation press — now have sections of their own.' },
+  { date: '2026-08-03', title: 'The bottle engraver is right',
+    body: 'The photo labelled as a signature engraver was actually the bottle engraver. It is now on the bottle section, where the description already matched it.' },
   { date: '2026-07-31', title: 'The whole site is editable',
     body: 'Every heading, paragraph, caption and photo on all seven pages can now be changed here — the editor reads each page and lists what is on it.' },
   { date: '2026-07-31', title: 'Live preview follows along',
