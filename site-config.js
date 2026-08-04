@@ -3,5 +3,8 @@
    secret key in this file. */
 window.__AE_CONFIG = {
   url: "https://yyxbvuyxkgbeatyrfsro.supabase.co",
-  anonKey: "sb_publishable_PwYPcDGNRvAqxXXQWUa6sQ_ARninhCl"
+  anonKey: "sb_publishable_PwYPcDGNRvAqxXXQWUa6sQ_ARninhCl",
+  // Sentry DSN. A DSN is a write-only key — it can send events, not read
+  // them — so it belongs in the browser. Empty string disables reporting.
+  sentryDsn: ""
 };

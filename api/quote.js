@@ -8,8 +8,12 @@
  *   QUOTE_FROM      sender. Stays onboarding@resend.dev until awardsandengraving.com
  *                   is verified, then becomes e.g. "Awards & Engraving <quotes@awardsandengraving.com>".
  *
+ *   SENTRY_DSN      optional — if set, failures here are reported to Sentry.
+ *
  * Uses Resend's REST API directly rather than the npm SDK so the site stays dependency-free.
  */
+
+var sentry = require('./_sentry');
 
 var RESEND_ENDPOINT = 'https://api.resend.com/emails';
 var DEFAULT_TO = 'daniel@awardsandengraving.com';
@@ -37,6 +41,8 @@ module.exports = async function handler(req, res) {
   var apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error('quote: RESEND_API_KEY is not set');
+    // Misconfiguration, not a user error — every submission is being lost.
+    await sentry.capture('RESEND_API_KEY is not set', { route: '/api/quote' });
     return res.status(500).json({ error: 'Email is not configured.' });
   }
 
@@ -114,9 +120,18 @@ module.exports = async function handler(req, res) {
         }),
       });
       leadSaved = lr.ok;
-      if (!lr.ok) console.error('quote: lead insert ' + lr.status + ' ' + (await lr.text()).slice(0, 200));
+      if (!lr.ok) {
+        var lrBody = (await lr.text()).slice(0, 200);
+        console.error('quote: lead insert ' + lr.status + ' ' + lrBody);
+        await sentry.capture('Lead insert failed: ' + lr.status, {
+          route: '/api/quote',
+          tags: { step: 'lead-insert' },
+          extra: { status: lr.status, body: lrBody },
+        });
+      }
     } catch (e) {
       console.error('quote: lead insert failed', e.message);
+      await sentry.capture(e, { route: '/api/quote', tags: { step: 'lead-insert' } });
     }
   }
 
@@ -141,6 +156,11 @@ module.exports = async function handler(req, res) {
       // Surface Resend's reason in the logs; keep it out of the browser response.
       var detail = await r.text();
       console.error('quote: resend responded ' + r.status + ' ' + detail);
+      await sentry.capture('Resend responded ' + r.status, {
+        route: '/api/quote',
+        tags: { step: 'send-mail', leadSaved: String(leadSaved) },
+        extra: { status: r.status, body: detail.slice(0, 500) },
+      });
       if (leadSaved) return res.status(200).json({ ok: true, emailed: false });
       return res.status(502).json({ error: 'Could not send your request right now.' });
     }
@@ -148,6 +168,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('quote: request to resend failed', err);
+    await sentry.capture(err, { route: '/api/quote', tags: { step: 'send-mail', leadSaved: String(leadSaved) } });
     if (leadSaved) return res.status(200).json({ ok: true, emailed: false });
     return res.status(502).json({ error: 'Could not send your request right now.' });
   }

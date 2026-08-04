@@ -575,6 +575,7 @@
       el('#status').className = 'status dirty'; el('#status').textContent = 'Unsaved changes';
       toast('Couldn’t reach the server — your text is still here. Try again.', 'err');
       console.error(e);
+          window.AE_SENTRY.capture(e, { step: 'save-page' });
     });
   }
 
@@ -593,7 +594,7 @@
       box.textContent = '';
       if (!rows.length) { box.appendChild(h('p', { class: 'hint', text: 'No reviews yet — press “Add review”.' })); return; }
       rows.forEach(function (r) { box.appendChild(reviewRow(r)); });
-    }).catch(function (e) { toast('Could not load reviews: ' + e.message, 'err'); });
+    }).catch(function (e) { toast('Could not load reviews: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'load-reviews' }); window.AE_SENTRY.capture(e, { step: 'load-reviews' }); });
   }
   function reviewRow(r) {
     var body = h('div', { class: 'row-body' }); body.hidden = true;
@@ -624,14 +625,14 @@
       api('reviews?id=eq.' + r.id, { method: 'PATCH', headers: { Prefer: 'return=minimal' },
         body: JSON.stringify({ author: author.value, meta: meta.value, body: text.value, featured: feat.checked, visible: vis.checked }) })
         .then(function () { logActivity('saved', 'Review — ' + author.value); toast('Review saved.'); loadReviews(); })
-        .catch(function (e) { toast('Could not save: ' + e.message, 'err'); });
+        .catch(function (e) { toast('Could not save: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'save-review' }); });
     });
     var del = h('button', { class: 'btn-line btn-sm', text: 'Delete' });
     del.addEventListener('click', function () {
       if (!window.confirm('Delete this review permanently?\n\nTip: unticking “Visible on the site” hides it and keeps it here.')) return;
       api('reviews?id=eq.' + r.id, { method: 'DELETE' })
         .then(function () { logActivity('deleted', 'Review — ' + (r.author || '')); toast('Review deleted.'); loadReviews(); })
-        .catch(function (e) { toast('Could not delete: ' + e.message, 'err'); });
+        .catch(function (e) { toast('Could not delete: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'delete-review' }); });
     });
     body.appendChild(h('div', { class: 'rowacts' }, [save, del]));
     return row;
@@ -640,7 +641,7 @@
     api('reviews', { method: 'POST', headers: { Prefer: 'return=minimal' },
       body: JSON.stringify({ author: 'New review', body: '', visible: false, rating: 5 }) })
       .then(function () { logActivity('created', 'Review'); toast('Added — hidden until you tick “Visible”.'); loadReviews(); })
-      .catch(function (e) { toast('Could not add: ' + e.message, 'err'); });
+      .catch(function (e) { toast('Could not add: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'add-review' }); });
   }
 
   /* ------------------------------------------------------------ leads --- */
@@ -666,7 +667,7 @@
         top.addEventListener('click', function () { body.hidden = !body.hidden; });
         b.appendChild(h('div', { class: 'row' }, [top, body]));
       });
-    }).catch(function (e) { toast('Could not load: ' + e.message, 'err'); });
+    }).catch(function (e) { toast('Could not load: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'load-leads' }); });
   }
 
   /* --------------------------------------------------------- activity --- */
