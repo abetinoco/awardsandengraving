@@ -27,6 +27,18 @@ function clean(value, max) {
   return value.trim().slice(0, max);
 }
 
+/* QUOTE_TO takes one address or several separated by commas, so a second
+   person can be copied on enquiries without a code change. Empty entries are
+   dropped — a trailing comma should not become an empty recipient, which
+   Resend rejects for the whole send. */
+function recipients() {
+  var list = String(process.env.QUOTE_TO || DEFAULT_TO)
+    .split(',')
+    .map(function (a) { return a.trim(); })
+    .filter(Boolean);
+  return list.length ? list : [DEFAULT_TO];
+}
+
 function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -144,7 +156,7 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         from: process.env.QUOTE_FROM || DEFAULT_FROM,
-        to: [process.env.QUOTE_TO || DEFAULT_TO],
+        to: recipients(),
         reply_to: email, // hitting reply in the inbox answers the customer
         subject: 'Quote request — ' + type + ' — ' + name,
         text: text,
