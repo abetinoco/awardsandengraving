@@ -213,6 +213,9 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .svc-media{position:relative;overflow:hidden;border-radius:6px}
 .svc-media img{width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--gold-soft);border-radius:6px;transition:transform .6s var(--ease)}
 .svc-item:hover .svc-media img{transform:scale(1.05)}
+/* Same reason as .mach-gal: these are machines, not scenery — a 3:2 crop cuts
+   them in half. Natural ratio at full column width, so rows differ in height. */
+#machines .svc-media img{aspect-ratio:auto;height:auto;display:block}
 .svc-media::before,.svc-media::after{content:"";position:absolute;width:18px;height:18px;border:2px solid var(--gold);z-index:2}
 .svc-media::before{top:9px;left:9px;border-right:0;border-bottom:0}
 .svc-media::after{bottom:9px;right:9px;border-left:0;border-top:0}
@@ -232,6 +235,13 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
    on specificity, so the only breakpoint it needs is its own. */
 .gal.shop-gal{grid-template-columns:repeat(2,1fr)}
 .gal.shop-gal figure{aspect-ratio:3/2}
+/* Machine photos are catalogue renders in every ratio from 0.89 to 1.34, so a
+   fixed 3:2 crop lops the top off a tall machine or the bed off a wide one.
+   Contain in a square box shows the whole unit; the navy behind it is the same
+   navy the card already sat on. Scoped to .mach-gal because our-shop reuses
+   .shop-gal for real 3:2 shots of the floor, which should still crop to fill. */
+.gal.mach-gal figure{aspect-ratio:1/1}
+.gal.mach-gal figure img{object-fit:contain}
 
 /* Mosaic variant — same column flow as the review wall (.testi-wall). Dropping the
    forced 4/5 aspect is what makes it a mosaic: each photo keeps its own proportions,
