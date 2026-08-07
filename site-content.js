@@ -59,6 +59,12 @@
         // A key ending .alt sets the description rather than the file, so the
         // same image can have its alt text edited without re-uploading.
         if (/\.alt$/.test(key)) { el.setAttribute('alt', value); continue; }
+        // If the saved value is already one of the sources in the markup, leave the
+        // element alone. Re-setting src would drop the srcset and pull a second copy
+        // of an image the browser has already picked a size for — on the hero that
+        // meant fetching both the 1000w and the 1600w file.
+        var declared = (el.getAttribute('srcset') || '') + ' ' + (el.getAttribute('src') || '');
+        if (declared.indexOf(value) !== -1) continue;
         el.removeAttribute('srcset'); // a stale srcset would win over the new src
         el.removeAttribute('sizes');
         el.src = value;

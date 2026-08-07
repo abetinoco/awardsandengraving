@@ -7,8 +7,17 @@
       pre.classList.add('done');
       setTimeout(function () { if (pre.parentNode) pre.parentNode.removeChild(pre); }, 700);
     };
-    if (document.readyState === 'complete') setTimeout(hide, 500);
-    else window.addEventListener('load', function () { setTimeout(hide, 450); }, { once: true });
+    // Dismiss on whichever comes first: the document being parsed (plus a beat so
+    // the mark is actually seen), or window.load. Waiting on load alone meant
+    // waiting on every image on the page — the overlay is opaque and full-bleed,
+    // so nothing could paint behind it and LCP sat at 5.6s on mobile.
+    var kick = function () { setTimeout(hide, 400); };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', kick, { once: true });
+    } else {
+      kick();
+    }
+    window.addEventListener('load', function () { setTimeout(hide, 100); }, { once: true });
     setTimeout(hide, 3500); // safety
   }
 
