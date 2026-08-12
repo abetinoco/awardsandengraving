@@ -44,6 +44,31 @@ function escapeHtml(s) {
           .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+/**
+ * Verify a Cloudflare Turnstile token server-side. Only enforced when
+ * TURNSTILE_SECRET_KEY is set — otherwise returns true so the form keeps
+ * working (honeypot only) where the secret isn't configured.
+ */
+async function verifyTurnstile(token, remoteip) {
+  var secret = (process.env.TURNSTILE_SECRET_KEY || '').trim();
+  if (!secret) return true;
+  if (!token) return false;
+  try {
+    var params = new URLSearchParams({ secret: secret, response: token });
+    if (remoteip) params.append('remoteip', remoteip);
+    var verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params
+    });
+    if (!verifyRes.ok) return false;
+    var data = await verifyRes.json();
+    return data.success === true;
+  } catch (e) {
+    return false;
+  }
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -82,6 +107,13 @@ module.exports = async function handler(req, res) {
 
   if (name.length < 2 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return res.status(400).json({ error: 'Please provide a name and a valid email address.' });
+  }
+
+  // Bot protection: verify the Cloudflare Turnstile token before doing any work.
+  var remoteip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || undefined;
+  var humanVerified = await verifyTurnstile(clean(body.turnstileToken, 2048), remoteip);
+  if (!humanVerified) {
+    return res.status(403).json({ error: 'Verification failed. Please refresh the page and try again.' });
   }
 
   var rows = [

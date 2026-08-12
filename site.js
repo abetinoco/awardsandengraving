@@ -107,6 +107,13 @@
   // a third-party host would have to be allowed there. Empty endpoint = demo mode.
   var form = document.getElementById('quoteForm'), success = document.getElementById('formSuccess');
   if (form && success) {
+    // Load Cloudflare Turnstile once if a widget mount is present in the form.
+    if (form.querySelector('.cf-turnstile') && !document.querySelector('script[data-turnstile-loader]')) {
+      var tsScript = document.createElement('script');
+      tsScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      tsScript.async = true; tsScript.defer = true; tsScript.setAttribute('data-turnstile-loader', '1');
+      document.head.appendChild(tsScript);
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var name = document.getElementById('name').value.trim();
@@ -120,6 +127,8 @@
         btn.disabled = true; btn.textContent = 'Sending…';
         var payload = {};
         new FormData(form).forEach(function (v, k) { payload[k] = v; });
+        // Normalize the Cloudflare-injected token field to the name the API expects.
+        payload.turnstileToken = payload['cf-turnstile-response'] || '';
         fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -129,6 +138,8 @@
           .catch(function () {
             btn.disabled = false;
             btn.innerHTML = 'Send request <span class="arrow">&rarr;</span>';
+            // Turnstile tokens are single-use — reset so a retry gets a fresh one.
+            if (window.turnstile) { try { window.turnstile.reset(); } catch (e) {} }
             alert('Something went wrong sending your request — please call (847) 549-1923 or email daniel@awardsandengraving.com.');
           });
       } else {
