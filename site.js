@@ -87,10 +87,24 @@ window.siteTurnstileExpired = function () {
   }
 
   // reveal on scroll
+  // .reveal is opacity:0 until this observer adds .in. Sections rendered from
+  // the CMS (services, portfolio, vendors) are injected *after* this runs, so
+  // scanning only once left them permanently invisible — they were in the DOM,
+  // just never revealed. observeReveals() is re-run whenever content renders.
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
   }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  function observeReveals() {
+    document.querySelectorAll('.reveal:not([data-revealed])').forEach(function (el) {
+      el.setAttribute('data-revealed', '1');
+      // Already on screen when injected? The observer fires for that too, but
+      // marking here keeps a re-render from double-observing the same node.
+      io.observe(el);
+    });
+  }
+  observeReveals();
+  document.addEventListener('ae:content-rendered', observeReveals);
 
   // gallery filter chips (work page)
   // The gallery is re-rendered from the portfolio_items table after load, so

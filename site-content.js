@@ -212,10 +212,16 @@
       feat.forEach(function (r) { band.appendChild(figure(r)); });
     }
 
-    // The filter chips bind to figures at load; re-announce so a freshly
-    // rendered gallery is filterable without a reload.
+    announce('ae:portfolio-rendered');
+  }
+
+  /* Tells site.js that new nodes exist, so scroll-reveal and the gallery
+     filter pick them up. Both bind at load and would otherwise miss anything
+     rendered from the database afterwards. */
+  function announce(name) {
     try {
-      document.dispatchEvent(new CustomEvent('ae:portfolio-rendered'));
+      document.dispatchEvent(new CustomEvent(name));
+      document.dispatchEvent(new CustomEvent('ae:content-rendered'));
     } catch (e) {}
   }
 
@@ -242,7 +248,7 @@
     }
     bar.appendChild(chip('all', 'All', active === 'all' || !active));
     rows.forEach(function (r) { bar.appendChild(chip(r.slug, r.label, active === r.slug)); });
-    try { document.dispatchEvent(new CustomEvent('ae:chips-rendered')); } catch (e) {}
+    announce('ae:chips-rendered');
   }
 
   /* ------------------------------------------------------------- services */
@@ -328,6 +334,7 @@
       teaser.textContent = '';
       feat.forEach(function (r, i) { teaser.appendChild(block(r, i + 1)); });
     }
+    announce('ae:services-rendered');
   }
 
   /* -------------------------------------------------------------- vendors */
@@ -370,6 +377,7 @@
       card.appendChild(meta);
       wrap.appendChild(card);
     });
+    announce('ae:vendors-rendered');
   }
 
   /* ------------------------------------------------- auto-discovered fields
