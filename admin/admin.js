@@ -126,13 +126,13 @@
 
   var PAGES = [
     { id: 'home',      label: 'Homepage',     path: '/',          icon: 'home',     blurb: 'Hero, section intros, the award band and the closing call to action.' },
-    { id: 'services',  label: 'Services',     path: '/services',  icon: 'wrench',   blurb: 'The six service blocks and how it works.' },
+    { id: 'services',  label: 'Services',     path: '/services',  icon: 'wrench',   manager: 'services', blurb: 'The Services page — its wording, and the service blocks on it.' },
     { id: 'shop',      label: 'Our Shop',     path: '/our-shop',  icon: 'building', blurb: 'The machines and what they mean for a piece.' },
-    { id: 'portfolio', label: 'Portfolio',    path: '/portfolio', icon: 'image',    blurb: 'Recent work and the gallery captions.' },
-    { id: 'reviewsp',  label: 'Reviews page', path: '/reviews',   icon: 'star',     blurb: 'The intro above the review wall.' },
+    { id: 'portfolio', label: 'Portfolio',    path: '/portfolio', icon: 'image',    manager: 'pictures', blurb: 'The Portfolio page — its wording, and the pictures on it.' },
+    { id: 'reviewsp',  label: 'Reviews',      path: '/reviews',   icon: 'star',     manager: 'reviews',  blurb: 'The Reviews page — its wording, and the reviews themselves.' },
     { id: 'about',     label: 'About',        path: '/about',     icon: 'book',     blurb: 'The shop story, timeline and client wall.' },
     { id: 'contact',   label: 'Contact',      path: '/contact',   icon: 'phone',    blurb: 'Form intro, FAQ answers, address and hours.' },
-    { id: 'site',      label: 'Header & footer', path: '/',        icon: 'layers',   only: 'site',
+    { id: 'site',      label: 'Header & footer', path: '/',        icon: 'monitor',  only: 'site',
       blurb: 'Phone, email, address, hours and footer wording. Edited once here and used on every page.' },
   ];
 
@@ -177,8 +177,16 @@
     Array.prototype.forEach.call(document.querySelectorAll('#sideNav button'), function (b) {
       b.setAttribute('aria-current', String('#' + b.dataset.route === (location.hash || '#/')));
     });
-    if (route.indexOf('/page/') === 0) return viewPage(main, route.slice(6));
-    if (route === '/reviews') return viewReviews(main);
+    if (route.indexOf('/page/') === 0) {
+      var seg = route.slice(6).split('/');
+      return viewPage(main, seg[0], seg[1] === 'items', seg[1] === 'categories');
+    }
+    // Old direct links (dashboard cards, palette, saved bookmarks) still work —
+    // they land on the right tab of the merged screen.
+    if (route === '/reviews') { location.hash = '#/page/reviewsp/items'; return; }
+    if (route === '/portfolio') { location.hash = '#/page/portfolio/items'; return; }
+    if (route === '/media') return viewMedia(main);
+    if (route === '/vendors') return viewVendors(main);
     if (route === '/leads') return viewLeads(main);
     if (route === '/activity') return viewActivity(main);
     if (route === '/changelog') return viewChangelog(main);
@@ -236,7 +244,8 @@
       h('h3', { class: 'dash-h', text: 'Quick actions' }),
       h('div', { class: 'quick' }, [
         quickCard('home', 'Edit the homepage', 'Hero and section text', '#/page/home', 'tint-sky'),
-        quickCard('star', 'Add a review', 'Shown on the homepage', '#/reviews', 'tint-amber'),
+        quickCard('star', 'Add a review', 'Shown on the homepage', '#/page/reviewsp/items', 'tint-amber'),
+        quickCard('image', 'Add a picture', 'Your Portfolio page', '#/page/portfolio/items', 'tint-violet'),
         quickCard('image', 'Change a photo', 'Any page', '#/page/home', 'tint-green'),
         quickCard('mail', 'See quote requests', 'From the website form', '#/leads', 'tint-violet'),
       ]),
@@ -316,15 +325,42 @@
 
   /* ------------------------------------------------------- page editor -- */
 
-  function viewPage(main, id) {
+  function viewPage(main, id, wantItems, wantCats) {
     var page = PAGES.filter(function (p) { return p.id === id; })[0];
     if (!page) return viewDashboard(main);
+    var onItems = !!(page.manager && wantItems);
+    var onCats = !!(page.manager === 'pictures' && wantCats);
     currentPage = page; draft = {};
 
     var saveBtn = h('button', { class: 'btn-gold', id: 'saveBtn', disabled: true }, [icon('check'), h('span', { text: 'Save & publish' })]);
     main.appendChild(header(page.label, page.blurb,
-      [h('span', { class: 'status', id: 'status', text: 'No changes yet' }), saveBtn],
-      [{ label: 'Dashboard', href: '#/' }, { label: 'Pages' }, { label: page.label }]));
+      (onItems || onCats) ? [] : [h('span', { class: 'status', id: 'status', text: 'No changes yet' }), saveBtn],
+      [{ label: 'Dashboard', href: '#/' }, { label: page.label }]));
+
+    /* Pages that own a list of things (Portfolio → its pictures, Reviews → the
+       reviews) show both here instead of appearing twice in the sidebar. */
+    if (page.manager) {
+      var LBL = { pictures: 'Pictures', reviews: 'Reviews', services: 'Service blocks' };
+      var tabs = [['', 'Wording'], ['/items', LBL[page.manager] || 'Items']];
+      if (page.manager === 'pictures') tabs.push(['/categories', 'Filter buttons']);
+      var bar = h('div', { class: 'tabs' });
+      tabs.forEach(function (tb) {
+        var on = (tb[0] === '' && !wantItems && !wantCats) ||
+                 (tb[0] === '/items' && wantItems) ||
+                 (tb[0] === '/categories' && wantCats);
+        var b = h('button', { class: 'tab' + (on ? ' on' : ''), type: 'button', text: tb[1] });
+        b.addEventListener('click', function () { location.hash = '#/page/' + page.id + tb[0]; });
+        bar.appendChild(b);
+      });
+      main.appendChild(bar);
+    }
+
+    if (onCats) return renderCategoryManager(main);
+    if (onItems) {
+      if (page.manager === 'pictures') return renderPortfolioManager(main);
+      if (page.manager === 'reviews') return renderReviewsManager(main);
+      if (page.manager === 'services') return renderServicesManager(main);
+    }
 
     var form = h('div', { class: 'pane-form', id: 'paneForm' }, [h('p', { class: 'hint', text: 'Reading the page…' })]);
 
@@ -440,7 +476,7 @@
       file.addEventListener('change', function () {
         var fl = file.files && file.files[0]; if (!fl) return;
         var aspect = f.aspect || null;
-        var chosen = (window.AE_CROP ? window.AE_CROP.open(fl, aspect) : Promise.resolve(fl));
+        var chosen = (window.AE_CROP ? window.AE_CROP.open(fl, aspect) : toWebp(fl));
         chosen.then(function (blob) {
           if (blob.size > 10 * 1024 * 1024) { toast('That photo is still over 10 MB after cropping.', 'err'); return; }
           prog.style.display = ''; bar.style.width = '35%';
@@ -537,6 +573,33 @@
     document.execCommand(cmd, false, null);
   }
 
+  /* Safety net for the upload path. The cropper normally re-encodes every photo
+     to WebP, but both upload call sites fall back to the raw File if crop.js
+     failed to load — which would put a 12 MB HEIC straight into storage and
+     onto the page. This re-encodes without any UI so the fallback is still a
+     web-sized WebP. Returns the original blob if the browser can't do it. */
+  function toWebp(file, maxEdge, quality) {
+    var cap = maxEdge || 2400, q = quality || 0.82;
+    if (!window.createImageBitmap && !window.Image) return Promise.resolve(file);
+    return new Promise(function (resolve) {
+      var img = new Image();
+      var url = URL.createObjectURL(file);
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        try {
+          var w = img.naturalWidth, hgt = img.naturalHeight;
+          var k = Math.min(1, cap / Math.max(w, hgt));
+          var c = document.createElement('canvas');
+          c.width = Math.round(w * k); c.height = Math.round(hgt * k);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          c.toBlob(function (b) { resolve(b || file); }, 'image/webp', q);
+        } catch (e) { resolve(file); }
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+  }
+
   function uploadImage(file, origName) {
     var safe = String(origName || file.name || 'photo.jpg').toLowerCase().replace(/[^a-z0-9.]+/g, '-').replace(/^-|-$/g, '');
     safe = safe.replace(/\.(heic|heif|png|jpg|jpeg)$/, '.webp');  // cropper always emits WebP
@@ -581,10 +644,26 @@
 
   /* ---------------------------------------------------------- reviews --- */
 
-  function viewReviews(main) {
+  function renderReviewsManager(main) {
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'toolbar' }, [
+        h('p', { class: 'hint', text: 'Reviews shown on your homepage and Reviews page.' }),
+        h('span', { class: 'sp' }),
+        (function () {
+          var b = h('button', { class: 'btn-gold btn-sm' }, [icon('plus'), h('span', { text: 'Add review' })]);
+          b.addEventListener('click', addReview);
+          return b;
+        })(),
+      ]),
+      h('div', { class: 'rows', id: 'revRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    loadReviews();
+  }
+
+  function viewReviewsLegacy(main) {
     main.appendChild(header('Reviews', 'Shown on the homepage and the Reviews page. Hiding one takes it off the site but keeps it here.',
       [(function () { var b = h('button', { class: 'btn-line' }, [icon('plus'), h('span', { text: 'Add review' })]); b.addEventListener('click', addReview); return b; })()],
-      [{ label: 'Dashboard', href: '#/' }, { label: 'Reviews' }]));
+      [{ label: 'Dashboard', href: '#/' }, { label: 'Customer reviews' }]));
     main.appendChild(h('div', { class: 'pane-form' }, [h('div', { class: 'rows', id: 'revRows' }, [h('p', { class: 'hint', text: 'Loading…' })])]));
     loadReviews();
   }
@@ -644,6 +723,785 @@
       .catch(function (e) { toast('Could not add: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'add-review' }); });
   }
 
+  /* -------------------------------------------------------- portfolio --- */
+
+  var PF_CATS = [
+    ['awards', 'Awards'], ['plaques', 'Plaques'], ['gifts', 'Gifts'],
+    ['engraving', 'Engraving'], ['shop', 'The shop'],
+  ];
+
+  function renderPortfolioManager(main) {
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'toolbar' }, [
+        h('p', { class: 'hint', text: 'These are the photos on your Portfolio page. Click one to edit it.' }),
+        h('span', { class: 'sp' }),
+        (function () {
+          var b = h('button', { class: 'btn-gold btn-sm' }, [icon('plus'), h('span', { text: 'Add picture' })]);
+          b.addEventListener('click', addPortfolioItem);
+          return b;
+        })(),
+      ]),
+      h('div', { class: 'pf-grid', id: 'pfRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    loadPortfolio();
+  }
+
+  function viewPortfolioLegacy(main) {
+    main.appendChild(header(
+      'Portfolio pictures',
+      'The photos shown on your Portfolio page. Ticking the homepage box also puts a piece in the Recent work band on the front page. Hiding takes a piece off the site but keeps it here.',
+      [(function () {
+        var b = h('button', { class: 'btn-line' }, [icon('plus'), h('span', { text: 'Add piece' })]);
+        b.addEventListener('click', addPortfolioItem);
+        return b;
+      })()],
+      [{ label: 'Dashboard', href: '#/' }, { label: 'Portfolio pictures' }]));
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'pf-grid', id: 'pfRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    loadPortfolio();
+  }
+
+  function loadPortfolio() {
+    api('portfolio_items?select=*&order=order_index.asc,created_at.asc').then(function (rows) {
+      var box = el('#pfRows'); if (!box) return;
+      box.textContent = '';
+      if (!rows.length) {
+        box.appendChild(h('p', { class: 'hint', text: 'No pieces yet — press “Add piece”. Until you add one, the twelve photos already on the site stay put.' }));
+        return;
+      }
+      rows.forEach(function (r, i) { box.appendChild(portfolioRow(r, i, rows.length)); });
+    }).catch(function (e) {
+      toast('Could not load the portfolio: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'load-portfolio' });
+    });
+  }
+
+  /* A card grid, not a list. This screen is about pictures, so the picture is
+     the row — big enough to recognise a trophy at a glance. Selecting a card
+     expands it to the full grid width and shows the editor underneath, so
+     there is one place to look instead of a list plus a detail pane. */
+  function portfolioRow(r, idx, total) {
+    var card = h('div', { class: 'pf-card' + (r.visible ? '' : ' is-hidden') });
+
+    var badges = h('div', { class: 'pf-badges' }, [
+      r.featured ? h('span', { class: 'pf-badge feat', text: 'Homepage' }) : null,
+      r.visible ? null : h('span', { class: 'pf-badge off', text: 'Hidden' }),
+    ]);
+
+    var shot = h('div', { class: 'pf-shot' }, [
+      h('img', { src: r.image_url || '', alt: '', loading: 'lazy' }),
+      badges,
+    ]);
+    var cap = h('div', { class: 'pf-cap' }, [
+      h('b', { text: r.title || '(untitled)' }),
+      h('span', { text: r.caption || '' }),
+    ]);
+    var head = h('button', { class: 'pf-head', type: 'button' }, [shot, cap]);
+    card.appendChild(head);
+
+    var body = h('div', { class: 'pf-body' }); body.hidden = true;
+    card.appendChild(body);
+    head.addEventListener('click', function () {
+      var open = body.hidden;
+      // Only one card open at a time — otherwise the grid reflows constantly.
+      Array.prototype.forEach.call(document.querySelectorAll('.pf-card.is-open'), function (c) {
+        c.classList.remove('is-open');
+        var b = c.querySelector('.pf-body'); if (b) b.hidden = true;
+      });
+      if (open) { card.classList.add('is-open'); body.hidden = false; }
+    });
+
+    var title = h('input', { type: 'text', value: r.title || '' });
+    var caption = h('input', { type: 'text', value: r.caption || '' });
+    var alt = h('input', { type: 'text', value: r.alt || '' });
+    var cat = h('select', {});
+    PF_CATS.forEach(function (c) {
+      var o = h('option', { value: c[0], text: c[1] });
+      if (c[0] === r.category) o.selected = true;
+      cat.appendChild(o);
+    });
+    var feat = h('input', { type: 'checkbox' }); feat.checked = !!r.featured;
+    var vis = h('input', { type: 'checkbox' }); vis.checked = !!r.visible;
+
+    var imgUrl = r.image_url || '';
+    var preview = h('img', { src: imgUrl, alt: '', class: 'pf-preview' });
+    var file = h('input', { type: 'file', accept: 'image/*' });
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0]; if (!f) return;
+      // 4/5 matches the gallery tile on the site; 1400px is ~2x the rendered size.
+      var chosen = (window.AE_CROP ? window.AE_CROP.open(f, 4 / 5, 1400) : toWebp(f, 1400));
+      chosen.then(function (blob) {
+        if (!blob) return;
+        toast('Uploading photo…');
+        return uploadImage(blob, f.name).then(function (url) {
+          imgUrl = url; preview.src = url;
+          var thumb = shot.querySelector('img'); if (thumb) thumb.src = url;
+          toast('Photo uploaded — press “Save” to keep it.');
+        });
+      }).catch(function (e) {
+        toast('Could not upload: ' + e.message, 'err');
+        window.AE_SENTRY.capture(e, { step: 'upload-portfolio-photo' });
+      });
+      file.value = '';
+    });
+
+    var grid2 = h('div', { class: 'pf-form' }, [
+      h('div', { class: 'pf-form-photo' }, [preview, file]),
+      h('div', { class: 'pf-form-fields' }, [
+        h('div', { class: 'field' }, [h('label', { text: 'Title (the bold line)' }), title]),
+        h('div', { class: 'field' }, [h('label', { text: 'Caption (the line under it)' }), caption]),
+        h('div', { class: 'field' }, [h('label', { text: 'Photo description (screen readers & Google)' }), alt]),
+        h('div', { class: 'field' }, [h('label', { text: 'Filter category' }), cat]),
+        h('div', { class: 'checks' }, [
+          h('label', {}, [feat, document.createTextNode(' Also show on the homepage')]),
+          h('label', {}, [vis, document.createTextNode(' Visible on the site')]),
+        ]),
+      ]),
+    ]);
+    body.appendChild(grid2);
+
+    var save = h('button', { class: 'btn-gold btn-sm', text: 'Save' });
+    save.addEventListener('click', function () {
+      api('portfolio_items?id=eq.' + r.id, {
+        method: 'PATCH', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({
+          title: title.value, caption: caption.value, alt: alt.value,
+          image_url: imgUrl, category: cat.value,
+          featured: feat.checked, visible: vis.checked, updated_by: me,
+        }),
+      }).then(function () {
+        logActivity('saved', 'Portfolio — ' + title.value);
+        toast('Saved — the website is updated.', null, '/portfolio');
+        loadPortfolio();
+      }).catch(function (e) {
+        toast('Could not save: ' + e.message, 'err');
+        window.AE_SENTRY.capture(e, { step: 'save-portfolio' });
+      });
+    });
+
+    function move(dir) {
+      var b = h('button', { class: 'btn-line btn-sm', text: dir < 0 ? '← Earlier' : 'Later →' });
+      if ((dir < 0 && idx === 0) || (dir > 0 && idx === total - 1)) b.disabled = true;
+      b.addEventListener('click', function () {
+        api('portfolio_items?select=id,order_index&order=order_index.asc,created_at.asc').then(function (all) {
+          var i = all.findIndex(function (x) { return x.id === r.id; });
+          var j = i + dir;
+          if (i < 0 || j < 0 || j >= all.length) return;
+          return Promise.all([
+            api('portfolio_items?id=eq.' + all[i].id, { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ order_index: (j + 1) * 10 }) }),
+            api('portfolio_items?id=eq.' + all[j].id, { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ order_index: (i + 1) * 10 }) }),
+          ]);
+        }).then(function () { loadPortfolio(); })
+          .catch(function (e) {
+            toast('Could not reorder: ' + e.message, 'err');
+            window.AE_SENTRY.capture(e, { step: 'reorder-portfolio' });
+          });
+      });
+      return b;
+    }
+
+    var del = h('button', { class: 'btn-line btn-sm danger', text: 'Delete' });
+    del.addEventListener('click', function () {
+      if (!window.confirm('Delete this piece permanently?\n\nTip: unticking “Visible on the site” hides it and keeps it here.')) return;
+      api('portfolio_items?id=eq.' + r.id, { method: 'DELETE' })
+        .then(function () {
+          logActivity('deleted', 'Portfolio — ' + (r.title || ''));
+          toast('Piece deleted.'); loadPortfolio();
+        })
+        .catch(function (e) {
+          toast('Could not delete: ' + e.message, 'err');
+          window.AE_SENTRY.capture(e, { step: 'delete-portfolio' });
+        });
+    });
+
+    body.appendChild(h('div', { class: 'pf-acts' }, [save, move(-1), move(1), h('span', { class: 'sp' }), del]));
+    return card;
+  }
+
+  function addPortfolioItem() {
+    api('portfolio_items', {
+      method: 'POST', headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ title: 'New piece', visible: false, category: 'awards', order_index: 999, updated_by: me }),
+    }).then(function () {
+      logActivity('created', 'Portfolio piece');
+      toast('Added — add a photo, then tick “Visible” to put it on the site.');
+      loadPortfolio();
+    }).catch(function (e) {
+      toast('Could not add: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'add-portfolio' });
+    });
+  }
+
+  /* ------------------------------------------------------------ photos --- */
+
+  /* Every image the client has ever uploaded, in one place. The files live in
+     the `site-photos` storage bucket; the `media` table is the index of them.
+     Deleting is deliberately guarded — a photo that is still on a page would
+     leave a broken image, so we check first and say where it is used. */
+
+  function fmtBytes(n) {
+    if (!n) return '—';
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return Math.round(n / 1024) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+
+  function viewMedia(main) {
+    main.appendChild(header(
+      'Photo library',
+      'Every photo on your website, in one place. The ones you upload yourself sit in your own Supabase storage; the rest were built into the site when we made it.',
+      [], [{ label: 'Dashboard', href: '#/' }, { label: 'Photo library' }]));
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('h3', { class: 'media-h', text: 'Photos you have uploaded' }),
+      h('p', { class: 'hint', id: 'mediaTotals', text: 'Loading…' }),
+      h('div', { class: 'media-grid', id: 'mediaGrid' }),
+
+      h('h3', { class: 'media-h', text: 'Photos built into your site' }),
+      h('p', { class: 'hint', id: 'builtinTotals', text: 'Loading…' }),
+      h('div', { class: 'media-grid', id: 'builtinGrid' }),
+    ]));
+    loadMedia();
+    loadBuiltIn();
+  }
+
+  /* The photos that shipped with the site live in /assets in the codebase, not
+     in Supabase storage — so they genuinely cannot be deleted from here. They
+     are still shown, read-only, because a "Photos" screen that hides most of
+     the site's photos is the kind of half-truth the panel is meant to avoid. */
+  function loadBuiltIn() {
+    fetch('/admin/site-photos.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var grid = el('#builtinGrid'), totals = el('#builtinTotals');
+        if (!grid || !totals) return;
+        var items = (d && d.items) || [];
+        if (!items.length) { totals.textContent = 'Could not list these right now.'; return; }
+        var bytes = items.reduce(function (a, i) { return a + (i.bytes || 0); }, 0);
+        totals.textContent = items.length + ' photos · ' + fmtBytes(bytes) +
+          ' · these are part of the website itself. To swap one, edit the page it appears on, or ask us.';
+        grid.textContent = '';
+        items.forEach(function (i) {
+          grid.appendChild(h('figure', { class: 'media-tile is-builtin' }, [
+            h('img', { src: i.url, alt: '', loading: 'lazy' }),
+            h('figcaption', {}, [
+              h('span', { class: 'media-meta', text: i.name }),
+              h('span', { class: 'pill off', text: 'Built in' }),
+            ]),
+          ]));
+        });
+      })
+      .catch(function () {
+        var totals = el('#builtinTotals');
+        if (totals) totals.textContent = 'Could not list these right now.';
+      });
+  }
+
+  function loadMedia() {
+    Promise.all([
+      api('media?select=*&order=created_at.desc&limit=300'),
+      api('portfolio_items?select=title,image_url').catch(function () { return []; }),
+      api('site_content?select=key,value').catch(function () { return []; }),
+    ]).then(function (res) {
+      var rows = res[0] || [], pieces = res[1] || [], content = res[2] || [];
+      var grid = el('#mediaGrid'), totals = el('#mediaTotals');
+      if (!grid) return;
+
+      var bytes = rows.reduce(function (a, r) { return a + (r.bytes || 0); }, 0);
+      totals.textContent = rows.length
+        ? rows.length + ' photo' + (rows.length === 1 ? '' : 's') + ' · ' + fmtBytes(bytes) + ' used'
+        : 'Nothing uploaded yet — this fills up as you add photos to your Portfolio or your pages.';
+
+      grid.textContent = '';
+      if (!rows.length) return;
+
+      function usedBy(url) {
+        var where = [];
+        pieces.forEach(function (x) { if (x.image_url === url) where.push('Portfolio — ' + (x.title || 'untitled')); });
+        content.forEach(function (c) { if (c.value && String(c.value).indexOf(url) !== -1) where.push('Page — ' + c.key); });
+        return where;
+      }
+
+      rows.forEach(function (r) {
+        var where = usedBy(r.url);
+        var tile = h('figure', { class: 'media-tile' }, [
+          h('img', { src: r.url, alt: r.alt || '', loading: 'lazy' }),
+          h('figcaption', {}, [
+            h('span', { class: 'media-meta', text: fmtBytes(r.bytes) + ' · ' + ago(r.created_at) }),
+            where.length
+              ? h('span', { class: 'pill on', text: 'In use' })
+              : h('span', { class: 'pill off', text: 'Not used' }),
+          ]),
+        ]);
+
+        var copy = h('button', { class: 'btn-line btn-sm', text: 'Copy link' });
+        copy.addEventListener('click', function () {
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(r.url)
+              .then(function () { toast('Web address copied.'); })
+              .catch(function () { window.prompt('Copy this address:', r.url); });
+          } else { window.prompt('Copy this address:', r.url); }
+        });
+
+        var del = h('button', { class: 'btn-line btn-sm', text: 'Delete' });
+        del.addEventListener('click', function () {
+          var msg = where.length
+            ? 'This photo is still being used here:\n\n  ' + where.join('\n  ') +
+              '\n\nDeleting it will leave a broken image on the website. Delete anyway?'
+            : 'Delete this photo permanently?';
+          if (!window.confirm(msg)) return;
+          deleteMedia(r);
+        });
+
+        tile.appendChild(h('div', { class: 'rowacts', style: 'padding:0 8px 10px' }, [copy, del]));
+        grid.appendChild(tile);
+      });
+    }).catch(function (e) {
+      var t2 = el('#mediaTotals'); if (t2) t2.textContent = 'Could not load your photos: ' + e.message;
+      window.AE_SENTRY.capture(e, { step: 'load-media' });
+    });
+  }
+
+  function deleteMedia(r) {
+    // Remove the file from the bucket first; only drop the index row if that
+    // succeeded, so we never show an empty library while files linger.
+    fetch(SB + '/storage/v1/object/site-photos/' + encodeURIComponent(r.path), {
+      method: 'DELETE',
+      headers: { apikey: ANON, Authorization: 'Bearer ' + session.access_token },
+    }).then(function (res) {
+      if (!res.ok && res.status !== 404) return res.text().then(function (x) { throw new Error(x.slice(0, 120)); });
+      return api('media?id=eq.' + r.id, { method: 'DELETE' });
+    }).then(function () {
+      logActivity('deleted', 'Photo — ' + r.path);
+      toast('Photo deleted.');
+      loadMedia();
+    }).catch(function (e) {
+      toast('Could not delete: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'delete-media' });
+    });
+  }
+
+  /* ------------------------------------------------ portfolio categories --
+     The filter chips on the Portfolio page. Adding one here makes it available
+     as a category on every picture and adds a chip to the public page. */
+
+  function renderCategoryManager(main) {
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'toolbar' }, [
+        h('p', { class: 'hint', text: 'These are the filter buttons on your Portfolio page. Every picture belongs to one.' }),
+        h('span', { class: 'sp' }),
+        (function () {
+          var b = h('button', { class: 'btn-gold btn-sm' }, [icon('plus'), h('span', { text: 'Add category' })]);
+          b.addEventListener('click', addCategory);
+          return b;
+        })(),
+      ]),
+      h('div', { class: 'rows', id: 'catRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    loadCategories();
+  }
+
+  function loadCategories() {
+    Promise.all([
+      api('portfolio_categories?select=*&order=order_index.asc'),
+      api('portfolio_items?select=category').catch(function () { return []; }),
+    ]).then(function (res) {
+      var rows = res[0] || [], items = res[1] || [];
+      var box = el('#catRows'); if (!box) return;
+      box.textContent = '';
+      if (!rows.length) { box.appendChild(h('p', { class: 'hint', text: 'No categories yet.' })); return; }
+      var counts = {};
+      items.forEach(function (i) { counts[i.category] = (counts[i.category] || 0) + 1; });
+      rows.forEach(function (r, i) { box.appendChild(categoryRow(r, i, rows.length, counts[r.slug] || 0)); });
+    }).catch(function (e) {
+      toast('Could not load categories: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'load-categories' });
+    });
+  }
+
+  function categoryRow(r, idx, total, count) {
+    var body = h('div', { class: 'row-body' }); body.hidden = true;
+    var top = h('div', { class: 'row-top' }, [
+      h('b', { text: r.label || r.slug }),
+      h('span', { class: 'meta', text: count + (count === 1 ? ' picture' : ' pictures') }),
+      h('span', { class: 'sp' }),
+      h('span', { class: 'pill ' + (r.visible ? 'on' : 'off') },
+        [icon(r.visible ? 'eye' : 'eyeOff'), h('span', { text: r.visible ? 'Showing' : 'Hidden' })]),
+    ]);
+    top.addEventListener('click', function () { body.hidden = !body.hidden; });
+    var row = h('div', { class: 'row' }, [top, body]);
+
+    var label = h('input', { type: 'text', value: r.label || '' });
+    var vis = h('input', { type: 'checkbox' }); vis.checked = !!r.visible;
+    body.appendChild(h('div', { class: 'field' }, [h('label', { text: 'Button text' }), label]));
+    body.appendChild(h('div', { class: 'checks' }, [
+      h('label', {}, [vis, document.createTextNode(' Show this filter button on the site')]),
+    ]));
+
+    var save = h('button', { class: 'btn-gold btn-sm', text: 'Save' });
+    save.addEventListener('click', function () {
+      api('portfolio_categories?id=eq.' + r.id, {
+        method: 'PATCH', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({ label: label.value, visible: vis.checked }),
+      }).then(function () {
+        logActivity('saved', 'Category — ' + label.value);
+        toast('Saved.'); loadCategories();
+      }).catch(function (e) { toast('Could not save: ' + e.message, 'err'); });
+    });
+
+    function move(dir) {
+      var b = h('button', { class: 'btn-line btn-sm', text: dir < 0 ? '↑' : '↓' });
+      if ((dir < 0 && idx === 0) || (dir > 0 && idx === total - 1)) b.disabled = true;
+      b.addEventListener('click', function () { swapOrder('portfolio_categories', r.id, dir, loadCategories); });
+      return b;
+    }
+
+    var del = h('button', { class: 'btn-line btn-sm danger', text: 'Delete' });
+    del.addEventListener('click', function () {
+      if (count) {
+        window.alert('“' + (r.label || r.slug) + '” still has ' + count + ' picture' + (count === 1 ? '' : 's') +
+          ' in it.\n\nMove those to another category first, or untick “Show this filter button” to hide it instead.');
+        return;
+      }
+      if (!window.confirm('Delete the “' + (r.label || r.slug) + '” filter permanently?')) return;
+      api('portfolio_categories?id=eq.' + r.id, { method: 'DELETE' })
+        .then(function () { logActivity('deleted', 'Category — ' + (r.label || '')); toast('Deleted.'); loadCategories(); })
+        .catch(function (e) { toast('Could not delete: ' + e.message, 'err'); });
+    });
+
+    body.appendChild(h('div', { class: 'rowacts' }, [save, move(-1), move(1), h('span', { class: 'sp' }), del]));
+    return row;
+  }
+
+  function addCategory() {
+    var name = window.prompt('What should the new filter button say?\n(e.g. "Corporate")');
+    if (!name) return;
+    var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (!slug) { toast('That name cannot be used — try letters and numbers.', 'err'); return; }
+    api('portfolio_categories', {
+      method: 'POST', headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ slug: slug, label: name, order_index: 999, visible: true }),
+    }).then(function () {
+      logActivity('created', 'Category — ' + name);
+      toast('Added — you can now put pictures in it.'); loadCategories();
+    }).catch(function (e) {
+      toast(/duplicate/i.test(e.message) ? 'There is already a category with that name.' : 'Could not add: ' + e.message, 'err');
+    });
+  }
+
+  /* Shared reorder: rewrites both rows' indexes so ties still move. */
+  function swapOrder(table, id, dir, done) {
+    api(table + '?select=id,order_index&order=order_index.asc,id.asc').then(function (all) {
+      var i = all.findIndex(function (x) { return x.id === id; });
+      var j = i + dir;
+      if (i < 0 || j < 0 || j >= all.length) return;
+      return Promise.all([
+        api(table + '?id=eq.' + all[i].id, { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ order_index: (j + 1) * 10 }) }),
+        api(table + '?id=eq.' + all[j].id, { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ order_index: (i + 1) * 10 }) }),
+      ]);
+    }).then(function () { done(); })
+      .catch(function (e) { toast('Could not reorder: ' + e.message, 'err'); });
+  }
+
+  /* -------------------------------------------------------- services --- */
+
+  function renderServicesManager(main) {
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'toolbar' }, [
+        h('p', { class: 'hint', text: 'The blocks on your Services page. Ticking “homepage” also shows one on the front page.' }),
+        h('span', { class: 'sp' }),
+        (function () {
+          var b = h('button', { class: 'btn-gold btn-sm' }, [icon('plus'), h('span', { text: 'Add service' })]);
+          b.addEventListener('click', addService);
+          return b;
+        })(),
+      ]),
+      h('div', { class: 'rows', id: 'svcRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    loadServices();
+  }
+
+  function loadServices() {
+    api('services?select=*&order=order_index.asc,id.asc').then(function (rows) {
+      var box = el('#svcRows'); if (!box) return;
+      box.textContent = '';
+      if (!rows.length) { box.appendChild(h('p', { class: 'hint', text: 'No services yet — press “Add service”.' })); return; }
+      rows.forEach(function (r, i) { box.appendChild(serviceRow(r, i, rows.length)); });
+    }).catch(function (e) {
+      toast('Could not load services: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'load-services' });
+    });
+  }
+
+  /* Repeatable chip editor for the tag list — add with Enter, remove with ×.
+     Beats asking a client to type comma-separated values. */
+  function tagEditor(initial) {
+    var tags = (initial || []).slice();
+    var wrap = h('div', { class: 'tag-edit' });
+    var input = h('input', { type: 'text', placeholder: 'Type a tag and press Enter' });
+
+    function draw() {
+      wrap.textContent = '';
+      tags.forEach(function (tg, i) {
+        var x = h('button', { class: 'tag-x', type: 'button', text: '×', title: 'Remove' });
+        x.addEventListener('click', function () { tags.splice(i, 1); draw(); });
+        wrap.appendChild(h('span', { class: 'tag-chip' }, [h('span', { text: tg }), x]));
+      });
+      wrap.appendChild(input);
+    }
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        var v = input.value.trim();
+        if (v && tags.indexOf(v) === -1) { tags.push(v); input.value = ''; draw(); input.focus(); }
+      } else if (e.key === 'Backspace' && !input.value && tags.length) {
+        tags.pop(); draw(); input.focus();
+      }
+    });
+    draw();
+    return { node: wrap, value: function () { return tags; } };
+  }
+
+  function serviceRow(r, idx, total) {
+    var body = h('div', { class: 'row-body' }); body.hidden = true;
+    var top = h('div', { class: 'row-top' }, [
+      h('span', { class: 'svc-numeral', text: r.numeral || String(idx + 1) }),
+      h('b', { text: ((r.title_lead || '') + ' ' + (r.title_accent || '')).trim() || '(untitled)' }),
+      h('span', { class: 'sp' }),
+      r.featured ? h('span', { class: 'pill feat', text: 'Homepage' }) : null,
+      h('span', { class: 'pill ' + (r.visible ? 'on' : 'off') },
+        [icon(r.visible ? 'eye' : 'eyeOff'), h('span', { text: r.visible ? 'On site' : 'Hidden' })]),
+    ]);
+    top.addEventListener('click', function () { body.hidden = !body.hidden; });
+    var row = h('div', { class: 'row' }, [top, body]);
+
+    var lead = h('input', { type: 'text', value: r.title_lead || '' });
+    var accent = h('input', { type: 'text', value: r.title_accent || '' });
+    var numeral = h('input', { type: 'text', value: r.numeral || '' });
+    var bodyTxt = h('textarea', {}); bodyTxt.value = r.body || '';
+    var price = h('input', { type: 'text', value: r.price || '' });
+    var tags = tagEditor(r.tags);
+    var ctaLabel = h('input', { type: 'text', value: r.cta_label || '' });
+    var ctaHref = h('input', { type: 'text', value: r.cta_href || '' });
+    var feat = h('input', { type: 'checkbox' }); feat.checked = !!r.featured;
+    var vis = h('input', { type: 'checkbox' }); vis.checked = !!r.visible;
+
+    var imgUrl = r.image_url || '';
+    var preview = h('img', { src: imgUrl, alt: '', class: 'svc-preview' });
+    var file = h('input', { type: 'file', accept: 'image/*' });
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0]; if (!f) return;
+      var chosen = (window.AE_CROP ? window.AE_CROP.open(f, 4 / 3, 1600) : toWebp(f, 1600));
+      chosen.then(function (blob) {
+        if (!blob) return;
+        toast('Uploading photo…');
+        return uploadImage(blob, f.name).then(function (url) {
+          imgUrl = url; preview.src = url;
+          toast('Photo uploaded — press “Save” to keep it.');
+        });
+      }).catch(function (e) { toast('Could not upload: ' + e.message, 'err'); });
+      file.value = '';
+    });
+
+    body.appendChild(h('div', { class: 'svc-form' }, [
+      h('div', {}, [preview, file]),
+      h('div', { class: 'svc-form-fields' }, [
+        h('div', { class: 'two-up' }, [
+          h('div', { class: 'field' }, [h('label', { text: 'Heading' }), lead]),
+          h('div', { class: 'field' }, [h('label', { text: 'Italic word' }), accent]),
+        ]),
+        h('div', { class: 'field' }, [h('label', { text: 'Description' }), bodyTxt]),
+        h('div', { class: 'two-up' }, [
+          h('div', { class: 'field' }, [h('label', { text: 'Price chip (blank hides it)' }), price]),
+          h('div', { class: 'field' }, [h('label', { text: 'Number shown beside it' }), numeral]),
+        ]),
+        h('div', { class: 'field' }, [h('label', { text: 'Tags' }), tags.node]),
+        h('div', { class: 'two-up' }, [
+          h('div', { class: 'field' }, [h('label', { text: 'Button text' }), ctaLabel]),
+          h('div', { class: 'field' }, [h('label', { text: 'Button link' }), ctaHref]),
+        ]),
+        h('div', { class: 'checks' }, [
+          h('label', {}, [feat, document.createTextNode(' Also show on the homepage')]),
+          h('label', {}, [vis, document.createTextNode(' Visible on the site')]),
+        ]),
+      ]),
+    ]));
+
+    var save = h('button', { class: 'btn-gold btn-sm', text: 'Save' });
+    save.addEventListener('click', function () {
+      api('services?id=eq.' + r.id, {
+        method: 'PATCH', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({
+          title_lead: lead.value, title_accent: accent.value, numeral: numeral.value,
+          body: bodyTxt.value, price: price.value, tags: tags.value(),
+          image_url: imgUrl, cta_label: ctaLabel.value, cta_href: ctaHref.value,
+          featured: feat.checked, visible: vis.checked, updated_by: me,
+        }),
+      }).then(function () {
+        logActivity('saved', 'Service — ' + lead.value);
+        toast('Saved — the website is updated.', null, '/services');
+        loadServices();
+      }).catch(function (e) { toast('Could not save: ' + e.message, 'err'); });
+    });
+
+    function move(dir) {
+      var b = h('button', { class: 'btn-line btn-sm', text: dir < 0 ? '↑' : '↓' });
+      if ((dir < 0 && idx === 0) || (dir > 0 && idx === total - 1)) b.disabled = true;
+      b.addEventListener('click', function () { swapOrder('services', r.id, dir, loadServices); });
+      return b;
+    }
+
+    var del = h('button', { class: 'btn-line btn-sm danger', text: 'Delete' });
+    del.addEventListener('click', function () {
+      if (!window.confirm('Delete this service permanently?\n\nTip: unticking “Visible on the site” hides it and keeps it here.')) return;
+      api('services?id=eq.' + r.id, { method: 'DELETE' })
+        .then(function () { logActivity('deleted', 'Service — ' + (r.title_lead || '')); toast('Deleted.'); loadServices(); })
+        .catch(function (e) { toast('Could not delete: ' + e.message, 'err'); });
+    });
+
+    body.appendChild(h('div', { class: 'rowacts' }, [save, move(-1), move(1), h('span', { class: 'sp' }), del]));
+    return row;
+  }
+
+  function addService() {
+    var name = window.prompt('What is the new service called?');
+    if (!name) return;
+    var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || ('service-' + Date.now());
+    api('services', {
+      method: 'POST', headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ slug: slug, title_lead: name, visible: false, order_index: 999, updated_by: me }),
+    }).then(function () {
+      logActivity('created', 'Service — ' + name);
+      toast('Added — hidden until you tick “Visible”.'); loadServices();
+    }).catch(function (e) {
+      toast(/duplicate/i.test(e.message) ? 'A service with that name already exists.' : 'Could not add: ' + e.message, 'err');
+    });
+  }
+
+  /* --------------------------------------------------------- vendors --- */
+
+  function viewVendors(main) {
+    main.appendChild(header('Vendors',
+      'Suppliers whose catalogs you link customers to. These appear on your Services page.',
+      [(function () {
+        var b = h('button', { class: 'btn-line' }, [icon('plus'), h('span', { text: 'Add vendor' })]);
+        b.addEventListener('click', addVendor); return b;
+      })()],
+      [{ label: 'Dashboard', href: '#/' }, { label: 'Vendors' }]));
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'rows', id: 'venRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    loadVendors();
+  }
+
+  function loadVendors() {
+    api('vendors?select=*&order=order_index.asc,id.asc').then(function (rows) {
+      var box = el('#venRows'); if (!box) return;
+      box.textContent = '';
+      if (!rows.length) {
+        box.appendChild(h('p', { class: 'hint', text: 'No vendors yet. Add one and the “Shop our suppliers” section appears on your Services page — until then it stays hidden.' }));
+        return;
+      }
+      rows.forEach(function (r, i) { box.appendChild(vendorRow(r, i, rows.length)); });
+    }).catch(function (e) {
+      toast('Could not load vendors: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'load-vendors' });
+    });
+  }
+
+  function vendorRow(r, idx, total) {
+    var body = h('div', { class: 'row-body' }); body.hidden = true;
+    var thumb = h('img', { src: r.logo_url || '', alt: '', class: 'ven-thumb' });
+    var top = h('div', { class: 'row-top' }, [
+      thumb,
+      h('b', { text: r.name || '(unnamed)' }),
+      h('span', { class: 'meta', text: r.blurb || '' }),
+      h('span', { class: 'sp' }),
+      h('span', { class: 'pill ' + (r.visible ? 'on' : 'off') },
+        [icon(r.visible ? 'eye' : 'eyeOff'), h('span', { text: r.visible ? 'On site' : 'Hidden' })]),
+    ]);
+    top.addEventListener('click', function () { body.hidden = !body.hidden; });
+    var row = h('div', { class: 'row' }, [top, body]);
+
+    var name = h('input', { type: 'text', value: r.name || '' });
+    var blurb = h('input', { type: 'text', value: r.blurb || '' });
+    var link = h('input', { type: 'url', value: r.catalog_url || '', placeholder: 'https://…' });
+    var vis = h('input', { type: 'checkbox' }); vis.checked = !!r.visible;
+
+    var logoUrl = r.logo_url || '';
+    var preview = h('img', { src: logoUrl, alt: '', class: 'ven-preview' });
+    var file = h('input', { type: 'file', accept: 'image/*' });
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0]; if (!f) return;
+      // Vendor logos are often SVG — those must skip the cropper, which is
+      // canvas-based and would rasterise them.
+      var isSvg = /svg/i.test(f.type) || /\.svg$/i.test(f.name);
+      var chosen = isSvg ? Promise.resolve(f)
+        : (window.AE_CROP ? window.AE_CROP.open(f, 1, 600) : toWebp(f, 600));
+      chosen.then(function (blob) {
+        if (!blob) return;
+        toast('Uploading logo…');
+        return uploadImage(blob, f.name).then(function (url) {
+          logoUrl = url; preview.src = url; thumb.src = url;
+          toast('Logo uploaded — press “Save” to keep it.');
+        });
+      }).catch(function (e) { toast('Could not upload: ' + e.message, 'err'); });
+      file.value = '';
+    });
+
+    body.appendChild(h('div', { class: 'field' }, [h('label', { text: 'Logo' }), preview, file]));
+    body.appendChild(h('div', { class: 'field' }, [h('label', { text: 'Vendor name' }), name]));
+    body.appendChild(h('div', { class: 'field' }, [h('label', { text: 'One line about them' }), blurb]));
+    body.appendChild(h('div', { class: 'field' }, [h('label', { text: 'Link to their catalog' }), link]));
+    body.appendChild(h('div', { class: 'checks' }, [
+      h('label', {}, [vis, document.createTextNode(' Visible on the site')]),
+    ]));
+
+    var save = h('button', { class: 'btn-gold btn-sm', text: 'Save' });
+    save.addEventListener('click', function () {
+      api('vendors?id=eq.' + r.id, {
+        method: 'PATCH', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({
+          name: name.value, blurb: blurb.value, catalog_url: link.value,
+          logo_url: logoUrl, visible: vis.checked, updated_by: me,
+        }),
+      }).then(function () {
+        logActivity('saved', 'Vendor — ' + name.value);
+        toast('Saved.', null, '/services#vendors'); loadVendors();
+      }).catch(function (e) { toast('Could not save: ' + e.message, 'err'); });
+    });
+
+    function move(dir) {
+      var b = h('button', { class: 'btn-line btn-sm', text: dir < 0 ? '↑' : '↓' });
+      if ((dir < 0 && idx === 0) || (dir > 0 && idx === total - 1)) b.disabled = true;
+      b.addEventListener('click', function () { swapOrder('vendors', r.id, dir, loadVendors); });
+      return b;
+    }
+
+    var del = h('button', { class: 'btn-line btn-sm danger', text: 'Delete' });
+    del.addEventListener('click', function () {
+      if (!window.confirm('Delete this vendor permanently?')) return;
+      api('vendors?id=eq.' + r.id, { method: 'DELETE' })
+        .then(function () { logActivity('deleted', 'Vendor — ' + (r.name || '')); toast('Deleted.'); loadVendors(); })
+        .catch(function (e) { toast('Could not delete: ' + e.message, 'err'); });
+    });
+
+    body.appendChild(h('div', { class: 'rowacts' }, [save, move(-1), move(1), h('span', { class: 'sp' }), del]));
+    return row;
+  }
+
+  function addVendor() {
+    var name = window.prompt('What is the vendor called?\n(e.g. "JD’s")');
+    if (!name) return;
+    api('vendors', {
+      method: 'POST', headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ name: name, visible: false, order_index: 999, updated_by: me }),
+    }).then(function () {
+      logActivity('created', 'Vendor — ' + name);
+      toast('Added — add their link, then tick “Visible”.'); loadVendors();
+    }).catch(function (e) { toast('Could not add: ' + e.message, 'err'); });
+  }
+
   /* ------------------------------------------------------------ leads --- */
 
   function viewLeads(main) {
@@ -697,7 +1555,13 @@
     if (el('#palette')) return;
     var items = PAGES.map(function (p) { return { label: p.label, sub: 'Page · ' + p.path, href: '#/page/' + p.id, ic: p.icon }; })
       .concat([
-        { label: 'Reviews', sub: 'Add, edit or hide reviews', href: '#/reviews', ic: 'star' },
+        { label: 'Customer reviews', sub: 'Add, edit or hide reviews', href: '#/page/reviewsp/items', ic: 'star' },
+        { label: 'Portfolio pictures', sub: 'The photos on your Portfolio page', href: '#/page/portfolio/items', ic: 'image' },
+        { label: 'Photo library', sub: 'Every photo on your website', href: '#/media', ic: 'file' },
+        { label: 'Vendors', sub: 'Supplier catalogs you link to', href: '#/vendors', ic: 'building' },
+        { label: 'Service blocks', sub: 'Add, edit or reorder services', href: '#/page/services/items', ic: 'wrench' },
+        { label: 'Filter buttons', sub: 'Portfolio categories', href: '#/page/portfolio/categories', ic: 'image' },
+        { label: 'View live site', sub: 'Open the website in a new tab', href: 'site:/', ic: 'external' },
         { label: 'Quote requests', sub: 'Enquiries from the website', href: '#/leads', ic: 'mail' },
         { label: 'Activity log', sub: 'Who changed what', href: '#/activity', ic: 'activity' },
         { label: 'What’s new', sub: 'Recent updates', href: '#/changelog', ic: 'sparkles' },
@@ -715,7 +1579,12 @@
       items.filter(function (i) { return !q || (i.label + ' ' + i.sub).toLowerCase().indexOf(q) > -1; })
         .forEach(function (i) {
           var b = h('button', { class: 'pal-row' }, [icon(i.ic), h('span', {}, [h('b', { text: i.label }), h('small', { text: i.sub })])]);
-          b.addEventListener('click', function () { close(); location.hash = i.href; });
+          b.addEventListener('click', function () {
+            close();
+            // "site:" entries open the public website instead of routing inside the panel.
+            if (i.href.indexOf('site:') === 0) { window.open(i.href.slice(5), '_blank', 'noopener'); return; }
+            location.hash = i.href;
+          });
           list.appendChild(b);
         });
       if (!list.children.length) list.appendChild(h('p', { class: 'hint', text: 'Nothing matches that.' }));
@@ -736,13 +1605,29 @@
   function buildNav() {
     var nav = el('#sideNav'); nav.textContent = '';
     nav.appendChild(navBtn('/', 'Dashboard', 'dashboard'));
-    nav.appendChild(h('div', { class: 'grp', text: 'Pages' }));
+    nav.appendChild(h('div', { class: 'grp', text: 'Your site' }));
     PAGES.forEach(function (p) { nav.appendChild(navBtn('/page/' + p.id, p.label, p.icon)); });
-    nav.appendChild(h('div', { class: 'grp', text: 'Everything else' }));
-    nav.appendChild(navBtn('/reviews', 'Reviews', 'star'));
+    nav.appendChild(navBtn('/vendors', 'Vendors', 'building'));
+    nav.appendChild(navBtn('/media', 'Photo library', 'layers'));
+    /* One entry per thing. Portfolio and Reviews used to appear twice — once
+       for their wording and once for their contents — which is what made the
+       sidebar feel duplicated. Both now open a single screen with two tabs. */
+    nav.appendChild(h('div', { class: 'grp', text: 'Records' }));
     nav.appendChild(navBtn('/leads', 'Quote requests', 'mail'));
     nav.appendChild(navBtn('/activity', 'Activity log', 'activity'));
     nav.appendChild(navBtn('/changelog', 'What’s new', 'sparkles'));
+
+    /* Persistent way out to the real website. The page editors have their own
+       "open in a new tab" arrow, but there was nothing from the dashboard or
+       the list views — the most common question after saving is simply
+       "so what does it look like now?". */
+    nav.appendChild(h('div', { class: 'grp', text: 'Your website' }));
+    nav.appendChild(navLink('/', 'View live site', 'external'));
+  }
+  function navLink(path, label, ic) {
+    var a = h('a', { class: 'navlink', href: path, target: '_blank', rel: 'noopener' },
+      [icon(ic), h('span', { text: label })]);
+    return a;
   }
   function navBtn(route, label, ic) {
     var b = h('button', { type: 'button' }, [icon(ic), h('span', { text: label })]);
@@ -760,9 +1645,115 @@
       (rows || []).forEach(function (r) { content[r.key] = r.value; previous[r.key] = r.previous_value; });
     }).catch(function () {}).then(function () { render(); });
   }
+  /* ------------------------------------------------- password recovery ---
+     Supabase mails a link back to this page with a recovery token in the URL
+     fragment. We swap that token for a session, then let the user set a new
+     password via PUT /auth/v1/user. The password never passes through us, and
+     no service-role key is involved. */
+
+  var recoveryToken = null;
+
+  function sendRecovery(email) {
+    return fetch(SB + '/auth/v1/recover', {
+      method: 'POST',
+      headers: { apikey: ANON, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, redirect_to: location.origin + '/admin/' }),
+    }).then(function (r) {
+      // Supabase intentionally returns 200 for unknown addresses so the form
+      // can't be used to discover who has an account. Mirror that in the copy.
+      if (!r.ok && r.status !== 422) return r.text().then(function (x) { throw new Error(x.slice(0, 140)); });
+    });
+  }
+
+  function setPassword(token, password) {
+    return fetch(SB + '/auth/v1/user', {
+      method: 'PUT',
+      headers: { apikey: ANON, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: password }),
+    }).then(function (r) {
+      return r.json().then(function (j) {
+        if (!r.ok) throw new Error(j.error_description || j.msg || j.message || 'Could not set the password');
+        return j;
+      });
+    });
+  }
+
+  /* A recovery link lands as #access_token=…&type=recovery. Read it, clear it
+     from the address bar so the token isn't left in history, and show the
+     "choose a password" form. */
+  function recoveryTokenFromUrl() {
+    var hash = location.hash || '';
+    if (hash.indexOf('access_token=') === -1) return null;
+    var params = {};
+    hash.replace(/^#/, '').split('&').forEach(function (kv) {
+      var i = kv.indexOf('=');
+      if (i > 0) params[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1));
+    });
+    if (params.type !== 'recovery' || !params.access_token) return null;
+    return params.access_token;
+  }
+
+  function wireRecovery() {
+    var forgot = el('#forgotBtn');
+    if (forgot) forgot.addEventListener('click', function () {
+      var mail = (el('#email').value || '').trim();
+      if (!mail) {
+        el('#email').focus();
+        showLogin('Type your email address above first, then press this again.');
+        return;
+      }
+      forgot.disabled = true; forgot.textContent = 'Sending…';
+      el('#loginErr').hidden = true;
+      sendRecovery(mail).then(function () {
+        var ok = el('#loginOk');
+        ok.hidden = false;
+        ok.textContent = 'If ' + mail + ' has an account, a reset link is on its way. Check your inbox (and the spam folder).';
+      }).catch(function (e) {
+        showLogin('Could not send the email: ' + e.message);
+      }).then(function () {
+        forgot.disabled = false; forgot.textContent = 'Forgot your password?';
+      });
+    });
+
+    var rf = el('#resetForm');
+    if (rf) rf.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var a = el('#newPass').value, b = el('#newPass2').value;
+      var err = el('#resetErr'); err.hidden = true;
+      if (a.length < 8) { err.hidden = false; err.textContent = 'Use at least 8 characters.'; return; }
+      if (a !== b) { err.hidden = false; err.textContent = 'The two passwords do not match.'; return; }
+      var btn = el('#resetBtn'); btn.disabled = true; btn.textContent = 'Saving…';
+      setPassword(recoveryToken, a).then(function () {
+        recoveryToken = null;
+        rf.hidden = true;
+        el('#loginForm').hidden = false;
+        var ok = el('#loginOk');
+        ok.hidden = false;
+        ok.textContent = 'Password saved. Sign in with your new password.';
+      }).catch(function (e) {
+        err.hidden = false;
+        err.textContent = /expired|invalid/i.test(e.message)
+          ? 'That reset link has expired. Request a new one below.'
+          : e.message;
+        rf.hidden = true; el('#loginForm').hidden = false;
+      }).then(function () {
+        btn.disabled = false; btn.textContent = 'Save password';
+      });
+    });
+  }
+
   function showLogin(msg) {
     el('#appView').hidden = true; el('#loginView').hidden = false;
+    var rf = el('#resetForm'); if (rf) rf.hidden = true;
+    var lf = el('#loginForm'); if (lf) lf.hidden = false;
     if (msg) { var e = el('#loginErr'); e.hidden = false; e.textContent = msg; }
+  }
+
+  function showReset() {
+    el('#appView').hidden = true; el('#loginView').hidden = false;
+    el('#loginForm').hidden = true;
+    el('#resetForm').hidden = false;
+    el('#newPass').focus();
   }
 
   el('#loginForm').addEventListener('submit', function (ev) {
@@ -785,6 +1776,17 @@
 
   (function boot() {
     if (!SB || !ANON) { document.body.innerHTML = '<p style="padding:40px;font-family:sans-serif">Missing site-config.js — the editor is not connected to the database.</p>'; return; }
+    wireRecovery();
+
+    /* A reset link takes priority over any stored session — otherwise someone
+       already signed in would never see the "choose a password" form. */
+    recoveryToken = recoveryTokenFromUrl();
+    if (recoveryToken) {
+      history.replaceState(null, '', location.pathname + location.search);
+      clearSession();
+      return showReset();
+    }
+
     session = loadSession();
     if (!session) return showLogin();
     fetch(SB + '/auth/v1/user', { headers: { apikey: ANON, Authorization: 'Bearer ' + session.access_token } })

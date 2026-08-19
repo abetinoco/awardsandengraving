@@ -130,7 +130,7 @@ svg{max-width:100%}
 <!-- PRODUCT LINES -->
 <section class="section" id="lines" style="border-top:none;padding-top:10px">
   <div class="wrap">
-    <div class="svc-list" style="margin-top:0">
+    <div class="svc-list" style="margin-top:0" data-ae-list="services">
       <div class="svc-item reveal" id="trophies"><span class="svc-num">I</span>
         <div class="svc-txt"><h3>Trophies &amp; <em>Awards</em></h3>
           <p>Crystal, acrylic, wood and metal awards for championships, retirements, lifetime achievement and everything between. We help you choose the piece, the wording and the finish &mdash; then engrave it here so every letter lands exactly right. Pieces like the Aldridge Lifetime Achievement award start as a conversation at the counter.</p>
@@ -207,6 +207,20 @@ svg{max-width:100%}
     </div>
   </div>
 </section>
+
+<!-- VENDOR CATALOGS — rendered from the `vendors` table. The whole section
+     hides itself when there are no vendors, so it never shows as an empty band. -->
+<section class="section" id="vendors" hidden>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-ae-field="vendors_eyebrow">Browse the catalogs</p>
+      <h2 class="sec-title" data-ae-field="vendors_title" data-ae-type="rich">Shop our <em>suppliers.</em></h2>
+      <p class="sec-sub" data-ae-field="vendors_sub" data-ae-type="multiline">Browse the full ranges we can order in and engrave for you &mdash; then bring us the piece you want and we&rsquo;ll take it from there.</p>
+    </div>
+    <div class="vendor-wall reveal" data-ae-list="vendors"></div>
+  </div>
+</section>
+
 
 <!-- FINAL CTA -->
 <section class="finalcta">

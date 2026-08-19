@@ -22,7 +22,24 @@
     <label for="password">Password</label>
     <input id="password" type="password" autocomplete="current-password" required />
     <button class="btn-gold" type="submit" id="loginBtn">Sign in</button>
+    <button class="login-link" type="button" id="forgotBtn">Forgot your password?</button>
     <p class="login-err" id="loginErr" hidden></p>
+    <p class="login-ok" id="loginOk" hidden></p>
+  </form>
+
+  <!-- Shown when arriving from a reset email (Supabase puts a recovery token
+       in the URL fragment). Lets the user set a new password without us ever
+       seeing it. -->
+  <form class="login-card" id="resetForm" hidden>
+    <img class="login-logo" src="/assets/ae-logomark-gold.svg" alt="" />
+    <h1>Choose a password</h1>
+    <p class="muted">Pick something you'll remember — at least 8 characters.</p>
+    <label for="newPass">New password</label>
+    <input id="newPass" type="password" autocomplete="new-password" minlength="8" required />
+    <label for="newPass2">Type it again</label>
+    <input id="newPass2" type="password" autocomplete="new-password" minlength="8" required />
+    <button class="btn-gold" type="submit" id="resetBtn">Save password</button>
+    <p class="login-err" id="resetErr" hidden></p>
   </form>
 </div>
 

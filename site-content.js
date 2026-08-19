@@ -172,6 +172,206 @@
     }
   }
 
+  /* ----------------------------------------------------------- portfolio */
+
+  /* The gallery ships as static <figure> markup so crawlers and no-JS visitors
+     always see the work. When portfolio_items has rows we replace it wholesale;
+     an empty table or a failed request leaves the static twelve in place. */
+  function renderPortfolio(rows) {
+    if (!rows || !rows.length) return; // keep the static gallery
+    var gal = document.querySelector('[data-ae-list="portfolio"]');
+    var band = document.querySelector('[data-ae-list="portfolio-featured"]');
+
+    function figure(r) {
+      var fig = document.createElement('figure');
+      fig.setAttribute('data-cat', r.category || 'awards');
+      var img = document.createElement('img');
+      img.src = r.image_url || '';
+      img.alt = r.alt || r.title || '';
+      img.loading = 'lazy';
+      var cap = document.createElement('figcaption');
+      var b = document.createElement('b');
+      b.textContent = r.title || '';
+      cap.appendChild(b);
+      if (r.caption) cap.appendChild(document.createTextNode(r.caption));
+      fig.appendChild(img);
+      fig.appendChild(cap);
+      return fig;
+    }
+
+    if (gal) {
+      gal.textContent = '';
+      rows.forEach(function (r) { gal.appendChild(figure(r)); });
+    }
+    // Homepage band shows only the pieces flagged "featured"; if none are
+    // flagged it falls back to the first few so the band is never empty.
+    if (band) {
+      var feat = rows.filter(function (r) { return r.featured; });
+      if (!feat.length) feat = rows.slice(0, 6);
+      band.textContent = '';
+      feat.forEach(function (r) { band.appendChild(figure(r)); });
+    }
+
+    // The filter chips bind to figures at load; re-announce so a freshly
+    // rendered gallery is filterable without a reload.
+    try {
+      document.dispatchEvent(new CustomEvent('ae:portfolio-rendered'));
+    } catch (e) {}
+  }
+
+  /* ------------------------------------------------- portfolio categories */
+
+  /* The filter chips shipped as six hardcoded buttons, so a new category meant
+     editing HTML. They now come from portfolio_categories; an empty table
+     leaves the static chips alone. */
+  function renderCategories(rows) {
+    if (!rows || !rows.length) return;
+    var bar = document.querySelector('[data-ae-list="portfolio-filters"]');
+    if (!bar) return;
+    var active = (bar.querySelector('.chip.on') || {}).getAttribute
+      ? bar.querySelector('.chip.on').getAttribute('data-filter') : 'all';
+    bar.textContent = '';
+    function chip(slug, label, on) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip' + (on ? ' on' : '');
+      b.setAttribute('data-filter', slug);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.textContent = label;
+      return b;
+    }
+    bar.appendChild(chip('all', 'All', active === 'all' || !active));
+    rows.forEach(function (r) { bar.appendChild(chip(r.slug, r.label, active === r.slug)); });
+    try { document.dispatchEvent(new CustomEvent('ae:chips-rendered')); } catch (e) {}
+  }
+
+  /* ------------------------------------------------------------- services */
+
+  function renderServices(rows) {
+    if (!rows || !rows.length) return;
+    var full = document.querySelector('[data-ae-list="services"]');
+    var teaser = document.querySelector('[data-ae-list="services-featured"]');
+
+    function block(r, n) {
+      var item = document.createElement('div');
+      item.className = 'svc-item reveal';
+      if (r.slug) item.id = r.slug;
+
+      var num = document.createElement('span');
+      num.className = 'svc-num';
+      num.textContent = r.numeral || n;
+      item.appendChild(num);
+
+      var txt = document.createElement('div');
+      txt.className = 'svc-txt';
+      var h3 = document.createElement('h3');
+      h3.appendChild(document.createTextNode((r.title_lead || '') + ' '));
+      if (r.title_accent) {
+        var em = document.createElement('em');
+        em.textContent = r.title_accent;
+        h3.appendChild(em);
+      }
+      txt.appendChild(h3);
+
+      if (r.body) {
+        var pEl = document.createElement('p');
+        pEl.textContent = r.body;
+        txt.appendChild(pEl);
+      }
+
+      var tagWrap = document.createElement('div');
+      tagWrap.className = 'svc-tags';
+      if (r.price) {
+        var pr = document.createElement('span');
+        pr.className = 'price';
+        pr.textContent = r.price;
+        tagWrap.appendChild(pr);
+      }
+      (r.tags || []).forEach(function (tg) {
+        var s = document.createElement('span');
+        s.textContent = tg;
+        tagWrap.appendChild(s);
+      });
+      if (tagWrap.childNodes.length) txt.appendChild(tagWrap);
+
+      if (r.cta_label) {
+        var a = document.createElement('a');
+        a.className = 'more';
+        a.href = r.cta_href || '/contact';
+        a.textContent = r.cta_label;
+        txt.appendChild(a);
+      }
+      item.appendChild(txt);
+
+      if (r.image_url) {
+        var media = document.createElement('div');
+        media.className = 'svc-media';
+        var img = document.createElement('img');
+        img.src = r.image_url;
+        img.alt = r.image_alt || '';
+        img.loading = 'lazy';
+        media.appendChild(img);
+        item.appendChild(media);
+      }
+      return item;
+    }
+
+    if (full) {
+      full.textContent = '';
+      rows.forEach(function (r, i) { full.appendChild(block(r, i + 1)); });
+    }
+    // Homepage shows only the flagged ones; falls back to the first three so
+    // the section is never empty if nobody has ticked anything.
+    if (teaser) {
+      var feat = rows.filter(function (r) { return r.featured; });
+      if (!feat.length) feat = rows.slice(0, 3);
+      teaser.textContent = '';
+      feat.forEach(function (r, i) { teaser.appendChild(block(r, i + 1)); });
+    }
+  }
+
+  /* -------------------------------------------------------------- vendors */
+
+  /* Supplier catalogs Daniel links customers out to. The whole section hides
+     when there are no vendors, so it never renders as an empty band. */
+  function renderVendors(rows) {
+    var wrap = document.querySelector('[data-ae-list="vendors"]');
+    if (!wrap) return;
+    var section = wrap.closest('section');
+    if (!rows || !rows.length) { if (section) section.hidden = true; return; }
+    if (section) section.hidden = false;
+    wrap.textContent = '';
+    rows.forEach(function (r) {
+      var card = document.createElement(r.catalog_url ? 'a' : 'div');
+      card.className = 'vendor-card';
+      if (r.catalog_url) {
+        card.href = r.catalog_url;
+        card.target = '_blank';
+        card.rel = 'noopener';
+      }
+      if (r.logo_url) {
+        var img = document.createElement('img');
+        img.className = 'vendor-logo';
+        img.src = r.logo_url;
+        img.alt = r.name || '';
+        img.loading = 'lazy';
+        card.appendChild(img);
+      }
+      var meta = document.createElement('span');
+      meta.className = 'vendor-meta';
+      var b = document.createElement('b');
+      b.textContent = r.name || '';
+      meta.appendChild(b);
+      if (r.blurb) {
+        var s = document.createElement('span');
+        s.textContent = r.blurb;
+        meta.appendChild(s);
+      }
+      card.appendChild(meta);
+      wrap.appendChild(card);
+    });
+  }
+
   /* ------------------------------------------------- auto-discovered fields
      Hand-tagging elements one at a time never reaches "the whole site is
      editable". This walks the page instead and gives every piece of content a
@@ -302,6 +502,30 @@
         .then(renderReviews)
         .catch(function () {});
     }
+
+    if (document.querySelector('[data-ae-list^="portfolio"]')) {
+      rest('portfolio_items?select=*&visible=eq.true&order=order_index.asc')
+        .then(renderPortfolio)
+        .catch(function () {});
+    }
+
+    if (document.querySelector('[data-ae-list="portfolio-filters"]')) {
+      rest('portfolio_categories?select=*&visible=eq.true&order=order_index.asc')
+        .then(renderCategories)
+        .catch(function () {});
+    }
+
+    if (document.querySelector('[data-ae-list^="services"]')) {
+      rest('services?select=*&visible=eq.true&order=order_index.asc')
+        .then(renderServices)
+        .catch(function () {});
+    }
+
+    if (document.querySelector('[data-ae-list="vendors"]')) {
+      rest('vendors?select=*&visible=eq.true&order=order_index.asc')
+        .then(renderVendors)
+        .catch(function () {});
+    }
   }
 
   /* ------------------------------------------------- live preview bridge */
@@ -313,6 +537,10 @@
       if (!d || d.source !== 'ae-admin') return;
       if (d.type === 'field') applyField(d.key, d.value);
       if (d.type === 'reviews') renderReviews(d.rows);
+      if (d.type === 'portfolio') renderPortfolio(d.rows);
+      if (d.type === 'categories') renderCategories(d.rows);
+      if (d.type === 'services') renderServices(d.rows);
+      if (d.type === 'vendors') renderVendors(d.rows);
       if (d.type === 'reload') window.location.reload();
       // The admin asks the page what it contains rather than holding its own
       // copy of the field list, so the two can never fall out of step.
@@ -331,7 +559,7 @@
        the site stylesheet — it must never appear for a real visitor. */
     var ringStyle = document.createElement('style');
     ringStyle.textContent =
-      '.ae-focus-ring{outline:3px solid #d3b878!important;outline-offset:4px;' +
+      '.ae-focus-ring{outline:3px solid #39ff14!important;outline-offset:4px;' +
       'border-radius:3px;transition:outline-color .3s ease}';
     document.head.appendChild(ringStyle);
 

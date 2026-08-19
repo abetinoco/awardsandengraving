@@ -6,14 +6,18 @@
  * the visible area, then re-encodes to a sane web size before upload, so the
  * bytes leaving his phone are not the bytes we serve.
  *
- * window.AE_CROP.open(file, aspect) -> Promise<Blob>   (aspect null = freeform)
+ * window.AE_CROP.open(file, aspect, maxEdge) -> Promise<Blob>
+ *   aspect  — null for freeform
+ *   maxEdge — longest output edge in px; defaults to MAX_EDGE. Gallery tiles
+ *             pass a smaller number because they are never displayed large,
+ *             and a 2400px square lands ~700 KB when ~90 KB would do.
  */
 (function () {
   'use strict';
 
-  var MAX_EDGE = 2400;      // nothing on the site is displayed larger than this
+  var MAX_EDGE = 2400;      // full-bleed heroes — nothing is displayed larger
   var QUALITY = 0.82;
-var TYPE = "image/webp";   // WebP out: smaller files mean less Supabase egress
+  var TYPE = 'image/webp';  // WebP out: smaller files mean less Supabase egress
 
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
@@ -42,7 +46,8 @@ var TYPE = "image/webp";   // WebP out: smaller files mean less Supabase egress
   }
 
   window.AE_CROP = {
-    open: function (file, aspect) {
+    open: function (file, aspect, maxEdge) {
+      var cap = maxEdge || MAX_EDGE;
       return load(file).then(function (img) {
         return new Promise(function (resolve, reject) {
           var iw = img.naturalWidth, ih = img.naturalHeight;
@@ -106,7 +111,7 @@ var TYPE = "image/webp";   // WebP out: smaller files mean less Supabase egress
           function finish() {
             // Re-encode at a sensible size — the source may be 12 MB from a phone.
             var outW = Math.round(box.w), outH = Math.round(box.h);
-            var k = Math.min(1, MAX_EDGE / Math.max(outW, outH));
+            var k = Math.min(1, cap / Math.max(outW, outH));
             outW = Math.round(outW * k); outH = Math.round(outH * k);
             var out = document.createElement('canvas');
             out.width = outW; out.height = outH;

@@ -1,3 +1,8 @@
+/* Turnstile tokens are single-use and expire after ~300s. Reset on expiry so the
+   widget re-challenges instead of holding a dead token while showing "Success!". */
+window.siteTurnstileExpired = function () {
+  if (window.turnstile) { try { window.turnstile.reset(); } catch (e) {} }
+};
 /* Awards & Engraving — site behavior */
 (function () {
   // preloader
@@ -88,18 +93,35 @@
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 
   // gallery filter chips (work page)
-  var chips = document.querySelectorAll('.chip');
-  var figs = document.querySelectorAll('.gal figure[data-cat]');
-  if (chips.length && figs.length) {
-    chips.forEach(function (c) {
-      c.addEventListener('click', function () {
-        chips.forEach(function (x) { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
-        c.classList.add('on');
-        c.setAttribute('aria-pressed', 'true');
-        var f = c.getAttribute('data-filter');
-        figs.forEach(function (fig) { fig.classList.toggle('hide', f !== 'all' && fig.getAttribute('data-cat') !== f); });
+  // The gallery is re-rendered from the portfolio_items table after load, so
+  // the figure list is queried at click time rather than cached — a cached
+  // NodeList would point at figures that are no longer in the document and
+  // filtering would silently stop working.
+  // Both the chips and the figures are re-rendered from the CMS after load, so
+  // this delegates from the container instead of binding to elements that may
+  // be replaced. Nothing here caches a NodeList.
+  var chipBar = document.querySelector('.chips');
+  if (chipBar) {
+    var currentFilter = 'all';
+    var applyFilter = function (f) {
+      currentFilter = f;
+      document.querySelectorAll('.gal figure[data-cat]').forEach(function (fig) {
+        fig.classList.toggle('hide', f !== 'all' && fig.getAttribute('data-cat') !== f);
       });
+      chipBar.querySelectorAll('.chip').forEach(function (x) {
+        var on = x.getAttribute('data-filter') === f;
+        x.classList.toggle('on', on);
+        x.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    };
+    chipBar.addEventListener('click', function (e) {
+      var c = e.target.closest ? e.target.closest('.chip') : null;
+      if (!c || !chipBar.contains(c)) return;
+      applyFilter(c.getAttribute('data-filter'));
     });
+    // Re-apply the active filter whenever the CMS swaps chips or figures in.
+    document.addEventListener('ae:portfolio-rendered', function () { applyFilter(currentFilter); });
+    document.addEventListener('ae:chips-rendered', function () { applyFilter(currentFilter); });
   }
 
   // contact form — posts JSON to the endpoint named in data-endpoint on #quoteForm.
