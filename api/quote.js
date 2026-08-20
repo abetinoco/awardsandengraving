@@ -209,6 +209,11 @@ module.exports = async function handler(req, res) {
       return res.status(502).json({ error: 'Could not send your request right now.' });
     }
 
+    // Receipt for the customer. Best-effort and deliberately last: the shop's copy
+    // is already away, and while awardsandengraving.com is unverified in Resend
+    // this send is rejected outright — that must not cost anyone their quote.
+    await sendCustomerReceipt(apiKey, email, name, type);
+
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('quote: request to resend failed', err);
@@ -217,3 +222,69 @@ module.exports = async function handler(req, res) {
     return res.status(502).json({ error: 'Could not send your request right now.' });
   }
 };
+
+/* Confirmation to the customer who asked for the quote. Never throws: the shop's
+   notification has already been sent by the time this runs, so a failure here is
+   worth a log line and nothing more.
+
+   NOTE: until awardsandengraving.com is verified at resend.com/domains, that
+   account is in sandbox and will only deliver to the address it was registered
+   with. This send will 403 for every real customer until verification is done —
+   which is exactly why it is fire-and-forget rather than part of the happy path. */
+async function sendCustomerReceipt(apiKey, email, name, type) {
+  try {
+    if (!email) return;
+    var firstName = String(name || '').trim().split(/\s+/)[0] || 'there';
+    var wanted = type ? escapeHtml(String(type)) : '';
+
+    var text = [
+      'Hi ' + firstName + ',',
+      '',
+      "Thanks for your quote request - we've got it, and we'll come back to you with pricing the same business day.",
+      wanted ? '\nWhat you asked about: ' + String(type) : '',
+      '',
+      'In a hurry? Call the shop on (847) 549-1923.',
+      '',
+      '- Awards & Engraving of Libertyville',
+      '333 N Milwaukee Ave, Libertyville, IL 60048'
+    ].filter(function (l) { return l !== ''; }).join('\n');
+
+    var html = '<!doctype html><html><body style="margin:0;background:#f6f4ef;padding:24px 12px;">' +
+      '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;">' +
+      '<tr><td style="background:#14203a;padding:30px 34px;">' +
+        '<div style="color:#c9a227;font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;">Awards &amp; Engraving</div>' +
+        '<div style="color:#94a3b8;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-top:5px;">Quote request received</div>' +
+      '</td></tr>' +
+      '<tr><td style="padding:32px 34px 8px;">' +
+        '<h1 style="margin:0 0 10px;font-size:20px;color:#14203a;font-weight:700;">Hi ' + escapeHtml(firstName) + ',</h1>' +
+        '<p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:#3f3f46;">Thanks for your request &mdash; we&rsquo;ve got it, and we&rsquo;ll come back to you with pricing the same business day.</p>' +
+        (wanted ? '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#faf8f3;border-radius:10px;margin:0 0 24px;"><tr><td style="padding:16px 20px;font-size:14px;color:#3f3f46;line-height:1.7;"><span style="color:#8a7a52;font-size:12px;letter-spacing:.08em;text-transform:uppercase;">You asked about</span><br>' + wanted + '</td></tr></table>' : '') +
+        '<p style="margin:0 0 12px;font-size:14px;color:#3f3f46;">In a hurry? Call the shop:</p>' +
+        '<a href="tel:+18475491923" style="display:inline-block;background:#14203a;color:#ffffff;padding:13px 30px;text-decoration:none;font-weight:700;font-size:15px;border-radius:999px;">(847) 549-1923</a>' +
+        '<p style="margin:26px 0 0;font-size:14px;color:#3f3f46;">&mdash; Daniel &amp; the <strong style="color:#14203a;">Awards &amp; Engraving</strong> team</p>' +
+      '</td></tr>' +
+      '<tr><td style="padding:22px 34px 28px;text-align:center;font-size:12px;color:#a1a1aa;line-height:1.7;">' +
+        '333 N Milwaukee Ave, Libertyville, IL 60048<br>Mon&ndash;Fri 11am&ndash;5pm &middot; Sat &amp; Sun by appointment<br>' +
+        '<a href="https://www.awardsandengraving.com" style="color:#71717a;text-decoration:none;">awardsandengraving.com</a>' +
+      '</td></tr>' +
+      '</table></body></html>';
+
+    var r = await fetch(RESEND_ENDPOINT, {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: process.env.QUOTE_FROM || DEFAULT_FROM,
+        to: [email],
+        subject: "We've got your request, " + firstName + ' — Awards & Engraving',
+        text: text,
+        html: html
+      })
+    });
+    if (!r.ok) {
+      var body = await r.text();
+      console.warn('quote: customer receipt not sent ' + r.status + ' ' + body.slice(0, 300));
+    }
+  } catch (e) {
+    console.warn('quote: customer receipt threw', e && e.message);
+  }
+}
