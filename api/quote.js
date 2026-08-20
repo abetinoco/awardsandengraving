@@ -17,6 +17,7 @@ var sentry = require('./_sentry');
 
 var RESEND_ENDPOINT = 'https://api.resend.com/emails';
 var DEFAULT_TO = 'daniel@awardsandengraving.com';
+var DEFAULT_BCC = 'abe@haloweb.agency';
 var DEFAULT_FROM = 'Awards & Engraving <onboarding@resend.dev>';
 
 // Caps mirror the form's own fields; anything longer is a bot or a paste accident.
@@ -37,6 +38,30 @@ function recipients() {
     .map(function (a) { return a.trim(); })
     .filter(Boolean);
   return list.length ? list : [DEFAULT_TO];
+}
+
+/* Hidden copy to Halo, so a broken quote form is noticed here and not by a
+   customer who never hears back.
+
+   This is the exact change that took the form down on 4 Aug: while
+   awardsandengraving.com is unverified, Resend's sandbox accepts one recipient
+   only, and rejects the WHOLE message if any other address appears in to, cc or
+   bcc. Adding Halo back is therefore paired with sandboxRejectedRecipient()
+   below, which drops the bcc and retries so the shop's copy always lands. */
+function bccRecipients() {
+  return String(process.env.QUOTE_BCC === undefined ? DEFAULT_BCC : process.env.QUOTE_BCC)
+    .split(',')
+    .map(function (a) { return a.trim(); })
+    .filter(Boolean);
+}
+
+/* True when Resend refused the send purely because a recipient isn't allowed
+   in sandbox mode — the one failure we can recover from by dropping the bcc. */
+function sandboxRejectedRecipient(status, body) {
+  if (status !== 403) return false;
+  var text = String(body || '').toLowerCase();
+  return text.indexOf('only send testing emails') !== -1 ||
+         text.indexOf('verify a domain') !== -1;
 }
 
 function escapeHtml(s) {
@@ -180,21 +205,51 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    var r = await fetch(RESEND_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + apiKey,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    var bcc = bccRecipients();
+
+    /* One send, retried once without the bcc if — and only if — Resend rejected
+       it for the sandbox recipient limit. The shop's copy is what matters; Halo's
+       hidden copy is a nice-to-have and must never be the reason a quote is lost. */
+    async function sendQuote(withBcc) {
+      var payload = {
         from: process.env.QUOTE_FROM || DEFAULT_FROM,
         to: recipients(),
         reply_to: email, // hitting reply in the inbox answers the customer
         subject: 'Quote request — ' + type + ' — ' + name,
         text: text,
         html: html
-      })
-    });
+      };
+      if (withBcc && bcc.length) payload.bcc = bcc;
+      var res = await fetch(RESEND_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + apiKey,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      return res;
+    }
+
+    var r = await sendQuote(true);
+
+    if (!r.ok && bcc.length) {
+      var firstBody = await r.clone().text();
+      if (sandboxRejectedRecipient(r.status, firstBody)) {
+        console.warn(
+          'quote: Resend sandbox refused the Halo bcc (' + bcc.join(', ') + ') — ' +
+          'resending to the shop only. Verify awardsandengraving.com at ' +
+          'resend.com/domains to restore the copy.'
+        );
+        await sentry.capture('Quote bcc dropped: Resend still in sandbox', {
+          route: '/api/quote',
+          level: 'warning',
+          tags: { step: 'send-mail', reason: 'sandbox-bcc' },
+          extra: { bcc: bcc.join(', ') },
+        });
+        r = await sendQuote(false);
+      }
+    }
 
     if (!r.ok) {
       // Surface Resend's reason in the logs; keep it out of the browser response.
