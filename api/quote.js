@@ -14,6 +14,7 @@
  */
 
 var sentry = require('./_sentry');
+var mail = require('./_email.js');
 
 var RESEND_ENDPOINT = 'https://api.resend.com/emails';
 var DEFAULT_TO = 'daniel@awardsandengraving.com';
@@ -151,20 +152,22 @@ module.exports = async function handler(req, res) {
 
   var text = rows.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n');
 
-  var html =
-    '<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:15px;color:#132038">' +
-      '<h2 style="margin:0 0 4px;font-size:18px">New quote request</h2>' +
-      '<p style="margin:0 0 16px;color:#6b7280">From the website contact form</p>' +
-      '<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:560px">' +
-      rows.map(function (r) {
-        return '<tr>' +
-          '<td style="padding:8px 12px 8px 0;vertical-align:top;color:#6b7280;white-space:nowrap">' + escapeHtml(r[0]) + '</td>' +
-          '<td style="padding:8px 0;vertical-align:top;border-bottom:1px solid #e5e7eb;white-space:pre-wrap">' + escapeHtml(r[1]) + '</td>' +
-        '</tr>';
-      }).join('') +
+  var html = mail.emailShell({
+    preview: name + ' — ' + type,
+    eyebrow: 'New quote request',
+    heading: mail.escapeEmail(name) + ' wants a quote',
+    intro: 'A quote request came in through <strong style="color:#1A2740;">awardsandengraving.com</strong>. Replying to this email goes straight back to them.',
+    body:
+      '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;margin:0 0 6px;">' +
+      mail.detailRows(rows.filter(function (r) { return r[0] !== 'Details'; }).map(function (r) {
+        if (r[0] === 'Email') return ['Email', r[1], 'mailto:' + r[1]];
+        if (r[0] === 'Phone') return ['Phone', r[1], 'tel:' + String(r[1]).replace(/\D/g, '')];
+        return [r[0], r[1]];
+      })) +
       '</table>' +
-      '<p style="margin:18px 0 0;color:#6b7280;font-size:13px">Reply directly to this email to reach ' + escapeHtml(name) + '.</p>' +
-    '</div>';
+      mail.quoteBlock('What they need', msg),
+    cta: { label: 'Reply to ' + String(name).trim().split(/\s+/)[0], href: 'mailto:' + email },
+  });
 
   // Record the lead before emailing. If Resend is down or the domain is not yet
   // verified, the enquiry is still captured and visible in the admin — losing a
@@ -290,7 +293,6 @@ async function sendCustomerReceipt(apiKey, email, name, type) {
   try {
     if (!email) return;
     var firstName = String(name || '').trim().split(/\s+/)[0] || 'there';
-    var wanted = type ? escapeHtml(String(type)) : '';
 
     var text = [
       'Hi ' + firstName + ',',
@@ -304,25 +306,15 @@ async function sendCustomerReceipt(apiKey, email, name, type) {
       '333 N Milwaukee Ave, Libertyville, IL 60048'
     ].filter(function (l) { return l !== ''; }).join('\n');
 
-    var html = '<!doctype html><html><body style="margin:0;background:#f6f4ef;padding:24px 12px;">' +
-      '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;">' +
-      '<tr><td style="background:#14203a;padding:30px 34px;">' +
-        '<div style="color:#c9a227;font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;">Awards &amp; Engraving</div>' +
-        '<div style="color:#94a3b8;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-top:5px;">Quote request received</div>' +
-      '</td></tr>' +
-      '<tr><td style="padding:32px 34px 8px;">' +
-        '<h1 style="margin:0 0 10px;font-size:20px;color:#14203a;font-weight:700;">Hi ' + escapeHtml(firstName) + ',</h1>' +
-        '<p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:#3f3f46;">Thanks for your request &mdash; we&rsquo;ve got it, and we&rsquo;ll come back to you with pricing the same business day.</p>' +
-        (wanted ? '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#faf8f3;border-radius:10px;margin:0 0 24px;"><tr><td style="padding:16px 20px;font-size:14px;color:#3f3f46;line-height:1.7;"><span style="color:#8a7a52;font-size:12px;letter-spacing:.08em;text-transform:uppercase;">You asked about</span><br>' + wanted + '</td></tr></table>' : '') +
-        '<p style="margin:0 0 12px;font-size:14px;color:#3f3f46;">In a hurry? Call the shop:</p>' +
-        '<a href="tel:+18475491923" style="display:inline-block;background:#14203a;color:#ffffff;padding:13px 30px;text-decoration:none;font-weight:700;font-size:15px;border-radius:999px;">(847) 549-1923</a>' +
-        '<p style="margin:26px 0 0;font-size:14px;color:#3f3f46;">&mdash; Daniel &amp; the <strong style="color:#14203a;">Awards &amp; Engraving</strong> team</p>' +
-      '</td></tr>' +
-      '<tr><td style="padding:22px 34px 28px;text-align:center;font-size:12px;color:#a1a1aa;line-height:1.7;">' +
-        '333 N Milwaukee Ave, Libertyville, IL 60048<br>Mon&ndash;Fri 11am&ndash;5pm &middot; Sat &amp; Sun by appointment<br>' +
-        '<a href="https://www.awardsandengraving.com" style="color:#71717a;text-decoration:none;">awardsandengraving.com</a>' +
-      '</td></tr>' +
-      '</table></body></html>';
+    var html = mail.emailShell({
+      preview: 'We come back with pricing the same business day.',
+      eyebrow: 'Quote request received',
+      heading: 'Thanks, ' + mail.escapeEmail(firstName) + ' — we\u2019ve got it',
+      intro: 'We&rsquo;ve got your request, and we&rsquo;ll come back to you with pricing the same business day.',
+      body: mail.quoteBlock('What you asked about', (type ? String(type) + '\n\n' : '') + String(msg || '')),
+      cta: { label: 'Call the shop (847) 549-1923', href: 'tel:+18475491923' },
+      outro: '&mdash; Daniel &amp; the Awards &amp; Engraving team',
+    });
 
     var r = await fetch(RESEND_ENDPOINT, {
       method: 'POST',
