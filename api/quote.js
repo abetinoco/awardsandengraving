@@ -291,7 +291,7 @@ module.exports = async function handler(req, res) {
     // Receipt for the customer. Best-effort and deliberately last: the shop's copy
     // is already away, and while awardsandengraving.com is unverified in Resend
     // this send is rejected outright — that must not cost anyone their quote.
-    await sendCustomerReceipt(apiKey, email, name, type);
+    await sendCustomerReceipt(apiKey, email, name, type, msg);
 
     return res.status(200).json({ ok: true });
   } catch (err) {
@@ -310,7 +310,7 @@ module.exports = async function handler(req, res) {
    account is in sandbox and will only deliver to the address it was registered
    with. This send will 403 for every real customer until verification is done —
    which is exactly why it is fire-and-forget rather than part of the happy path. */
-async function sendCustomerReceipt(apiKey, email, name, type) {
+async function sendCustomerReceipt(apiKey, email, name, type, msg) {
   try {
     if (!email) return;
     var firstName = String(name || '').trim().split(/\s+/)[0] || 'there';
@@ -319,7 +319,7 @@ async function sendCustomerReceipt(apiKey, email, name, type) {
       'Hi ' + firstName + ',',
       '',
       "Thanks for your quote request - we've got it, and we'll come back to you with pricing the same business day.",
-      wanted ? '\nWhat you asked about: ' + String(type) : '',
+      (type && type !== 'Not specified') ? '\nWhat you asked about: ' + String(type) : '',
       '',
       'In a hurry? Call the shop on (847) 549-1923.',
       '',
