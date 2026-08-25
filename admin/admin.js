@@ -187,6 +187,7 @@
     if (route === '/portfolio') { location.hash = '#/page/portfolio/items'; return; }
     if (route === '/media') return viewMedia(main);
     if (route === '/vendors') return viewVendors(main);
+    if (route.indexOf('/list/') === 0) return viewList(main, route.slice(6));
     if (route === '/leads') return viewLeads(main);
     if (route === '/activity') return viewActivity(main);
     if (route === '/changelog') return viewChangelog(main);
@@ -1502,6 +1503,173 @@
     }).catch(function (e) { toast('Could not add: ' + e.message, 'err'); });
   }
 
+  /* ========================================================= list engine ==
+     One manager for every list defined in site-lists.js. The form is built
+     from that schema, so a new managed list needs no code here at all. */
+
+  function listDefs() { return window.AE_LISTS || {}; }
+
+  function viewList(main, key) {
+    var def = listDefs()[key];
+    if (!def) return viewDashboard(main);
+    main.appendChild(header(def.label, def.blurb,
+      [(function () {
+        var b = h('button', { class: 'btn-line' }, [icon('plus'), h('span', { text: 'Add ' + (def.itemLabel || 'item') })]);
+        b.addEventListener('click', function () { addListItem(key); });
+        return b;
+      })()],
+      [{ label: 'Dashboard', href: '#/' }, { label: def.label }]));
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'rows', id: 'listRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    loadListRows(key);
+  }
+
+  function loadListRows(key) {
+    api('site_lists?select=*&list_key=eq.' + key + '&order=order_index.asc,created_at.asc').then(function (rows) {
+      var box = el('#listRows'); if (!box) return;
+      box.textContent = '';
+      var def = listDefs()[key];
+      if (!rows.length) {
+        box.appendChild(h('p', { class: 'hint', text: 'Nothing here yet — press “Add ' + (def.itemLabel || 'item') + '”.' }));
+        return;
+      }
+      rows.forEach(function (r, i) { box.appendChild(listRow(key, def, r, i, rows.length)); });
+    }).catch(function (e) {
+      toast('Could not load: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'load-list-' + key });
+    });
+  }
+
+  /* Builds one control per schema field and hands back a value getter. */
+  function fieldControl2(f, value) {
+    if (f.type === 'textarea') {
+      var ta = h('textarea', {}); ta.value = value || '';
+      return { node: ta, get: function () { return ta.value; } };
+    }
+    if (f.type === 'check') {
+      var cb = h('input', { type: 'checkbox' }); cb.checked = !!value;
+      return { node: h('label', { class: 'inline-check' }, [cb, document.createTextNode(' ' + f.label)]),
+               get: function () { return cb.checked; }, ownLabel: true };
+    }
+    if (f.type === 'tags') {
+      var te = tagEditor(value || []);
+      return { node: te.node, get: te.value };
+    }
+    if (f.type === 'image') {
+      var url = value || '';
+      var prev = h('img', { src: url, alt: '', class: 'list-img' });
+      var file = h('input', { type: 'file', accept: 'image/*' });
+      file.addEventListener('change', function () {
+        var fl = file.files && file.files[0]; if (!fl) return;
+        // SVG must skip the cropper — it is canvas-based and would rasterise it.
+        var isSvg = /svg/i.test(fl.type) || /\.svg$/i.test(fl.name);
+        var chosen = (isSvg && f.svg) ? Promise.resolve(fl)
+          : (window.AE_CROP ? window.AE_CROP.open(fl, f.aspect || null, 1600) : toWebp(fl, 1600));
+        chosen.then(function (blob) {
+          if (!blob) return;
+          toast('Uploading…');
+          return uploadImage(blob, fl.name).then(function (u) {
+            url = u; prev.src = u; toast('Uploaded — press “Save” to keep it.');
+          });
+        }).catch(function (e) { toast('Could not upload: ' + e.message, 'err'); });
+        file.value = '';
+      });
+      return { node: h('div', {}, [prev, file]), get: function () { return url; } };
+    }
+    var inp = h('input', { type: f.type === 'link' ? 'url' : 'text', value: value == null ? '' : String(value) });
+    if (f.type === 'link') inp.placeholder = 'https://…';
+    return { node: inp, get: function () { return inp.value; } };
+  }
+
+  function listRow(key, def, r, idx, total) {
+    var d = r.data || {};
+    var body = h('div', { class: 'row-body' }); body.hidden = true;
+    var titleField = def.title || (def.fields[0] && def.fields[0].key);
+    var thumbKey = (def.fields.filter(function (f) { return f.type === 'image'; })[0] || {}).key;
+
+    var top = h('div', { class: 'row-top' }, [
+      thumbKey ? h('img', { src: d[thumbKey] || '', alt: '', class: 'list-thumb' }) : null,
+      h('b', { text: String(d[titleField] || '(untitled)').slice(0, 60) }),
+      h('span', { class: 'sp' }),
+      h('span', { class: 'pill ' + (r.visible ? 'on' : 'off') },
+        [icon(r.visible ? 'eye' : 'eyeOff'), h('span', { text: r.visible ? 'On site' : 'Hidden' })]),
+    ]);
+    top.addEventListener('click', function () { body.hidden = !body.hidden; });
+    var row = h('div', { class: 'row' }, [top, body]);
+
+    var ctrls = {};
+    var pending = [];
+    def.fields.forEach(function (f) {
+      var c = fieldControl2(f, d[f.key]);
+      ctrls[f.key] = c;
+      var wrap = c.ownLabel
+        ? h('div', { class: 'field' }, [c.node])
+        : h('div', { class: 'field' }, [h('label', { text: f.label }), c.node]);
+      if (f.width === 'half') { pending.push(wrap); if (pending.length === 2) { body.appendChild(h('div', { class: 'two-up' }, pending.splice(0, 2))); } }
+      else { if (pending.length) body.appendChild(h('div', { class: 'two-up' }, pending.splice(0))); body.appendChild(wrap); }
+    });
+    if (pending.length) body.appendChild(h('div', { class: 'two-up' }, pending.splice(0)));
+
+    var vis = h('input', { type: 'checkbox' }); vis.checked = !!r.visible;
+    body.appendChild(h('div', { class: 'checks' }, [
+      h('label', {}, [vis, document.createTextNode(' Visible on the site')]),
+    ]));
+
+    var save = h('button', { class: 'btn-gold btn-sm', text: 'Save' });
+    save.addEventListener('click', function () {
+      var out = {};
+      def.fields.forEach(function (f) { out[f.key] = ctrls[f.key].get(); });
+      api('site_lists?id=eq.' + r.id, {
+        method: 'PATCH', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({ data: out, visible: vis.checked, updated_by: me }),
+      }).then(function () {
+        logActivity('saved', def.label + ' — ' + (out[titleField] || ''));
+        toast('Saved — the website is updated.', null, def.page);
+        loadListRows(key);
+      }).catch(function (e) { toast('Could not save: ' + e.message, 'err'); });
+    });
+
+    function move(dir) {
+      var b = h('button', { class: 'btn-line btn-sm', text: dir < 0 ? '↑' : '↓' });
+      if ((dir < 0 && idx === 0) || (dir > 0 && idx === total - 1)) b.disabled = true;
+      b.addEventListener('click', function () {
+        api('site_lists?select=id,order_index&list_key=eq.' + key + '&order=order_index.asc,created_at.asc').then(function (all) {
+          var i = all.findIndex(function (x) { return x.id === r.id; });
+          var j = i + dir;
+          if (i < 0 || j < 0 || j >= all.length) return;
+          return Promise.all([
+            api('site_lists?id=eq.' + all[i].id, { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ order_index: (j + 1) * 10 }) }),
+            api('site_lists?id=eq.' + all[j].id, { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ order_index: (i + 1) * 10 }) }),
+          ]);
+        }).then(function () { loadListRows(key); })
+          .catch(function (e) { toast('Could not reorder: ' + e.message, 'err'); });
+      });
+      return b;
+    }
+
+    var del = h('button', { class: 'btn-line btn-sm danger', text: 'Delete' });
+    del.addEventListener('click', function () {
+      if (!window.confirm('Delete this ' + (def.itemLabel || 'item') + ' permanently?\n\nTip: unticking “Visible on the site” hides it and keeps it here.')) return;
+      api('site_lists?id=eq.' + r.id, { method: 'DELETE' })
+        .then(function () { logActivity('deleted', def.label); toast('Deleted.'); loadListRows(key); })
+        .catch(function (e) { toast('Could not delete: ' + e.message, 'err'); });
+    });
+
+    body.appendChild(h('div', { class: 'rowacts' }, [save, move(-1), move(1), h('span', { class: 'sp' }), del]));
+    return row;
+  }
+
+  function addListItem(key) {
+    api('site_lists', {
+      method: 'POST', headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ list_key: key, data: {}, visible: false, order_index: 999, updated_by: me }),
+    }).then(function () {
+      logActivity('created', (listDefs()[key] || {}).label || key);
+      toast('Added — fill it in, then tick “Visible”.'); loadListRows(key);
+    }).catch(function (e) { toast('Could not add: ' + e.message, 'err'); });
+  }
+
   /* ------------------------------------------------------------ leads --- */
 
   function viewLeads(main) {
@@ -1608,6 +1776,10 @@
     nav.appendChild(h('div', { class: 'grp', text: 'Your site' }));
     PAGES.forEach(function (p) { nav.appendChild(navBtn('/page/' + p.id, p.label, p.icon)); });
     nav.appendChild(navBtn('/vendors', 'Vendors', 'building'));
+    // Every list in site-lists.js gets a menu entry automatically.
+    Object.keys(listDefs()).forEach(function (k) {
+      nav.appendChild(navBtn('/list/' + k, listDefs()[k].label, listDefs()[k].icon || 'file'));
+    });
     nav.appendChild(navBtn('/media', 'Photo library', 'layers'));
     /* One entry per thing. Portfolio and Reviews used to appear twice — once
        for their wording and once for their contents — which is what made the

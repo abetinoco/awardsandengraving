@@ -380,6 +380,135 @@
     announce('ae:vendors-rendered');
   }
 
+  /* ---------------------------------------------------------- list engine */
+
+  /* One renderer for every managed list. The markup for each is a template
+     function keyed by list name; the data comes from site_lists. An empty or
+     failed fetch leaves the static markup alone, exactly like the other
+     renderers. */
+
+  var LIST_TPL = {
+    machines: function (d, i) {
+      return el('div', 'svc-item reveal', [
+        el('span', 'svc-num', d.numeral || String(i + 1)),
+        el('div', 'svc-txt', [
+          el('h3', '', d.name),
+          d.body ? el('p', '', d.body) : null,
+          (d.tags && d.tags.length) ? el('div', 'svc-tags', d.tags.map(function (x) { return el('span', '', x); })) : null,
+        ]),
+        d.image ? el('div', 'svc-media', [img(d.image, d.alt)]) : null,
+      ]);
+    },
+    /* Two shapes: the About page wall carries the company name and category;
+       the homepage rail is a plain <ul> of logos. Same rows, same table. */
+    client_logos: function (d, i, variant) {
+      var logo = img(d.logo, d.alt || d.name, 'client-logo' + (d.on_light ? ' on-light' : ''));
+      if (variant === 'rail') return el('li', '', [logo]);
+      return el('figure', 'client', [
+        logo,
+        el('figcaption', 'client-meta', [el('b', '', d.name), el('span', '', d.category)]),
+      ]);
+    },
+    faqs: function (d) {
+      var det = document.createElement('details');
+      det.className = 'faq-item';
+      var sum = document.createElement('summary');
+      sum.appendChild(document.createTextNode(d.question || ''));
+      sum.appendChild(el('span', 'fx', '+'));
+      det.appendChild(sum);
+      det.appendChild(el('p', 'fa', d.answer));
+      return det;
+    },
+    reels: function (d) {
+      var a = document.createElement('a');
+      a.className = 'ig-card';
+      a.href = d.url || '#';
+      a.target = '_blank'; a.rel = 'noopener';
+      a.setAttribute('aria-label', 'Watch on Instagram');
+      if (d.thumb) a.appendChild(img(d.thumb, ''));
+      a.appendChild(el('span', 'play', '\u25B6'));
+      a.appendChild(el('span', 'tag', '@awardsandengraving_'));
+      return a;
+    },
+    process_steps: function (d, i) {
+      return el('div', 'p-step reveal', [
+        el('span', 'pn', d.step || String(i + 1)),
+        el('h3', '', d.title),
+        d.body ? el('p', '', d.body) : null,
+      ]);
+    },
+    award_band: function (d, i) {
+      return el('div', 'tb-card reveal', [
+        el('span', 'tb-n', d.numeral || String(i + 1)),
+        el('div', 'tb-txt', [el('h3', '', d.title), d.body ? el('p', '', d.body) : null]),
+      ]);
+    },
+    timeline: function (d) {
+      return el('div', 'tl-item reveal', [
+        el('span', 'tl-y', d.year),
+        el('h3', '', d.title),
+        d.body ? el('p', '', d.body) : null,
+      ]);
+    },
+    values: function (d) {
+      return el('div', 'val-card reveal', [el('h3', '', d.title), d.body ? el('p', '', d.body) : null]);
+    },
+    trust_strip: function (d) {
+      return el('div', 'trust-item', [el('b', '', d.title), document.createTextNode(' '), el('span', '', d.body)]);
+    },
+  };
+  LIST_TPL.materials = LIST_TPL.process_steps;
+
+  function el(tag, cls, kids) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (typeof kids === 'string') n.textContent = kids;
+    else if (Array.isArray(kids)) kids.forEach(function (k) { if (k) n.appendChild(k); });
+    return n;
+  }
+  function img(src, alt, cls) {
+    var n = document.createElement('img');
+    n.src = src; n.alt = alt || ''; n.loading = 'lazy';
+    if (cls) n.className = cls;
+    return n;
+  }
+
+  function renderList(key, rows) {
+    var tpl = LIST_TPL[key];
+    if (!tpl || !rows || !rows.length) return;
+    var mounts = document.querySelectorAll('[data-ae-list="' + key + '"]');
+    if (!mounts.length) return;
+    Array.prototype.forEach.call(mounts, function (mount) {
+      // A mount may cap how many it shows (the homepage teasers do this).
+      var cap = parseInt(mount.getAttribute('data-ae-limit'), 10);
+      var use = (cap > 0) ? rows.slice(0, cap) : rows;
+      mount.textContent = '';
+      var variant = mount.getAttribute('data-ae-variant') || '';
+      use.forEach(function (r, i) { mount.appendChild(tpl(r.data || r, i, variant)); });
+    });
+    announce('ae:list-rendered');
+  }
+
+  /* One request covers every list on the page. */
+  function loadLists() {
+    var keys = [];
+    document.querySelectorAll('[data-ae-list]').forEach(function (n) {
+      var k = n.getAttribute('data-ae-list');
+      if (LIST_TPL[k] && keys.indexOf(k) === -1) keys.push(k);
+    });
+    if (!keys.length) return;
+    var inList = 'in.(' + keys.join(',') + ')';
+    rest('site_lists?select=list_key,data,order_index&visible=eq.true&list_key=' + inList +
+         '&order=list_key.asc,order_index.asc')
+      .then(function (rows) {
+        if (!rows) return;
+        var by = {};
+        rows.forEach(function (r) { (by[r.list_key] = by[r.list_key] || []).push(r); });
+        Object.keys(by).forEach(function (k) { renderList(k, by[k]); });
+      })
+      .catch(function () { /* offline: static markup stands */ });
+  }
+
   /* ------------------------------------------------- auto-discovered fields
      Hand-tagging elements one at a time never reaches "the whole site is
      editable". This walks the page instead and gives every piece of content a
@@ -528,6 +657,8 @@
         .then(renderServices)
         .catch(function () {});
     }
+
+    loadLists();
 
     if (document.querySelector('[data-ae-list="vendors"]')) {
       rest('vendors?select=*&visible=eq.true&order=order_index.asc')
