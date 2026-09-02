@@ -30,7 +30,6 @@
       ]
     },
     {
-      "comment": "Catalog code + data change without a build step (no content-hashed filenames), so keep them revalidating rather than sitting in a multi-hour browser cache. must-revalidate + etag means a 304 when unchanged, fresh bytes the moment they change.",
       "source": "/assets/catalog.js",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     },
