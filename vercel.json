@@ -28,6 +28,19 @@
           "value": "default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' 'sha256-ckEZsxRICdpTCcqPugraVlkJAXPW2WsfmQcL1YiFLk0=' 'sha256-Gcz4LsOj0aHjEYHu6ZPC21t0jYXDztWz40yLgICKA1E=' 'sha256-rUs8yprDVwd/oQ+PMzElUmObsT+MgolvkjIJ6fWTalg=' https://www.googletagmanager.com https://www.clarity.ms https://c.clarity.ms https://scripts.clarity.ms https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://*.supabase.co https://res.cloudinary.com https://*.clarity.ms https://c.bing.com https://www.google-analytics.com; connect-src 'self' https://*.supabase.co https://*.clarity.ms https://c.bing.com https://*.ingest.us.sentry.io https://www.google-analytics.com https://region1.google-analytics.com https://challenges.cloudflare.com; frame-src 'self' https://www.openstreetmap.org https://challenges.cloudflare.com;"
         }
       ]
+    },
+    {
+      "comment": "Catalog code + data change without a build step (no content-hashed filenames), so keep them revalidating rather than sitting in a multi-hour browser cache. must-revalidate + etag means a 304 when unchanged, fresh bytes the moment they change.",
+      "source": "/assets/catalog.js",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    },
+    {
+      "source": "/assets/catalog.css",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    },
+    {
+      "source": "/assets/catalog/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     }
   ],
   "cleanUrls": true,
