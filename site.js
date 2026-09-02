@@ -183,4 +183,21 @@ window.siteTurnstileExpired = function () {
       }
     });
   }
+
+  /* Catalog → quote prefill. A "Request a quote" link on the catalog carries the
+     item as ?item=…; drop it into the Details field so the visitor lands on the
+     contact form with the piece already named, and focus the box so they can add
+     wording. Guarded: no-ops on any page without the quote textarea. */
+  (function () {
+    var msg = document.getElementById('msg');
+    if (!msg) return;
+    var item;
+    try { item = new URLSearchParams(window.location.search).get('item'); } catch (e) { return; }
+    if (!item) return;
+    msg.value = item + (msg.value ? '\n' + msg.value : '');
+    try {
+      msg.focus({ preventScroll: true });
+      msg.setSelectionRange(msg.value.length, msg.value.length);
+    } catch (e) {}
+  })();
 })();

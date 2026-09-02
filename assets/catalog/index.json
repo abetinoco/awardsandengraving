@@ -1,0 +1,1836 @@
+{
+ "generated": "2026-09-02 14:52",
+ "total_products": 10030,
+ "collections": [
+  {
+   "key": "crystal",
+   "label": "Crystal & Glass Awards",
+   "count": 640,
+   "groups": [
+    {
+     "name": "Crystal Awards",
+     "count": 304,
+     "categories": [
+      {
+       "id": "crystal:2",
+       "name": "Cubes",
+       "count": 12
+      },
+      {
+       "id": "crystal:3",
+       "name": "Diamonds",
+       "count": 35
+      },
+      {
+       "id": "crystal:6",
+       "name": "Golf",
+       "count": 31
+      },
+      {
+       "id": "crystal:1",
+       "name": "Crystal Cups and Plates",
+       "count": 18
+      },
+      {
+       "id": "crystal:4",
+       "name": "Globes",
+       "count": 25
+      },
+      {
+       "id": "crystal:7",
+       "name": "Crystal on Bases",
+       "count": 110
+      },
+      {
+       "id": "crystal:5",
+       "name": "Stars",
+       "count": 33
+      },
+      {
+       "id": "crystal:8",
+       "name": "Self-Standing Crystal Awards (No Base)",
+       "count": 40
+      }
+     ]
+    },
+    {
+     "name": "Glass Awards",
+     "count": 232,
+     "categories": [
+      {
+       "id": "crystal:26",
+       "name": "CrystalEdge Glass",
+       "count": 9
+      },
+      {
+       "id": "crystal:25",
+       "name": "Floating Glass Standup Awards & Plaques",
+       "count": 17
+      },
+      {
+       "id": "crystal:12",
+       "name": "Crescents",
+       "count": 16
+      },
+      {
+       "id": "crystal:10",
+       "name": "Sport Ball",
+       "count": 6
+      },
+      {
+       "id": "crystal:14",
+       "name": "Glass Awards with Glass Bases",
+       "count": 98
+      },
+      {
+       "id": "crystal:13",
+       "name": "Mirror Glass Plaques",
+       "count": 8
+      },
+      {
+       "id": "crystal:15",
+       "name": "Glass with Metal, Wood, Marble Bases",
+       "count": 37
+      },
+      {
+       "id": "crystal:11",
+       "name": "Jade Glass",
+       "count": 41
+      }
+     ]
+    },
+    {
+     "name": "Vases & Art Glass",
+     "count": 58,
+     "categories": [
+      {
+       "id": "crystal:16",
+       "name": "Vases",
+       "count": 11
+      },
+      {
+       "id": "crystal:17",
+       "name": "Art Glass",
+       "count": 47
+      }
+     ]
+    },
+    {
+     "name": "Specialty Awards & Gifts",
+     "count": 46,
+     "categories": [
+      {
+       "id": "crystal:21",
+       "name": "Crystal Apples and Books",
+       "count": 7
+      },
+      {
+       "id": "crystal:23",
+       "name": "Clocks",
+       "count": 4
+      },
+      {
+       "id": "crystal:22",
+       "name": "Crosses",
+       "count": 2
+      },
+      {
+       "id": "crystal:20",
+       "name": "Eagles & Gavel",
+       "count": 3
+      },
+      {
+       "id": "crystal:19",
+       "name": "Ornaments, Wine Stopper",
+       "count": 18
+      },
+      {
+       "id": "crystal:18",
+       "name": "Paperweights",
+       "count": 10
+      },
+      {
+       "id": "crystal:24",
+       "name": "Crystal Perpetual Award",
+       "count": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "sport",
+   "label": "Sport Awards",
+   "count": 1475,
+   "groups": [
+    {
+     "name": "RESINS",
+     "count": 283,
+     "categories": [
+      {
+       "id": "sport:2",
+       "name": "Basketball",
+       "count": 40
+      },
+      {
+       "id": "sport:1",
+       "name": "Baseball/Softball",
+       "count": 43
+      },
+      {
+       "id": "sport:6",
+       "name": "Golf",
+       "count": 20
+      },
+      {
+       "id": "sport:5",
+       "name": "Football",
+       "count": 49
+      },
+      {
+       "id": "sport:3",
+       "name": "Bowling",
+       "count": 15
+      },
+      {
+       "id": "sport:7",
+       "name": "Hockey",
+       "count": 9
+      },
+      {
+       "id": "sport:4",
+       "name": "Cheer/Gymnastics",
+       "count": 13
+      },
+      {
+       "id": "sport:8",
+       "name": "Pickleball/Tennis",
+       "count": 10
+      },
+      {
+       "id": "sport:9",
+       "name": "Martial Arts & Wrestling",
+       "count": 4
+      },
+      {
+       "id": "sport:49",
+       "name": "Volleyball",
+       "count": 13
+      },
+      {
+       "id": "sport:12",
+       "name": "Swimming",
+       "count": 8
+      },
+      {
+       "id": "sport:13",
+       "name": "Track & Field",
+       "count": 2
+      },
+      {
+       "id": "sport:10",
+       "name": "Racing & Motor Sports",
+       "count": 14
+      },
+      {
+       "id": "sport:11",
+       "name": "Soccer",
+       "count": 43
+      }
+     ]
+    },
+    {
+     "name": "MEDALS",
+     "count": 735,
+     "categories": [
+      {
+       "id": "sport:19",
+       "name": "Golf",
+       "count": 18
+      },
+      {
+       "id": "sport:16",
+       "name": "Bowling",
+       "count": 21
+      },
+      {
+       "id": "sport:15",
+       "name": "Basketball",
+       "count": 54
+      },
+      {
+       "id": "sport:17",
+       "name": "Cheer/Gymnastics",
+       "count": 42
+      },
+      {
+       "id": "sport:14",
+       "name": "Baseball/Softball",
+       "count": 60
+      },
+      {
+       "id": "sport:18",
+       "name": "Football",
+       "count": 36
+      },
+      {
+       "id": "sport:30",
+       "name": "Insert Holder Medals",
+       "count": 84
+      },
+      {
+       "id": "sport:22",
+       "name": "Martial Arts/Wrestling",
+       "count": 72
+      },
+      {
+       "id": "sport:37",
+       "name": "Place/Participant/Sportsmanship",
+       "count": 36
+      },
+      {
+       "id": "sport:23",
+       "name": "Racing/Motor Sports",
+       "count": 3
+      },
+      {
+       "id": "sport:21",
+       "name": "Pickleball/Tennis",
+       "count": 21
+      },
+      {
+       "id": "sport:20",
+       "name": "Hockey",
+       "count": 27
+      },
+      {
+       "id": "sport:25",
+       "name": "Swimming",
+       "count": 24
+      },
+      {
+       "id": "sport:36",
+       "name": "Victory/Torch/Achievement",
+       "count": 27
+      },
+      {
+       "id": "sport:26",
+       "name": "Track & Field",
+       "count": 111
+      },
+      {
+       "id": "sport:24",
+       "name": "Soccer",
+       "count": 54
+      },
+      {
+       "id": "sport:48",
+       "name": "Volleyball",
+       "count": 45
+      }
+     ]
+    },
+    {
+     "name": "COMPLETED CUP TROPHIES",
+     "count": 146,
+     "categories": [
+      {
+       "id": "sport:28",
+       "name": "Completed Metal Cups",
+       "count": 142
+      },
+      {
+       "id": "sport:27",
+       "name": "Completed Plastic Cups",
+       "count": 4
+      }
+     ]
+    },
+    {
+     "name": "MISCELLANEOUS AWARDS",
+     "count": 62,
+     "categories": [
+      {
+       "id": "sport:33",
+       "name": "Championship Rings",
+       "count": 10
+      },
+      {
+       "id": "sport:32",
+       "name": "Award Ribbons",
+       "count": 18
+      },
+      {
+       "id": "sport:35",
+       "name": "Dog Tags",
+       "count": 10
+      },
+      {
+       "id": "sport:34",
+       "name": "Chenille Pins",
+       "count": 24
+      }
+     ]
+    },
+    {
+     "name": "CRYSTAL AWARDS",
+     "count": 29,
+     "categories": [
+      {
+       "id": "sport:31",
+       "name": "Golf Awards",
+       "count": 29
+      }
+     ]
+    },
+    {
+     "name": "ACADEMICS",
+     "count": 220,
+     "categories": [
+      {
+       "id": "sport:44",
+       "name": "Art/Drama/Debate",
+       "count": 15
+      },
+      {
+       "id": "sport:39",
+       "name": "Attendance/Honor Roll/Star Performer",
+       "count": 32
+      },
+      {
+       "id": "sport:46",
+       "name": "Chess/Pinewood Derby",
+       "count": 15
+      },
+      {
+       "id": "sport:38",
+       "name": "Lamp of Knowledge/Graduate",
+       "count": 62
+      },
+      {
+       "id": "sport:41",
+       "name": "Science/Math/Computer",
+       "count": 27
+      },
+      {
+       "id": "sport:47",
+       "name": "Music/Band/Orchestra",
+       "count": 48
+      },
+      {
+       "id": "sport:40",
+       "name": "Spelling/Reading",
+       "count": 21
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "acrylic",
+   "label": "Acrylic Awards",
+   "count": 714,
+   "groups": [
+    {
+     "name": "Self Standing (No Base)",
+     "count": 343,
+     "categories": [
+      {
+       "id": "acrylic:6",
+       "name": "Magnetic Acrylic Awards",
+       "count": 6
+      },
+      {
+       "id": "acrylic:5",
+       "name": "Full Color Self-Standing",
+       "count": 8
+      },
+      {
+       "id": "acrylic:2",
+       "name": "Round, Octagon, Wave, Fan-No Base",
+       "count": 108
+      },
+      {
+       "id": "acrylic:3",
+       "name": "Star Awards",
+       "count": 54
+      },
+      {
+       "id": "acrylic:1",
+       "name": "Tower, Diamond, Rectangle, Wedge",
+       "count": 167
+      }
+     ]
+    },
+    {
+     "name": "Acrylics with Bases",
+     "count": 242,
+     "categories": [
+      {
+       "id": "acrylic:10",
+       "name": "Full Color Acrylics with Bases",
+       "count": 6
+      },
+      {
+       "id": "acrylic:8",
+       "name": "Round and Octagon with Base",
+       "count": 24
+      },
+      {
+       "id": "acrylic:7",
+       "name": "Tower & Diamond-With Base",
+       "count": 186
+      },
+      {
+       "id": "acrylic:9",
+       "name": "Star Awards with Bases",
+       "count": 26
+      }
+     ]
+    },
+    {
+     "name": "Paperweights",
+     "count": 20,
+     "categories": [
+      {
+       "id": "acrylic:12",
+       "name": "Clear, Jade, Blue Paperweights",
+       "count": 12
+      },
+      {
+       "id": "acrylic:13",
+       "name": "Marble, Black, Stars & Stripes",
+       "count": 5
+      },
+      {
+       "id": "acrylic:11",
+       "name": "Full Color Paperweights",
+       "count": 3
+      }
+     ]
+    },
+    {
+     "name": "Crescents",
+     "count": 27,
+     "categories": [
+      {
+       "id": "acrylic:14",
+       "name": "Color Crescents",
+       "count": 5
+      },
+      {
+       "id": "acrylic:17",
+       "name": "1\" Thick Acrylic Crescents",
+       "count": 6
+      },
+      {
+       "id": "acrylic:16",
+       "name": "Marbleized",
+       "count": 12
+      },
+      {
+       "id": "acrylic:15",
+       "name": "Clear Crescents",
+       "count": 4
+      }
+     ]
+    },
+    {
+     "name": "Piano Finish Bases",
+     "count": 12,
+     "categories": [
+      {
+       "id": "acrylic:20",
+       "name": "Piano Finish Floating Acrylic Standups",
+       "count": 4
+      },
+      {
+       "id": "acrylic:18",
+       "name": "Royal Crown Acrylics",
+       "count": 3
+      },
+      {
+       "id": "acrylic:19",
+       "name": "Prestige Acrylics",
+       "count": 5
+      }
+     ]
+    },
+    {
+     "name": "Acrylic Plaques",
+     "count": 70,
+     "categories": [
+      {
+       "id": "acrylic:24",
+       "name": "Acrylic Art Plaques",
+       "count": 0
+      },
+      {
+       "id": "acrylic:26",
+       "name": "Acrylic Clear Plaques",
+       "count": 15
+      },
+      {
+       "id": "acrylic:25",
+       "name": "Border Acrylic Clear Plaques",
+       "count": 21
+      },
+      {
+       "id": "acrylic:28",
+       "name": "Marbleized Acrylic Clear Plate on Plaque",
+       "count": 15
+      },
+      {
+       "id": "acrylic:23",
+       "name": "Shooting Star Acrylic Plaques",
+       "count": 9
+      },
+      {
+       "id": "acrylic:21",
+       "name": "Piano Finish Floating Acrylic Plaques",
+       "count": 10
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "drinkware",
+   "label": "Drinkware",
+   "count": 929,
+   "groups": [
+    {
+     "name": "HIGH ENDURANCE",
+     "count": 513,
+     "categories": [
+      {
+       "id": "drinkware:1-1",
+       "name": "20 oz. Water Bottles",
+       "count": 18
+      },
+      {
+       "id": "drinkware:1-2",
+       "name": "32 oz. Water Bottles",
+       "count": 18
+      },
+      {
+       "id": "drinkware:1-3",
+       "name": "40 oz. Water Bottles",
+       "count": 18
+      },
+      {
+       "id": "drinkware:1-4",
+       "name": "30 oz. Tumblers",
+       "count": 38
+      },
+      {
+       "id": "drinkware:1-6",
+       "name": "20 oz. Leatherette and Silicone Tumblers",
+       "count": 32
+      },
+      {
+       "id": "drinkware:1-5",
+       "name": "20 oz. Tumblers",
+       "count": 39
+      },
+      {
+       "id": "drinkware:1-7",
+       "name": "10 oz. Tumblers",
+       "count": 6
+      },
+      {
+       "id": "drinkware:1-9",
+       "name": "Pilsner",
+       "count": 34
+      },
+      {
+       "id": "drinkware:1-8",
+       "name": "Stemless Wine Tumblers/Wine Chillers",
+       "count": 36
+      },
+      {
+       "id": "drinkware:1-10",
+       "name": "Pints",
+       "count": 15
+      },
+      {
+       "id": "drinkware:1-12",
+       "name": "Beverage Holders and Growlers",
+       "count": 36
+      },
+      {
+       "id": "drinkware:1-11",
+       "name": "Coffee and Travel Mugs",
+       "count": 60
+      },
+      {
+       "id": "drinkware:1-13",
+       "name": "Full Color",
+       "count": 30
+      },
+      {
+       "id": "drinkware:1-43",
+       "name": "Sippy Cups",
+       "count": 8
+      },
+      {
+       "id": "drinkware:1-39",
+       "name": "22 oz. Skinny Tumblers",
+       "count": 18
+      },
+      {
+       "id": "drinkware:1-14",
+       "name": "Accessories",
+       "count": 51
+      },
+      {
+       "id": "drinkware:1-44",
+       "name": "12 oz. Water Bottles",
+       "count": 18
+      },
+      {
+       "id": "drinkware:1-45",
+       "name": "ION-Plated Polar Camel Drinkware",
+       "count": 38
+      }
+     ]
+    },
+    {
+     "name": "MUGS",
+     "count": 84,
+     "categories": [
+      {
+       "id": "drinkware:2-15",
+       "name": "Full Color",
+       "count": 20
+      },
+      {
+       "id": "drinkware:2-17",
+       "name": "Travel Mugs and Water Bottles",
+       "count": 7
+      },
+      {
+       "id": "drinkware:2-16",
+       "name": "Ceramic",
+       "count": 14
+      },
+      {
+       "id": "drinkware:2-18",
+       "name": "Leatherette Sleeves and Holders",
+       "count": 3
+      },
+      {
+       "id": "drinkware:2-19",
+       "name": "Beverage Holders",
+       "count": 40
+      }
+     ]
+    },
+    {
+     "name": "COASTERS",
+     "count": 111,
+     "categories": [
+      {
+       "id": "drinkware:3-21",
+       "name": "Cork and Slate",
+       "count": 9
+      },
+      {
+       "id": "drinkware:3-20",
+       "name": "Leatherette Coasters and Sets",
+       "count": 74
+      },
+      {
+       "id": "drinkware:3-23",
+       "name": "Silicone Grip",
+       "count": 5
+      },
+      {
+       "id": "drinkware:3-22",
+       "name": "Bamboo",
+       "count": 3
+      },
+      {
+       "id": "drinkware:3-24",
+       "name": "Full Color",
+       "count": 18
+      },
+      {
+       "id": "drinkware:3-25",
+       "name": "Coaster Holders",
+       "count": 2
+      }
+     ]
+    },
+    {
+     "name": "FLASKS",
+     "count": 72,
+     "categories": [
+      {
+       "id": "drinkware:4-26",
+       "name": "Flask Gift Sets",
+       "count": 9
+      },
+      {
+       "id": "drinkware:4-27",
+       "name": "Leatherette Flask Gift Sets",
+       "count": 11
+      },
+      {
+       "id": "drinkware:4-28",
+       "name": "Barware Gift Sets",
+       "count": 3
+      },
+      {
+       "id": "drinkware:4-29",
+       "name": "Leatherette Flasks",
+       "count": 28
+      },
+      {
+       "id": "drinkware:4-30",
+       "name": "Powder Coated Flasks",
+       "count": 10
+      },
+      {
+       "id": "drinkware:4-31",
+       "name": "Stainless Steel Flasks and Keychains",
+       "count": 11
+      }
+     ]
+    },
+    {
+     "name": "WINE",
+     "count": 31,
+     "categories": [
+      {
+       "id": "drinkware:5-32",
+       "name": "Wine Gifts Sets",
+       "count": 10
+      },
+      {
+       "id": "drinkware:5-34",
+       "name": "Accessories, Bags, and Bottle Openers",
+       "count": 10
+      },
+      {
+       "id": "drinkware:5-33",
+       "name": "Wine Tools Gift Sets",
+       "count": 11
+      }
+     ]
+    },
+    {
+     "name": "BOTTLE OPENERS",
+     "count": 78,
+     "categories": [
+      {
+       "id": "drinkware:6-36",
+       "name": "Leatherette and Silicone Grip",
+       "count": 49
+      },
+      {
+       "id": "drinkware:6-38",
+       "name": "Wood, Full Color and Misc",
+       "count": 7
+      },
+      {
+       "id": "drinkware:6-37",
+       "name": "Keychain",
+       "count": 22
+      }
+     ]
+    },
+    {
+     "name": "PLASTIC & GLASSWARE",
+     "count": 40,
+     "categories": [
+      {
+       "id": "drinkware:7-40",
+       "name": "Laserable Plastic Cups & Lids",
+       "count": 5
+      },
+      {
+       "id": "drinkware:7-41",
+       "name": "Polar Camel Glassware",
+       "count": 22
+      },
+      {
+       "id": "drinkware:7-42",
+       "name": "Polar Camel Decanters & Decanter Sets",
+       "count": 13
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "leather",
+   "label": "Lasered Leatherette",
+   "count": 1317,
+   "groups": [
+    {
+     "name": "Drinkware",
+     "count": 260,
+     "categories": [
+      {
+       "id": "leather:1-1",
+       "name": "Polar Camel 40 oz. Travel Mugs",
+       "count": 8
+      },
+      {
+       "id": "leather:1-2",
+       "name": "Polar Camel 20 oz. Tumblers",
+       "count": 25
+      },
+      {
+       "id": "leather:1-3",
+       "name": "Flasks and Flask Sets",
+       "count": 24
+      },
+      {
+       "id": "leather:1-4",
+       "name": "Wine Sets and Accessories",
+       "count": 29
+      },
+      {
+       "id": "leather:1-7",
+       "name": "Shot Glasses",
+       "count": 13
+      },
+      {
+       "id": "leather:1-5",
+       "name": "Beverage Holders and Mug Sleeves",
+       "count": 40
+      },
+      {
+       "id": "leather:1-6",
+       "name": "Bottle Openers",
+       "count": 48
+      },
+      {
+       "id": "leather:1-8",
+       "name": "Coasters and Serving Trays",
+       "count": 73
+      }
+     ]
+    },
+    {
+     "name": "Gifts and Promotions",
+     "count": 415,
+     "categories": [
+      {
+       "id": "leather:2-10",
+       "name": "Cigar Cases and Smoke Cases",
+       "count": 18
+      },
+      {
+       "id": "leather:2-9",
+       "name": "Game Sets",
+       "count": 28
+      },
+      {
+       "id": "leather:2-13",
+       "name": "Travel Items",
+       "count": 64
+      },
+      {
+       "id": "leather:2-12",
+       "name": "Wallets, Checkbook Covers, Bags",
+       "count": 62
+      },
+      {
+       "id": "leather:2-11",
+       "name": "Key Chains, ID Holders, Bag Tags",
+       "count": 94
+      },
+      {
+       "id": "leather:2-42",
+       "name": "Gifts for Pets",
+       "count": 28
+      },
+      {
+       "id": "leather:2-14",
+       "name": "Personal Items",
+       "count": 89
+      },
+      {
+       "id": "leather:2-15",
+       "name": "Gift Boxes",
+       "count": 32
+      }
+     ]
+    },
+    {
+     "name": "Office Accessories",
+     "count": 77,
+     "categories": [
+      {
+       "id": "leather:3-16",
+       "name": "Business Card Holders and Desk Wedges",
+       "count": 21
+      },
+      {
+       "id": "leather:3-17",
+       "name": "Mouse Pads, Binders, Clipboards",
+       "count": 25
+      },
+      {
+       "id": "leather:3-18",
+       "name": "Mobile Device Accessories",
+       "count": 31
+      }
+     ]
+    },
+    {
+     "name": "Name Badges",
+     "count": 54,
+     "categories": [
+      {
+       "id": "leather:4-19",
+       "name": "Name Badges with Magnets",
+       "count": 27
+      },
+      {
+       "id": "leather:4-20",
+       "name": "Name Badges with Frames",
+       "count": 27
+      }
+     ]
+    },
+    {
+     "name": "Organize, Write, Draw",
+     "count": 200,
+     "categories": [
+      {
+       "id": "leather:5-23",
+       "name": "7\" x 9\" Portfolios",
+       "count": 27
+      },
+      {
+       "id": "leather:5-24",
+       "name": "5 1/4\" x 8 1/4\" Journals",
+       "count": 21
+      },
+      {
+       "id": "leather:5-22",
+       "name": "9 1/2\" x 12\" Portfolios",
+       "count": 44
+      },
+      {
+       "id": "leather:5-25",
+       "name": "7\" x 9 3/4\" Journals",
+       "count": 17
+      },
+      {
+       "id": "leather:5-26",
+       "name": "5 1/4\" x 8 1/4\" Sketch Books",
+       "count": 17
+      },
+      {
+       "id": "leather:5-27",
+       "name": "7\" x 9 3/4\" Sketch Books",
+       "count": 17
+      },
+      {
+       "id": "leather:5-28",
+       "name": "Mini Note Pad with Pen",
+       "count": 13
+      },
+      {
+       "id": "leather:5-29",
+       "name": "Book/Bible Covers",
+       "count": 20
+      },
+      {
+       "id": "leather:5-30",
+       "name": "Pens and Pen Sleeves",
+       "count": 24
+      }
+     ]
+    },
+    {
+     "name": "Frames, Decor', Ornaments",
+     "count": 133,
+     "categories": [
+      {
+       "id": "leather:6-31",
+       "name": "Frames for 4x6 Photos",
+       "count": 21
+      },
+      {
+       "id": "leather:6-32",
+       "name": "Frames for 5x7 Photos",
+       "count": 20
+      },
+      {
+       "id": "leather:6-36",
+       "name": "14 x 14 Wall Decor",
+       "count": 6
+      },
+      {
+       "id": "leather:6-33",
+       "name": "Frames for 8x10 Photos",
+       "count": 8
+      },
+      {
+       "id": "leather:6-35",
+       "name": "12x18 Wall Decor",
+       "count": 6
+      },
+      {
+       "id": "leather:6-37",
+       "name": "16 x 20 Wall Decor",
+       "count": 6
+      },
+      {
+       "id": "leather:6-34",
+       "name": "10 x 10 Wall Decor",
+       "count": 6
+      },
+      {
+       "id": "leather:6-38",
+       "name": "Certificate Holders & Plaques",
+       "count": 31
+      },
+      {
+       "id": "leather:6-39",
+       "name": "Ornaments",
+       "count": 29
+      }
+     ]
+    },
+    {
+     "name": "Patches",
+     "count": 178,
+     "categories": [
+      {
+       "id": "leather:7-40",
+       "name": "Patches with Adhesive",
+       "count": 30
+      },
+      {
+       "id": "leather:7-41",
+       "name": "Patches with Kota Pro Adhesive",
+       "count": 148
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "personalized",
+   "label": "Personalized Gifts",
+   "count": 2154,
+   "groups": [
+    {
+     "name": "Gifts & Promotions",
+     "count": 917,
+     "categories": [
+      {
+       "id": "personalized:1-2",
+       "name": "BBQ Sets and Utensils",
+       "count": 7
+      },
+      {
+       "id": "personalized:1-1",
+       "name": "Cutting Boards, Cake Pans, Kitchen",
+       "count": 108
+      },
+      {
+       "id": "personalized:1-3",
+       "name": "Game Sets",
+       "count": 38
+      },
+      {
+       "id": "personalized:1-5",
+       "name": "Scented Candles",
+       "count": 14
+      },
+      {
+       "id": "personalized:1-6",
+       "name": "Cigar Accessories & Bar Gift Sets",
+       "count": 18
+      },
+      {
+       "id": "personalized:1-7",
+       "name": "Religious, Teacher, Military Awards",
+       "count": 11
+      },
+      {
+       "id": "personalized:1-4",
+       "name": "Pet Items",
+       "count": 83
+      },
+      {
+       "id": "personalized:1-8",
+       "name": "Keychains",
+       "count": 107
+      },
+      {
+       "id": "personalized:1-9",
+       "name": "Serving Trays & Trivets",
+       "count": 5
+      },
+      {
+       "id": "personalized:1-38",
+       "name": "Wine Sets and Accessories",
+       "count": 27
+      },
+      {
+       "id": "personalized:1-11",
+       "name": "Gift Boxes",
+       "count": 33
+      },
+      {
+       "id": "personalized:1-37",
+       "name": "Flasks, Flask Sets and Accessories",
+       "count": 56
+      },
+      {
+       "id": "personalized:1-41",
+       "name": "Travel Items",
+       "count": 74
+      },
+      {
+       "id": "personalized:1-56",
+       "name": "Premier Crystal & Glass Gifts & Awards",
+       "count": 26
+      },
+      {
+       "id": "personalized:1-47",
+       "name": "Old West Log Genuine Wood Products",
+       "count": 4
+      },
+      {
+       "id": "personalized:1-42",
+       "name": "Bracelets",
+       "count": 32
+      },
+      {
+       "id": "personalized:1-57",
+       "name": "Clocks",
+       "count": 44
+      },
+      {
+       "id": "personalized:1-58",
+       "name": "Pens/Pencils",
+       "count": 47
+      },
+      {
+       "id": "personalized:1-63",
+       "name": "Money Clips",
+       "count": 16
+      },
+      {
+       "id": "personalized:1-59",
+       "name": "Pen Cases/Sleeves",
+       "count": 22
+      },
+      {
+       "id": "personalized:1-62",
+       "name": "Checkbook Covers",
+       "count": 9
+      },
+      {
+       "id": "personalized:1-61",
+       "name": "Wallets",
+       "count": 29
+      },
+      {
+       "id": "personalized:1-66",
+       "name": "Promotional Items",
+       "count": 17
+      },
+      {
+       "id": "personalized:1-73",
+       "name": "Bison River Knives",
+       "count": 17
+      },
+      {
+       "id": "personalized:1-40",
+       "name": "Personal Items",
+       "count": 73
+      }
+     ]
+    },
+    {
+     "name": "Polar Camel",
+     "count": 557,
+     "categories": [
+      {
+       "id": "personalized:2-16",
+       "name": "Polar Camel Pilsners",
+       "count": 34
+      },
+      {
+       "id": "personalized:2-14",
+       "name": "Polar Camel Water Bottles",
+       "count": 72
+      },
+      {
+       "id": "personalized:2-15",
+       "name": "Polar Camel Silicone Grip Tumblers",
+       "count": 7
+      },
+      {
+       "id": "personalized:2-17",
+       "name": "Polar Camel Skinny Tumblers",
+       "count": 18
+      },
+      {
+       "id": "personalized:2-20",
+       "name": "Polar Camel Pints",
+       "count": 15
+      },
+      {
+       "id": "personalized:2-18",
+       "name": "Polar Camel Stemless/Wine Chillers",
+       "count": 36
+      },
+      {
+       "id": "personalized:2-19",
+       "name": "Polar Camel Beverage Holders",
+       "count": 35
+      },
+      {
+       "id": "personalized:2-21",
+       "name": "Polar Camel Mugs/Travel Mugs",
+       "count": 60
+      },
+      {
+       "id": "personalized:2-22",
+       "name": "Leatherette Wrapped Polar Camel Tumblers",
+       "count": 25
+      },
+      {
+       "id": "personalized:2-23",
+       "name": "Polar Camel 30 oz. Tumbers",
+       "count": 38
+      },
+      {
+       "id": "personalized:2-25",
+       "name": "Polar Camel 10 oz. Tumbers",
+       "count": 6
+      },
+      {
+       "id": "personalized:2-26",
+       "name": "Polar Camel 64 oz. Growlers",
+       "count": 1
+      },
+      {
+       "id": "personalized:2-24",
+       "name": "Polar Camel 20 oz. Tumblers",
+       "count": 39
+      },
+      {
+       "id": "personalized:2-27",
+       "name": "Full Color Polar Camel Drinkware",
+       "count": 28
+      },
+      {
+       "id": "personalized:2-28",
+       "name": "Polar Camel Accessories",
+       "count": 51
+      },
+      {
+       "id": "personalized:2-72",
+       "name": "Decanters & Decanter Sets",
+       "count": 14
+      },
+      {
+       "id": "personalized:2-71",
+       "name": "Glassware",
+       "count": 22
+      },
+      {
+       "id": "personalized:2-69",
+       "name": "Sippy Cups",
+       "count": 8
+      },
+      {
+       "id": "personalized:2-70",
+       "name": "Serving Bowls with Lids",
+       "count": 10
+      },
+      {
+       "id": "personalized:2-74",
+       "name": "ION-Plated Polar Camel Drinkware",
+       "count": 38
+      }
+     ]
+    },
+    {
+     "name": "Drinkware",
+     "count": 242,
+     "categories": [
+      {
+       "id": "personalized:3-29",
+       "name": "Travel & Barrel Mugs, Beverage Holders",
+       "count": 5
+      },
+      {
+       "id": "personalized:3-31",
+       "name": "Square and Round Laserable Ceramic Mugs",
+       "count": 14
+      },
+      {
+       "id": "personalized:3-33",
+       "name": "Bamboo/Cork/Slate Coasters/Trivets",
+       "count": 14
+      },
+      {
+       "id": "personalized:3-34",
+       "name": "Leatherette Coasters and Coaster Sets",
+       "count": 74
+      },
+      {
+       "id": "personalized:3-32",
+       "name": "Leatherette Mug Sleeve & Beverage Holder",
+       "count": 40
+      },
+      {
+       "id": "personalized:3-35",
+       "name": "Silicone Grip Coasters",
+       "count": 5
+      },
+      {
+       "id": "personalized:3-36",
+       "name": "Shot Glasses",
+       "count": 13
+      },
+      {
+       "id": "personalized:3-68",
+       "name": "Laserable Plastic Cups and Lids",
+       "count": 5
+      },
+      {
+       "id": "personalized:3-39",
+       "name": "Bottle Openers",
+       "count": 72
+      }
+     ]
+    },
+    {
+     "name": "Frames & Decor",
+     "count": 161,
+     "categories": [
+      {
+       "id": "personalized:4-12",
+       "name": "Slate Decor",
+       "count": 13
+      },
+      {
+       "id": "personalized:4-13",
+       "name": "Leatherette Wall Decor/Signage",
+       "count": 24
+      },
+      {
+       "id": "personalized:4-44",
+       "name": "Solid Wood Photo Frames",
+       "count": 14
+      },
+      {
+       "id": "personalized:4-53",
+       "name": "Certificate Holders",
+       "count": 7
+      },
+      {
+       "id": "personalized:4-45",
+       "name": "Metal Photo Frames",
+       "count": 6
+      },
+      {
+       "id": "personalized:4-43",
+       "name": "Leatherette and Cork Photo Frames",
+       "count": 50
+      },
+      {
+       "id": "personalized:4-55",
+       "name": "Ornaments",
+       "count": 47
+      }
+     ]
+    },
+    {
+     "name": "Office, Tech",
+     "count": 277,
+     "categories": [
+      {
+       "id": "personalized:6-48",
+       "name": "Leatherette Book/Bible Cover with Zipper",
+       "count": 20
+      },
+      {
+       "id": "personalized:6-60",
+       "name": "Leatherette Mini Notepad with Pen",
+       "count": 12
+      },
+      {
+       "id": "personalized:6-50",
+       "name": "Leatherette Portfolio with Zipper",
+       "count": 20
+      },
+      {
+       "id": "personalized:6-49",
+       "name": "Leatherette and Cork Portfolios",
+       "count": 62
+      },
+      {
+       "id": "personalized:6-51",
+       "name": "Leatherette and Cork Journals",
+       "count": 38
+      },
+      {
+       "id": "personalized:6-52",
+       "name": "Leatherette and Cork Sketch Books",
+       "count": 34
+      },
+      {
+       "id": "personalized:6-54",
+       "name": "Mouse Pads, Power Banks, Charging Matts",
+       "count": 28
+      },
+      {
+       "id": "personalized:6-64",
+       "name": "Phone Wallets",
+       "count": 9
+      },
+      {
+       "id": "personalized:6-65",
+       "name": "Business Card Holders/Desk Wedges",
+       "count": 54
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "corporate",
+   "label": "Corporate Collection",
+   "count": 2801,
+   "groups": [
+    {
+     "name": "Plaques",
+     "count": 112,
+     "categories": [
+      {
+       "id": "corporate:1-2",
+       "name": "Perpetual Plaques",
+       "count": 23
+      },
+      {
+       "id": "corporate:1-4",
+       "name": "Leatherette Plaques",
+       "count": 24
+      },
+      {
+       "id": "corporate:1-1",
+       "name": "Wood Plaques",
+       "count": 65
+      }
+     ]
+    },
+    {
+     "name": "Awards",
+     "count": 605,
+     "categories": [
+      {
+       "id": "corporate:2-5",
+       "name": "Glass",
+       "count": 110
+      },
+      {
+       "id": "corporate:2-9",
+       "name": "Gavels/Gavel Sets",
+       "count": 2
+      },
+      {
+       "id": "corporate:2-36",
+       "name": "Eagle Sculptures",
+       "count": 4
+      },
+      {
+       "id": "corporate:2-8",
+       "name": "Clocks",
+       "count": 21
+      },
+      {
+       "id": "corporate:2-37",
+       "name": "Star Sculptures",
+       "count": 19
+      },
+      {
+       "id": "corporate:2-6",
+       "name": "Crystal",
+       "count": 134
+      },
+      {
+       "id": "corporate:2-7",
+       "name": "Acrylic",
+       "count": 283
+      },
+      {
+       "id": "corporate:2-39",
+       "name": "Cup Awards",
+       "count": 6
+      },
+      {
+       "id": "corporate:2-38",
+       "name": "Art Glass Sculptures",
+       "count": 26
+      }
+     ]
+    },
+    {
+     "name": "Office Accessories",
+     "count": 394,
+     "categories": [
+      {
+       "id": "corporate:3-11",
+       "name": "Charging Pads/Power Banks",
+       "count": 19
+      },
+      {
+       "id": "corporate:3-10",
+       "name": "Mouse Pads",
+       "count": 8
+      },
+      {
+       "id": "corporate:3-12",
+       "name": "Portfolios/Journals",
+       "count": 169
+      },
+      {
+       "id": "corporate:3-13",
+       "name": "Pens/Cases",
+       "count": 70
+      },
+      {
+       "id": "corporate:3-14",
+       "name": "Desk Wedges",
+       "count": 29
+      },
+      {
+       "id": "corporate:3-16",
+       "name": "Paperweights",
+       "count": 30
+      },
+      {
+       "id": "corporate:3-15",
+       "name": "Name Badges",
+       "count": 69
+      }
+     ]
+    },
+    {
+     "name": "Drinkware",
+     "count": 820,
+     "categories": [
+      {
+       "id": "corporate:4-17",
+       "name": "Flasks/Sets",
+       "count": 50
+      },
+      {
+       "id": "corporate:4-18",
+       "name": "30 oz. Tumblers",
+       "count": 41
+      },
+      {
+       "id": "corporate:4-19",
+       "name": "20 oz. Tumblers",
+       "count": 42
+      },
+      {
+       "id": "corporate:4-20",
+       "name": "20 oz. Leatherette and Silicone Grip",
+       "count": 32
+      },
+      {
+       "id": "corporate:4-21",
+       "name": "10 oz. Tumblers",
+       "count": 7
+      },
+      {
+       "id": "corporate:4-22",
+       "name": "Water Bottles/Accessories",
+       "count": 79
+      },
+      {
+       "id": "corporate:4-23",
+       "name": "Wine Tumblers/Wine Chillers",
+       "count": 34
+      },
+      {
+       "id": "corporate:4-43",
+       "name": "Tumbler Lids/Accessories",
+       "count": 28
+      },
+      {
+       "id": "corporate:4-44",
+       "name": "Wine Sets/Accessories",
+       "count": 24
+      },
+      {
+       "id": "corporate:4-45",
+       "name": "Coffee Mugs/Travel Mugs",
+       "count": 79
+      },
+      {
+       "id": "corporate:4-46",
+       "name": "Coasters",
+       "count": 92
+      },
+      {
+       "id": "corporate:4-48",
+       "name": "Barware",
+       "count": 3
+      },
+      {
+       "id": "corporate:4-49",
+       "name": "Beverage Holders",
+       "count": 75
+      },
+      {
+       "id": "corporate:4-47",
+       "name": "Bottle Openers",
+       "count": 74
+      },
+      {
+       "id": "corporate:4-50",
+       "name": "Pilsner Tumblers",
+       "count": 38
+      },
+      {
+       "id": "corporate:4-51",
+       "name": "Pint Tumblers",
+       "count": 17
+      },
+      {
+       "id": "corporate:4-55",
+       "name": "Polar Camel Glassware",
+       "count": 22
+      },
+      {
+       "id": "corporate:4-54",
+       "name": "Polar Camel 22 oz. Skinny Tumbler",
+       "count": 20
+      },
+      {
+       "id": "corporate:4-56",
+       "name": "Polar Camel Decanters & Sets",
+       "count": 14
+      },
+      {
+       "id": "corporate:4-58",
+       "name": "ION-Plated Polar Camel Drinkware",
+       "count": 38
+      },
+      {
+       "id": "corporate:4-59",
+       "name": "Libbey Glassware",
+       "count": 11
+      }
+     ]
+    },
+    {
+     "name": "Photo Frames/Certificates",
+     "count": 84,
+     "categories": [
+      {
+       "id": "corporate:5-25",
+       "name": "Certificate Holders",
+       "count": 16
+      },
+      {
+       "id": "corporate:5-24",
+       "name": "Photo Frames",
+       "count": 68
+      }
+     ]
+    },
+    {
+     "name": "Gifts & Promotional",
+     "count": 786,
+     "categories": [
+      {
+       "id": "corporate:6-27",
+       "name": "BBQ Sets/Accessories",
+       "count": 7
+      },
+      {
+       "id": "corporate:6-28",
+       "name": "Slate Gifts",
+       "count": 26
+      },
+      {
+       "id": "corporate:6-26",
+       "name": "Cutting Boards/Utensils/Bowls/Canisters",
+       "count": 97
+      },
+      {
+       "id": "corporate:6-29",
+       "name": "Games",
+       "count": 39
+      },
+      {
+       "id": "corporate:6-30",
+       "name": "Ornaments",
+       "count": 47
+      },
+      {
+       "id": "corporate:6-32",
+       "name": "Luggage Bag Tags",
+       "count": 55
+      },
+      {
+       "id": "corporate:6-31",
+       "name": "Key Chains",
+       "count": 81
+      },
+      {
+       "id": "corporate:6-33",
+       "name": "Phone Wallets & Holders",
+       "count": 29
+      },
+      {
+       "id": "corporate:6-34",
+       "name": "Wallets/Money Clips",
+       "count": 53
+      },
+      {
+       "id": "corporate:6-35",
+       "name": "Miscellaneous/Personal Items",
+       "count": 146
+      },
+      {
+       "id": "corporate:6-52",
+       "name": "Cake Pans/Pie Pans",
+       "count": 5
+      },
+      {
+       "id": "corporate:6-53",
+       "name": "Scented Candles",
+       "count": 14
+      },
+      {
+       "id": "corporate:6-42",
+       "name": "Bible/Book Covers",
+       "count": 20
+      },
+      {
+       "id": "corporate:6-41",
+       "name": "Leatherette Patches",
+       "count": 150
+      },
+      {
+       "id": "corporate:6-57",
+       "name": "Bison River Knives",
+       "count": 17
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

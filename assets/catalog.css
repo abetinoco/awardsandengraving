@@ -1,0 +1,130 @@
+/* ============================================================
+   Catalog — Premier Line collections browser.
+   Inherits every token, the nav, buttons and .wrap from styles.css;
+   this sheet adds only the catalog-specific components.
+   ============================================================ */
+
+/* ---------- page header ---------- */
+.cat-head{padding:38px 0 6px}
+.cat-head .kicker{margin-bottom:16px}
+.cat-head h1{font-family:var(--serif);font-weight:700;letter-spacing:-.01em;color:var(--cream);
+  font-size:clamp(32px,5vw,58px);line-height:1.03;margin:0 0 16px}
+.cat-head h1 em{font-style:italic;color:var(--gold)}
+.cat-head .sec-sub{max-width:60ch}
+
+/* ---------- breadcrumb ---------- */
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-family:var(--sans);
+  font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);margin:0 0 22px}
+.crumbs a{color:var(--gold);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.crumbs a:hover{border-color:var(--gold-soft)}
+.crumbs .sep{color:var(--ink-mute);opacity:.6}
+.crumbs .here{color:var(--ink-soft)}
+
+/* ---------- toolbar (search + count) ---------- */
+.cat-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin:6px 0 26px}
+.cat-search{position:relative;flex:1 1 320px;max-width:460px}
+.cat-search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--gold);pointer-events:none}
+.cat-search input{width:100%;font-family:var(--sans);font-size:15px;color:var(--cream);
+  background:var(--navy-2);border:1px solid var(--line-strong);border-radius:100px;
+  padding:13px 18px 13px 46px;outline:none;transition:border-color .25s,box-shadow .25s}
+.cat-search input::placeholder{color:var(--ink-mute)}
+.cat-search input:focus{border-color:var(--gold-soft);box-shadow:0 0 0 3px rgba(211,184,120,.14)}
+.cat-count{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--ink-soft);white-space:nowrap}
+.cat-count b{color:var(--gold)}
+
+/* ---------- collection cards (landing) ---------- */
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;margin:8px 0 20px}
+.collection-card{position:relative;display:flex;flex-direction:column;text-decoration:none;overflow:hidden;
+  background:var(--navy-2);border:1px solid var(--line-strong);border-radius:18px;
+  transition:transform .4s var(--ease),border-color .3s,box-shadow .3s}
+.collection-card:hover{transform:translateY(-4px);border-color:var(--gold-soft);box-shadow:0 20px 46px rgba(0,0,0,.42)}
+.collection-card .cc-media{aspect-ratio:4/3;background:
+  radial-gradient(120% 90% at 50% 0%,rgba(211,184,120,.10),transparent 70%),var(--navy-3);
+  display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
+.collection-card .cc-media img{width:74%;height:74%;object-fit:contain;filter:drop-shadow(0 14px 26px rgba(0,0,0,.45));
+  transition:transform .5s var(--ease)}
+.collection-card:hover .cc-media img{transform:scale(1.05)}
+.collection-card .cc-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px}
+.collection-card .cc-title{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--cream);line-height:1.12}
+.collection-card .cc-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}
+.collection-card .cc-count{font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.04em;color:var(--ink-soft)}
+.collection-card .cc-go{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12px;
+  font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);transition:gap .25s var(--ease)}
+.collection-card:hover .cc-go{gap:12px}
+
+/* ---------- group + category cards (collection view) ---------- */
+.group-block{margin:0 0 40px}
+.group-head{display:flex;align-items:baseline;gap:14px;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.group-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(21px,2.6vw,28px);color:var(--cream)}
+.group-head .g-count{font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.05em;color:var(--ink-mute)}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:14px}
+.category-card{display:flex;align-items:center;gap:14px;text-decoration:none;
+  background:var(--navy-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+  transition:transform .3s var(--ease),border-color .3s,background .3s}
+.category-card:hover{transform:translateY(-2px);border-color:var(--gold-soft);background:var(--navy-3)}
+.category-card .cc-thumb{flex:0 0 auto;width:64px;height:64px;border-radius:10px;overflow:hidden;
+  background:#fff;display:grid;place-items:center;
+  background-image:radial-gradient(120% 120% at 50% 0%,rgba(211,184,120,.16),transparent 70%),linear-gradient(180deg,var(--navy-3),var(--navy-2))}
+.category-card .cc-thumb img{width:100%;height:100%;object-fit:contain;padding:7px}
+.category-card .cat-txt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
+.category-card .cat-name{font-family:var(--sans);font-size:14.5px;font-weight:600;color:var(--cream);line-height:1.25}
+.category-card .cat-n{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink-mute)}
+.category-card .cat-go{flex:0 0 auto;width:18px;height:18px;color:var(--gold-soft);transition:transform .25s var(--ease),color .25s}
+.category-card:hover .cat-go{transform:translateX(3px);color:var(--gold)}
+
+/* ---------- product grid (category view) ---------- */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.product-card{display:flex;flex-direction:column;overflow:hidden;background:var(--navy-2);
+  border:1px solid var(--line);border-radius:15px;transition:transform .35s var(--ease),border-color .3s,box-shadow .3s}
+.product-card:hover{transform:translateY(-3px);border-color:var(--gold-soft);box-shadow:0 16px 38px rgba(0,0,0,.4)}
+.product-card .pc-media{position:relative;aspect-ratio:1;background:#fff;display:grid;place-items:center;overflow:hidden}
+.product-card .pc-media img{width:100%;height:100%;object-fit:contain;padding:14px;transition:transform .5s var(--ease)}
+.product-card:hover .pc-media img{transform:scale(1.06)}
+.product-card .pc-fav{position:absolute;top:10px;left:10px;font-family:var(--sans);font-size:10px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--navy);background:var(--gold);border-radius:100px;padding:4px 10px}
+.product-card .pc-body{padding:14px 15px 16px;display:flex;flex-direction:column;gap:9px;flex:1}
+.product-card .pc-name{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--cream);line-height:1.35;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.7em}
+.product-card .pc-meta{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--sans);font-size:11px;color:var(--ink-mute)}
+.product-card .pc-sku{font-weight:700;letter-spacing:.04em;color:var(--gold)}
+.product-card .pc-size{color:var(--ink-soft)}
+.product-card .pc-cta{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gold);background:transparent;border:1px solid var(--gold-soft);border-radius:100px;
+  padding:10px 14px;text-decoration:none;transition:background .25s,color .25s,border-color .25s}
+.product-card .pc-cta:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+
+/* featured row */
+.featured{margin:0 0 40px}
+.featured .group-head h2{color:var(--gold)}
+
+/* ---------- states ---------- */
+.cat-loading,.cat-empty{padding:70px 0;text-align:center;color:var(--ink-soft);font-family:var(--sans);font-size:15px}
+.cat-empty b{color:var(--cream);display:block;font-family:var(--serif);font-size:22px;margin-bottom:8px}
+.cat-spin{width:44px;height:44px;margin:0 auto 18px;border-radius:50%;
+  border:2.5px solid var(--line-strong);border-top-color:var(--gold);animation:catspin .9s linear infinite}
+@keyframes catspin{to{transform:rotate(360deg)}}
+
+/* "load more" */
+.load-more{display:block;margin:34px auto 0}
+
+/* ---------- catalog quote strip ---------- */
+.cat-cta-strip{margin:12px 0 40px;padding:30px 34px;border-radius:18px;border:1px solid var(--gold-soft);
+  background:linear-gradient(120deg,var(--navy-2),var(--navy-3));display:flex;flex-wrap:wrap;
+  align-items:center;justify-content:space-between;gap:20px}
+.cat-cta-strip .ccs-txt{max-width:60ch}
+.cat-cta-strip h3{font-family:var(--serif);font-size:23px;color:var(--cream);margin:0 0 6px}
+.cat-cta-strip p{color:var(--ink-soft);font-size:14.5px;margin:0}
+
+@media (max-width:640px){
+  .cat-bar{margin-bottom:20px}
+  .product-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .collection-grid{grid-template-columns:1fr}
+}
+
+/* ============================================================
+   Nav "Catalog" dropdown — shared across every public page.
+   Lives here because catalog.css is not loaded site-wide; the
+   matching rules are ALSO appended to styles.css so the dropdown
+   works on pages that don't load this sheet. (kept identical)
+   ============================================================ */

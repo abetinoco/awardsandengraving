@@ -429,3 +429,52 @@ button,input,select,textarea{font:inherit;color:inherit}
 .list-img{width:150px;max-height:150px;object-fit:contain;border-radius:9px;display:block;margin-bottom:8px;background:var(--line-2)}
 .list-img:not([src]),.list-img[src=""]{display:none}
 .inline-check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink)}
+
+/* ============================================================
+   Product catalog manager (hide / feature overrides)
+   ============================================================ */
+.cat-block{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;box-shadow:var(--sh);overflow:hidden}
+.cat-block>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:12px;padding:16px 18px;font-family:var(--serif)}
+.cat-block>summary::-webkit-details-marker{display:none}
+.cat-block>summary::before{content:"▸";color:var(--gold);font-family:var(--sans);transition:transform .2s;display:inline-block}
+.cat-block[open]>summary::before{transform:rotate(90deg)}
+.cat-block .cat-name{font-size:17px;font-weight:700;color:var(--ink)}
+.cat-block .cat-meta{font-family:var(--sans);font-size:12.5px;color:var(--ink-mute);margin-left:auto}
+.cat-inner{border-top:1px solid var(--line-2);padding:6px 18px 14px}
+.cat-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line-2)}
+.cat-row:last-child{border-bottom:0}
+.cat-row-top{border-bottom:2px solid var(--line);margin-bottom:4px}
+.cat-row-top .cat-row-lbl{font-weight:700}
+.cat-grp{padding-left:6px}
+.cat-grp .cat-row-lbl{font-weight:600;color:var(--ink)}
+.cat-cat{padding-left:22px}
+.cat-cat .cat-row-lbl{color:var(--ink-soft)}
+.cat-row-lbl{flex:1;font-family:var(--sans);font-size:14px}
+.cat-row-n{font-family:var(--sans);font-size:12px;color:var(--ink-mute);min-width:44px;text-align:right}
+.cat-manage{font-size:12px;white-space:nowrap}
+/* the Shown/Hidden switch */
+.cat-sw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;min-width:96px;justify-content:flex-end}
+.cat-sw input{appearance:none;-webkit-appearance:none;width:38px;height:22px;border-radius:100px;background:var(--ok);position:relative;cursor:pointer;transition:background .2s;flex:0 0 auto}
+.cat-sw.off input{background:var(--ink-mute)}
+.cat-sw input::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.cat-sw input:checked::after{transform:translateX(16px)}
+.cat-sw-txt{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ok)}
+.cat-sw.off .cat-sw-txt{color:var(--ink-mute)}
+/* product grid in a category */
+.cat-prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.cat-prod{background:var(--card);border:1px solid var(--line);border-radius:11px;overflow:hidden;box-shadow:var(--sh);transition:opacity .2s}
+.cat-prod.is-hidden{opacity:.42}
+.cat-prod-media{position:relative;aspect-ratio:1;background:#fff;display:grid;place-items:center}
+.cat-prod-media img{width:100%;height:100%;object-fit:contain;padding:10px}
+.cat-star{position:absolute;top:7px;right:7px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--ink-mute);font-size:15px;line-height:1;cursor:pointer;box-shadow:var(--sh);transition:all .2s}
+.cat-star:hover{border-color:var(--gold)}
+.cat-star.on{background:var(--gold-2);color:#fff;border-color:var(--gold-2)}
+.cat-prod-body{padding:10px 11px 12px}
+.cat-prod-name{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.cat-prod-sku{font-family:var(--sans);font-size:11px;color:var(--ink-mute);margin:4px 0 9px}
+.cat-eye{width:100%;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px;cursor:pointer;transition:border-color .2s}
+.cat-eye:hover{border-color:var(--gold)}
+.cat-prod.is-hidden .cat-eye{color:var(--warn);border-color:var(--warn)}

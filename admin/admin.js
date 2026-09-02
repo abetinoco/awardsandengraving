@@ -187,6 +187,11 @@
     if (route === '/portfolio') { location.hash = '#/page/portfolio/items'; return; }
     if (route === '/media') return viewMedia(main);
     if (route === '/vendors') return viewVendors(main);
+    if (route === '/catalog') return viewCatalog(main);
+    if (route.indexOf('/catalog/') === 0) {
+      var cseg = route.slice(9).split('/');
+      return viewCatalogItems(main, cseg[0], cseg.slice(1).join('/'));
+    }
     if (route.indexOf('/list/') === 0) return viewList(main, route.slice(6));
     if (route === '/leads') return viewLeads(main);
     if (route === '/activity') return viewActivity(main);
@@ -1770,12 +1775,196 @@
 
   /* =============================================================== boot == */
 
+  /* ============================================================ catalog ==
+     The Premier Line catalog (10,030 items across 7 collections) lives in
+     static JSON under /catalog/ and is refreshed by re-running the scraper —
+     never edited here. This screen writes ONLY hide / feature decisions into
+     the catalog_overrides table, which the public catalog layers on top.
+
+     Refs (must match assets/catalog.js exactly):
+       col:<key>              a whole collection
+       grp:<key>|<group>      a group within a collection
+       cat:<cid>             a category
+       sku:<SKU>             one product   (also the only ref that can be featured)
+  */
+  var catIndex = null;        // parsed /catalog/index.json
+  var catState = {};          // ref -> { hidden:bool, featured:bool }
+  var catProds = {};          // collection key -> products-by-cid (lazy)
+
+  function catLabelFor(key) {
+    var c = (catIndex.collections || []).filter(function (x) { return x.key === key; })[0];
+    return c ? c.label : key;
+  }
+  function loadCatData() {
+    return Promise.all([
+      catIndex ? Promise.resolve(catIndex) : fetch('/assets/catalog/index.json').then(function (r) { return r.json(); }).then(function (d) { catIndex = d; return d; }),
+      api('catalog_overrides?select=ref,hidden,featured').catch(function () { return []; }),
+    ]).then(function (res) {
+      catState = {};
+      (res[1] || []).forEach(function (row) { catState[row.ref] = { hidden: !!row.hidden, featured: !!row.featured }; });
+      return catIndex;
+    });
+  }
+  function catFlag(ref, which) { return !!(catState[ref] && catState[ref][which]); }
+
+  /* Always writes the complete row so a merge-duplicates upsert can't drop the
+     other flag; deletes the row when nothing is set, to keep the table tidy. */
+  function writeOverride(ref, patch, label) {
+    var cur = catState[ref] || { hidden: false, featured: false };
+    var next = { hidden: patch.hidden != null ? patch.hidden : cur.hidden,
+                 featured: patch.featured != null ? patch.featured : cur.featured };
+    catState[ref] = next;
+    var p;
+    if (!next.hidden && !next.featured) {
+      p = api('catalog_overrides?ref=eq.' + encodeURIComponent(ref), { method: 'DELETE', headers: { Prefer: 'return=minimal' } });
+    } else {
+      p = api('catalog_overrides', {
+        method: 'POST',
+        headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
+        body: JSON.stringify({ ref: ref, hidden: next.hidden, featured: next.featured, label: label || null, updated_by: me }),
+      });
+    }
+    return p.then(function () {
+      logActivity('saved', 'Catalog — ' + ref, JSON.stringify(next));
+    }).catch(function (e) {
+      toast('Could not save: ' + e.message, 'err');
+      window.AE_SENTRY.capture(e, { step: 'catalog-override', ref: ref });
+    });
+  }
+
+  /* A "Shown / Hidden" switch. onToggle(nowShown) fires after the write. */
+  function showSwitch(ref, label, onAfter) {
+    var shown = !catFlag(ref, 'hidden');
+    var cb = h('input', { type: 'checkbox' }); cb.checked = shown;
+    var txt = h('span', { class: 'cat-sw-txt', text: shown ? 'Shown' : 'Hidden' });
+    var wrap = h('label', { class: 'cat-sw' + (shown ? '' : ' off') }, [cb, txt]);
+    cb.addEventListener('change', function () {
+      var nowHidden = !cb.checked;
+      txt.textContent = nowHidden ? 'Hidden' : 'Shown';
+      wrap.classList.toggle('off', nowHidden);
+      writeOverride(ref, { hidden: nowHidden }, label).then(function () {
+        toast(nowHidden ? '“' + label + '” hidden from the site.' : '“' + label + '” is back on the site.');
+        if (onAfter) onAfter(!nowHidden);
+      });
+    });
+    return wrap;
+  }
+
+  function viewCatalog(main) {
+    main.appendChild(header('Product catalog',
+      'Everything from Premier Line — 10,030 items across 7 collections. The catalog itself refreshes on its own; here you just choose what to show. Hide a whole collection, a group, or a single category. To hide or feature individual products, open a category’s “Manage items”.',
+      [], [{ label: 'Dashboard', href: '#/' }, { label: 'Product catalog' }]));
+    var box = h('div', { class: 'pane-form' }, [h('p', { class: 'hint', text: 'Loading the catalog…' })]);
+    main.appendChild(box);
+    loadCatData().then(function () {
+      box.textContent = '';
+      (catIndex.collections || []).forEach(function (c) { box.appendChild(catCollectionBlock(c)); });
+    }).catch(function (e) {
+      box.textContent = '';
+      box.appendChild(h('p', { class: 'hint', text: 'Could not load the catalog: ' + e.message }));
+    });
+  }
+
+  function catCollectionBlock(c) {
+    var ref = 'col:' + c.key;
+    var det = h('details', { class: 'cat-block' });
+    var sum = h('summary', {}, [
+      h('span', { class: 'cat-name', text: c.label }),
+      h('span', { class: 'cat-meta', text: c.count.toLocaleString() + ' items · ' + c.groups.length + ' groups' }),
+    ]);
+    det.appendChild(sum);
+    var inner = h('div', { class: 'cat-inner' });
+    inner.appendChild(h('div', { class: 'cat-row cat-row-top' }, [
+      h('span', { class: 'cat-row-lbl', text: 'Show this whole collection' }),
+      showSwitch(ref, c.label),
+    ]));
+    c.groups.forEach(function (g) {
+      var gref = 'grp:' + c.key + '|' + g.name;
+      inner.appendChild(h('div', { class: 'cat-row cat-grp' }, [
+        h('span', { class: 'cat-row-lbl', text: g.name }),
+        h('span', { class: 'cat-row-n', text: g.count.toLocaleString() }),
+        showSwitch(gref, g.name),
+      ]));
+      g.categories.forEach(function (cat) {
+        var cref = 'cat:' + cat.id;
+        var manage = h('button', { class: 'linkish cat-manage', type: 'button' }, [document.createTextNode('Manage items')]);
+        manage.addEventListener('click', function () { location.hash = '#/catalog/' + c.key + '/' + cat.id; });
+        inner.appendChild(h('div', { class: 'cat-row cat-cat' }, [
+          h('span', { class: 'cat-row-lbl', text: cat.name }),
+          h('span', { class: 'cat-row-n', text: String(cat.count) }),
+          manage,
+          showSwitch(cref, cat.name),
+        ]));
+      });
+    });
+    det.appendChild(inner);
+    return det;
+  }
+
+  function findCat(key, cid) {
+    var c = (catIndex.collections || []).filter(function (x) { return x.key === key; })[0];
+    if (!c) return null;
+    for (var i = 0; i < c.groups.length; i++) for (var j = 0; j < c.groups[i].categories.length; j++)
+      if (c.groups[i].categories[j].id === cid) return { coll: c, group: c.groups[i], cat: c.groups[i].categories[j] };
+    return null;
+  }
+
+  function viewCatalogItems(main, key, cid) {
+    (catIndex ? Promise.resolve() : loadCatData()).then(function () {
+      var f = findCat(key, cid);
+      if (!f) { location.hash = '#/catalog'; return; }
+      main.appendChild(header(f.cat.name,
+        'Hide individual products, or ⭐ feature a few to pin them to the top of “' + f.coll.label + '”.',
+        [], [{ label: 'Dashboard', href: '#/' }, { label: 'Product catalog', href: '#/catalog' },
+             { label: f.coll.label, href: '#/catalog' }, { label: f.cat.name }]));
+      var box = h('div', { class: 'pane-form' }, [h('p', { class: 'hint', text: 'Loading products…' })]);
+      main.appendChild(box);
+      var pp = catProds[key] ? Promise.resolve(catProds[key]) : fetch('/assets/catalog/' + key + '.json').then(function (r) { return r.json(); }).then(function (d) { catProds[key] = d; return d; });
+      pp.then(function (byCid) {
+        box.textContent = '';
+        var items = byCid[cid] || [];
+        if (!items.length) { box.appendChild(h('p', { class: 'hint', text: 'This category has no products.' })); return; }
+        var grid = h('div', { class: 'cat-prod-grid' });
+        items.forEach(function (p) { grid.appendChild(catProductCard(p)); });
+        box.appendChild(grid);
+      }).catch(function (e) { box.textContent = ''; box.appendChild(h('p', { class: 'hint', text: 'Could not load products: ' + e.message })); });
+    });
+  }
+
+  function catProductCard(p) {
+    var ref = 'sku:' + p.sku;
+    var img = h('img', { src: p.image, alt: p.name || p.sku, loading: 'lazy' });
+    var star = h('button', { class: 'cat-star' + (catFlag(ref, 'featured') ? ' on' : ''), type: 'button', title: 'Feature this product', 'aria-label': 'Feature this product', text: '★' });
+    var eye = h('button', { class: 'cat-eye', type: 'button' }, [document.createTextNode(catFlag(ref, 'hidden') ? 'Hidden — show' : 'Hide')]);
+    var card = h('div', { class: 'cat-prod' + (catFlag(ref, 'hidden') ? ' is-hidden' : '') }, [
+      h('div', { class: 'cat-prod-media' }, [img, star]),
+      h('div', { class: 'cat-prod-body' }, [
+        h('div', { class: 'cat-prod-name', text: p.name || p.sku }),
+        h('div', { class: 'cat-prod-sku', text: p.sku + (p.size ? ' · ' + p.size : '') }),
+        eye,
+      ]),
+    ]);
+    star.addEventListener('click', function () {
+      var now = !catFlag(ref, 'featured');
+      star.classList.toggle('on', now);
+      writeOverride(ref, { featured: now }, p.name || p.sku).then(function () { toast(now ? 'Featured “' + (p.name || p.sku) + '”.' : 'Unfeatured.'); });
+    });
+    eye.addEventListener('click', function () {
+      var nowHidden = !catFlag(ref, 'hidden');
+      card.classList.toggle('is-hidden', nowHidden);
+      eye.textContent = nowHidden ? 'Hidden — show' : 'Hide';
+      writeOverride(ref, { hidden: nowHidden }, p.name || p.sku).then(function () { toast(nowHidden ? 'Product hidden.' : 'Product shown.'); });
+    });
+    return card;
+  }
+
   function buildNav() {
     var nav = el('#sideNav'); nav.textContent = '';
     nav.appendChild(navBtn('/', 'Dashboard', 'dashboard'));
     nav.appendChild(h('div', { class: 'grp', text: 'Your site' }));
     PAGES.forEach(function (p) { nav.appendChild(navBtn('/page/' + p.id, p.label, p.icon)); });
     nav.appendChild(navBtn('/vendors', 'Vendors', 'building'));
+    nav.appendChild(navBtn('/catalog', 'Product catalog', 'book'));
     // Every list in site-lists.js gets a menu entry automatically.
     Object.keys(listDefs()).forEach(function (k) {
       nav.appendChild(navBtn('/list/' + k, listDefs()[k].label, listDefs()[k].icon || 'file'));
