@@ -117,9 +117,46 @@
 .cat-cta-strip p{color:var(--ink-soft);font-size:14.5px;margin:0}
 
 @media (max-width:640px){
-  .cat-bar{margin-bottom:20px}
-  .product-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-  .collection-grid{grid-template-columns:1fr}
+  .cat-head{padding:24px 0 4px}
+  .cat-head h1{margin-bottom:12px}
+  .cat-bar{margin-bottom:16px}
+  .cat-search{flex:1 1 100%;max-width:none}
+  .cat-count{font-size:12px}
+  .crumbs{font-size:11px;margin-bottom:16px}
+  .group-head{margin-bottom:14px}
+
+  /* Two columns everywhere on mobile — more on screen at once.
+     Explicit 2-col (not auto-fill) so it holds even on a 320px phone. */
+  .collection-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .category-grid{grid-template-columns:repeat(2,1fr);gap:11px}
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:11px}
+
+  /* compact collection cards */
+  .collection-card{border-radius:14px}
+  .collection-card .cc-body{padding:12px 13px 14px;gap:5px}
+  .collection-card .cc-title{font-size:15.5px;line-height:1.15}
+  .collection-card .cc-count{font-size:11px}
+  .collection-card .cc-go{display:none}       /* whole card is the tap target */
+
+  /* category cards stack vertically (thumb on top) so two fit per row */
+  .category-card{flex-direction:column;align-items:stretch;gap:0;padding:0;overflow:hidden}
+  .category-card .cc-thumb{width:100%;height:auto;aspect-ratio:4/3;border-radius:0}
+  .category-card .cat-txt{padding:10px 11px 12px;gap:2px}
+  .category-card .cat-name{font-size:13px;line-height:1.25}
+  .category-card .cat-n{font-size:11px}
+  .category-card .cat-go{display:none}
+
+  /* compact product cards */
+  .product-card .pc-body{padding:10px 11px 12px;gap:7px}
+  .product-card .pc-name{font-size:12px;min-height:2.6em}
+  .product-card .pc-meta{font-size:10.5px}
+  .product-card .pc-cta{padding:9px 10px;font-size:10.5px;letter-spacing:.04em}
+
+  /* quote strip stacks */
+  .cat-cta-strip{padding:20px 18px;flex-direction:column;align-items:flex-start;gap:14px}
+  .cat-cta-strip h3{font-size:19px}
+  .cat-cta-strip p{font-size:13.5px}
+  .cat-cta-strip .btn{width:100%;justify-content:center}
 }
 
 /* ============================================================
