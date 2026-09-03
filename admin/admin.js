@@ -1677,28 +1677,101 @@
 
   /* ------------------------------------------------------------ leads --- */
 
+  var LEAD_STATUSES = [
+    { key: 'new',       label: 'New' },
+    { key: 'contacted', label: 'Contacted' },
+    { key: 'won',       label: 'Won' },
+    { key: 'lost',      label: 'Lost' },
+  ];
+  var leadFilter = 'all';
+  var leadRowsData = [];
+
   function viewLeads(main) {
-    main.appendChild(header('Quote requests', 'Everyone who filled in the form on the website.', [],
+    main.appendChild(header('Quote requests', 'Everyone who filled in the form on the website. Set each one’s status to track which convert.', [],
       [{ label: 'Dashboard', href: '#/' }, { label: 'Quote requests' }]));
-    main.appendChild(h('div', { class: 'pane-form' }, [h('div', { class: 'rows', id: 'leadRows' }, [h('p', { class: 'hint', text: 'Loading…' })])]));
-    api('leads?select=*&order=created_at.desc&limit=100').then(function (rows) {
-      var b = el('#leadRows'); if (!b) return;
-      b.textContent = '';
-      if (!rows.length) { b.appendChild(h('p', { class: 'hint', text: 'No quote requests yet.' })); return; }
-      rows.forEach(function (l) {
-        var body = h('div', { class: 'row-body' }); body.hidden = true;
-        body.appendChild(h('p', { text: l.message || '(no message)' }));
-        body.appendChild(h('p', { class: 'hint', text: [l.email, l.phone, l.interest].filter(Boolean).join(' · ') }));
-        body.appendChild(h('a', { class: 'btn-line btn-sm', href: 'mailto:' + l.email, text: 'Reply by email' }));
-        var top = h('div', { class: 'row-top' }, [
-          h('span', { class: 'av', style: 'background:#4a5a7a', text: (l.name || '?').charAt(0) }),
-          h('b', { text: l.name }), h('span', { class: 'meta', text: l.interest || '' }),
-          h('span', { class: 'sp' }), h('span', { class: 'meta', text: ago(l.created_at) }),
-        ]);
-        top.addEventListener('click', function () { body.hidden = !body.hidden; });
-        b.appendChild(h('div', { class: 'row' }, [top, body]));
-      });
+    main.appendChild(h('div', { class: 'pane-form' }, [
+      h('div', { class: 'lead-summary', id: 'leadSummary' }),
+      h('div', { class: 'lead-filters', id: 'leadFilters' }),
+      h('div', { class: 'rows', id: 'leadRows' }, [h('p', { class: 'hint', text: 'Loading…' })]),
+    ]));
+    api('leads?select=*&order=created_at.desc&limit=200').then(function (rows) {
+      leadRowsData = rows || [];
+      renderLeadSummary();
+      renderLeadFilters();
+      renderLeadRows();
     }).catch(function (e) { toast('Could not load: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'load-leads' }); });
+  }
+
+  function leadCounts() {
+    var c = { all: leadRowsData.length, new: 0, contacted: 0, won: 0, lost: 0 };
+    leadRowsData.forEach(function (l) { var s = l.status || 'new'; if (c[s] != null) c[s]++; });
+    return c;
+  }
+  function renderLeadSummary() {
+    var box = el('#leadSummary'); if (!box) return; box.textContent = '';
+    var c = leadCounts();
+    var rate = c.all ? Math.round((c.won / c.all) * 100) : 0;
+    box.appendChild(h('div', { class: 'lead-stat' }, [h('b', { text: String(c.all) }), h('span', { text: 'total' })]));
+    box.appendChild(h('div', { class: 'lead-stat won' }, [h('b', { text: String(c.won) }), h('span', { text: 'converted' })]));
+    box.appendChild(h('div', { class: 'lead-stat' }, [h('b', { text: rate + '%' }), h('span', { text: 'conversion rate' })]));
+  }
+  function renderLeadFilters() {
+    var box = el('#leadFilters'); if (!box) return; box.textContent = '';
+    var c = leadCounts();
+    var defs = [{ key: 'all', label: 'All' }].concat(LEAD_STATUSES);
+    defs.forEach(function (d) {
+      var chip = h('button', { class: 'lead-chip' + (leadFilter === d.key ? ' on' : '') + (d.key !== 'all' ? ' st-' + d.key : ''), type: 'button',
+        text: d.label + ' (' + (c[d.key] || 0) + ')' });
+      chip.addEventListener('click', function () { leadFilter = d.key; renderLeadFilters(); renderLeadRows(); });
+      box.appendChild(chip);
+    });
+  }
+  function renderLeadRows() {
+    var b = el('#leadRows'); if (!b) return; b.textContent = '';
+    var rows = leadRowsData.filter(function (l) { return leadFilter === 'all' || (l.status || 'new') === leadFilter; });
+    if (!rows.length) { b.appendChild(h('p', { class: 'hint', text: leadRowsData.length ? 'No requests with this status.' : 'No quote requests yet.' })); return; }
+    rows.forEach(function (l) { b.appendChild(leadRow(l)); });
+  }
+
+  function leadRow(l) {
+    var status = l.status || 'new';
+    var body = h('div', { class: 'row-body' }); body.hidden = true;
+    body.appendChild(h('p', { text: l.message || '(no message)' }));
+    body.appendChild(h('p', { class: 'hint', text: [l.email, l.phone, l.interest].filter(Boolean).join(' · ') }));
+    body.appendChild(h('a', { class: 'btn-line btn-sm', href: 'mailto:' + l.email, text: 'Reply by email' }));
+
+    var pill = h('span', { class: 'st-pill st-' + status, text: (LEAD_STATUSES.filter(function (s) { return s.key === status; })[0] || {}).label || status });
+
+    /* status dropdown — click doesn't toggle the row open */
+    var sel = h('select', { class: 'lead-status-sel st-' + status });
+    LEAD_STATUSES.forEach(function (s) {
+      var o = h('option', { value: s.key, text: s.label }); if (s.key === status) o.selected = true; sel.appendChild(o);
+    });
+    sel.addEventListener('click', function (e) { e.stopPropagation(); });
+    sel.addEventListener('change', function () {
+      var next = sel.value, prev = l.status || 'new';
+      sel.disabled = true;
+      api('leads?id=eq.' + l.id, { method: 'PATCH', headers: { Prefer: 'return=minimal' },
+        body: JSON.stringify({ status: next, status_updated_at: new Date().toISOString() }) })
+        .then(function () {
+          l.status = next; sel.className = 'lead-status-sel st-' + next;
+          pill.className = 'st-pill st-' + next;
+          pill.textContent = (LEAD_STATUSES.filter(function (s) { return s.key === next; })[0] || {}).label || next;
+          logActivity('saved', 'Lead — ' + (l.name || l.email), next, prev, next);
+          toast('Marked “' + (l.name || 'lead') + '” as ' + next + '.');
+          renderLeadSummary(); renderLeadFilters();
+        })
+        .catch(function (e) { sel.value = prev; toast('Could not update: ' + e.message, 'err'); window.AE_SENTRY.capture(e, { step: 'lead-status' }); })
+        .then(function () { sel.disabled = false; });
+    });
+
+    var top = h('div', { class: 'row-top' }, [
+      h('span', { class: 'av', style: 'background:#4a5a7a', text: (l.name || '?').charAt(0) }),
+      h('b', { text: l.name }), pill,
+      h('span', { class: 'sp' }), h('span', { class: 'meta', text: ago(l.created_at) }), sel,
+    ]);
+    top.addEventListener('click', function () { body.hidden = !body.hidden; });
+    return h('div', { class: 'row' }, [top, body]);
   }
 
   /* --------------------------------------------------------- activity --- */

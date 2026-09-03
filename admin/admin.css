@@ -478,3 +478,34 @@ button,input,select,textarea{font:inherit;color:inherit}
   background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px;cursor:pointer;transition:border-color .2s}
 .cat-eye:hover{border-color:var(--gold)}
 .cat-prod.is-hidden .cat-eye{color:var(--warn);border-color:var(--warn)}
+
+/* ============================================================
+   Lead conversion tracking (Quote requests)
+   ============================================================ */
+.lead-summary{display:flex;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+.lead-stat{flex:1 1 120px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--sh)}
+.lead-stat b{display:block;font-family:var(--serif);font-size:26px;color:var(--ink);line-height:1}
+.lead-stat span{font-family:var(--sans);font-size:12px;color:var(--ink-mute);letter-spacing:.02em}
+.lead-stat.won b{color:var(--ok)}
+.lead-filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.lead-chip{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-soft);background:var(--card);
+  border:1px solid var(--line);border-radius:100px;padding:7px 13px;cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+.lead-chip:hover{border-color:var(--gold)}
+.lead-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* status pill (in the row header) */
+.st-pill{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.03em;border-radius:100px;padding:3px 10px;text-transform:uppercase}
+.st-new{background:#e9eef7;color:#3a4a63}
+.st-contacted{background:#fbeecd;color:#8a5a12}
+.st-won{background:#d8efe2;color:#1e6b48}
+.st-lost{background:#f3e0dd;color:#9a3b2c}
+
+/* inline status dropdown */
+.lead-status-sel{font-family:var(--sans);font-size:12.5px;font-weight:600;border:1px solid var(--line);
+  border-radius:9px;padding:6px 26px 6px 10px;cursor:pointer;background:var(--card) no-repeat right 8px center;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b95a5' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  -webkit-appearance:none;appearance:none}
+.lead-status-sel:hover{border-color:var(--gold)}
+.lead-status-sel.st-won{border-color:var(--ok);color:#1e6b48}
+.lead-status-sel.st-lost{border-color:#c98a7f;color:#9a3b2c}
+.lead-status-sel.st-contacted{border-color:#d9b874;color:#8a5a12}
