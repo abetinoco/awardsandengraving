@@ -1,0 +1,20 @@
+# Files in this repo that are NOT part of the website.
+#
+# Vercel serves every file it is given, publicly, at its path. Before this file
+# existed, awardsandengraving.com/CLIENT-MEETING-PREP.md and every database
+# migration (including the row-level security policies that protect the data)
+# were readable by anyone. The site needs none of them: it is static HTML, the
+# functions in api/, and assets/.
+
+# Internal notes and write-ups
+*.md
+
+# Database migrations: run by hand in the Supabase SQL editor, never served
+supabase/
+
+# Local tooling: the preview server and the api/_shell.js generator.
+# api/_shell.js itself is generated INTO api/ and is still deployed.
+tools/
+
+# Catalog scraper scripts that produce assets/catalog/
+assets/*.py
