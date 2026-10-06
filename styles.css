@@ -685,6 +685,31 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
 .chip:hover{color:var(--gold);border-color:var(--gold)}
 .chip.on{background:var(--gold);border-color:var(--gold);color:var(--navy)}
 .gal figure.hide{display:none}
+/* "Show more work" under the Portfolio gallery; site.js adds it once a filter
+   holds more than 24 pieces. An outline button, so it never competes with the
+   gold "See the machines" call to action just below it. */
+.gal-more{display:flex;justify-content:center;margin-top:30px}
+.gal-more[hidden]{display:none}
+/* Portfolio grid, three across on tablets. Two columns of ~380px tiles made
+   the page about 36,000px tall at 820. */
+@media (min-width:601px) and (max-width:960px){
+  .gal[data-ae-list="portfolio"]{grid-template-columns:repeat(3,1fr)}
+}
+/* Phones: the ten filter buttons sit in one row that scrolls sideways instead
+   of five rows pushing the first photo ~700px down the page. Both edges fade
+   (the right one shows there is more); the side padding keeps the first and
+   last buttons clear of the fades at either end of the row. */
+@media (max-width:600px){
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin:6px -22px 26px;padding:2px 48px 4px 22px;scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 48px),transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 48px),transparent)}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;white-space:nowrap}
+}
+/* Social handles in an eyebrow: each icon stays with its handle, and on a
+   phone the second one drops to its own line instead of running off screen. */
+.eyebrow.handles{flex-wrap:wrap;column-gap:22px;row-gap:8px}
+.eyebrow.handles .eb-h{display:inline-flex;align-items:center;gap:10px}
 
 /* ---------- timeline (about) ---------- */
 .timeline{position:relative;margin:44px 0 6px;padding-left:36px;border-left:1px solid var(--gold-soft);display:grid;gap:34px}

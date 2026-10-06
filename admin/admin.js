@@ -731,6 +731,11 @@
 
   /* -------------------------------------------------------- portfolio --- */
 
+  /* The category dropdown on each piece. These five are only the fallback:
+     loadPortfolio() replaces them with the portfolio_categories table, so a
+     category added under the filter buttons can be picked here too. Before,
+     a piece in any other category opened with "Awards" selected, and pressing
+     Save quietly moved it there. */
   var PF_CATS = [
     ['awards', 'Awards'], ['plaques', 'Plaques'], ['gifts', 'Gifts'],
     ['engraving', 'Engraving'], ['shop', 'The shop'],
@@ -769,7 +774,16 @@
   }
 
   function loadPortfolio() {
-    api('portfolio_items?select=*&order=order_index.asc,created_at.asc').then(function (rows) {
+    Promise.all([
+      api('portfolio_items?select=*&order=order_index.asc,created_at.asc'),
+      api('portfolio_categories?select=slug,label,visible&order=order_index.asc').catch(function () { return null; }),
+    ]).then(function (res) {
+      var rows = res[0] || [];
+      if (res[1] && res[1].length) {
+        PF_CATS = res[1].map(function (c) {
+          return [c.slug, (c.label || c.slug) + (c.visible ? '' : ' (hidden filter)')];
+        });
+      }
       var box = el('#pfRows'); if (!box) return;
       box.textContent = '';
       if (!rows.length) {
@@ -822,7 +836,13 @@
     var caption = h('input', { type: 'text', value: r.caption || '' });
     var alt = h('input', { type: 'text', value: r.alt || '' });
     var cat = h('select', {});
-    PF_CATS.forEach(function (c) {
+    var cats = PF_CATS.slice();
+    // A piece whose category is not in the list (deleted since, or the list
+    // failed to load) keeps it as an option, so Save never moves the piece.
+    if (r.category && !cats.some(function (c) { return c[0] === r.category; })) {
+      cats.push([r.category, r.category]);
+    }
+    cats.forEach(function (c) {
       var o = h('option', { value: c[0], text: c[1] });
       if (c[0] === r.category) o.selected = true;
       cat.appendChild(o);

@@ -91,9 +91,21 @@ window.siteTurnstileExpired = function () {
   // the CMS (services, portfolio, vendors) are injected *after* this runs, so
   // scanning only once left them permanently invisible — they were in the DOM,
   // just never revealed. observeReveals() is re-run whenever content renders.
+  // A section reveals once 12% of it is on screen, or once it fills 12% of
+  // the screen, whichever comes first. The second test is for sections more
+  // than about eight screens tall: they can never be 12% visible, so a plain
+  // 0.12 threshold left them at opacity 0 for good. The Portfolio gallery hits
+  // that on a phone once it holds ~50 photos. The small thresholds only make
+  // the observer re-check while such a section scrolls in.
   var io = new IntersectionObserver(function (es) {
-    es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-  }, { threshold: 0.12 });
+    es.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var screen = en.rootBounds ? en.rootBounds.height : window.innerHeight;
+      if (en.intersectionRatio >= 0.11 || en.intersectionRect.height >= screen * 0.12) {
+        en.target.classList.add('in'); io.unobserve(en.target);
+      }
+    });
+  }, { threshold: [0, 0.01, 0.02, 0.04, 0.08, 0.12] });
 
   function observeReveals() {
     document.querySelectorAll('.reveal:not([data-revealed])').forEach(function (el) {
@@ -114,24 +126,58 @@ window.siteTurnstileExpired = function () {
   // Both the chips and the figures are re-rendered from the CMS after load, so
   // this delegates from the container instead of binding to elements that may
   // be replaced. Nothing here caches a NodeList.
+  // The gallery shows PAGE pieces of the chosen filter, then a "Show more"
+  // button adds PAGE at a time. At well over a hundred pieces one long run
+  // buried everything below it. 24 fills whole rows at 2, 3 and 4 columns.
+  // The admin's live preview shows every piece, so scrolling to the one being
+  // edited still works.
   var chipBar = document.querySelector('.chips');
   if (chipBar) {
-    var currentFilter = 'all';
+    var PAGE = 24;
+    var showAll = /[?&]adminPreview=1\b/.test(window.location.search);
+    var currentFilter = 'all', shown = PAGE;
+    var more = document.createElement('div');
+    more.className = 'gal-more';
+    more.hidden = true;
+    var moreBtn = document.createElement('button');
+    moreBtn.type = 'button';
+    moreBtn.className = 'btn btn-line';
+    more.appendChild(moreBtn);
+    var gal = document.querySelector('[data-ae-list="portfolio"]');
+    if (gal) gal.parentNode.insertBefore(more, gal.nextSibling);
+
     var applyFilter = function (f) {
       currentFilter = f;
+      var n = 0;
       document.querySelectorAll('.gal figure[data-cat]').forEach(function (fig) {
-        fig.classList.toggle('hide', f !== 'all' && fig.getAttribute('data-cat') !== f);
+        var match = f === 'all' || fig.getAttribute('data-cat') === f;
+        if (match) n++;
+        fig.classList.toggle('hide', !match || (!showAll && n > shown));
       });
+      var left = showAll ? 0 : n - shown;
+      more.hidden = left <= 0;
+      moreBtn.textContent = 'Show more work (' + left + ')';
       chipBar.querySelectorAll('.chip').forEach(function (x) {
         var on = x.getAttribute('data-filter') === f;
         x.classList.toggle('on', on);
         x.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
     };
+    moreBtn.addEventListener('click', function () {
+      shown += PAGE;
+      applyFilter(currentFilter);
+    });
     chipBar.addEventListener('click', function (e) {
       var c = e.target.closest ? e.target.closest('.chip') : null;
       if (!c || !chipBar.contains(c)) return;
+      shown = PAGE;
       applyFilter(c.getAttribute('data-filter'));
+      // On a phone the buttons are one sideways-scrolling row: bring the
+      // tapped one to the middle so it never sits half under an edge.
+      if (chipBar.scrollWidth > chipBar.clientWidth) {
+        var cr = c.getBoundingClientRect(), br = chipBar.getBoundingClientRect();
+        chipBar.scrollBy({ left: cr.left + cr.width / 2 - (br.left + br.width / 2), behavior: 'smooth' });
+      }
     });
     // Re-apply the active filter whenever the CMS swaps chips or figures in.
     document.addEventListener('ae:portfolio-rendered', function () { applyFilter(currentFilter); });

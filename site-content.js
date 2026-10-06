@@ -189,13 +189,17 @@
       img.src = r.image_url || '';
       img.alt = r.alt || r.title || '';
       img.loading = 'lazy';
-      var cap = document.createElement('figcaption');
-      var b = document.createElement('b');
-      b.textContent = r.title || '';
-      cap.appendChild(b);
-      if (r.caption) cap.appendChild(document.createTextNode(r.caption));
       fig.appendChild(img);
-      fig.appendChild(cap);
+      // A piece with no title and no caption gets no caption bar. An empty one
+      // still slides its dark gradient up over the photo on hover.
+      if (r.title || r.caption) {
+        var cap = document.createElement('figcaption');
+        var b = document.createElement('b');
+        b.textContent = r.title || '';
+        cap.appendChild(b);
+        if (r.caption) cap.appendChild(document.createTextNode(r.caption));
+        fig.appendChild(cap);
+      }
       return fig;
     }
 
