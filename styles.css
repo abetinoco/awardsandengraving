@@ -685,11 +685,6 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
 .chip:hover{color:var(--gold);border-color:var(--gold)}
 .chip.on{background:var(--gold);border-color:var(--gold);color:var(--navy)}
 .gal figure.hide{display:none}
-/* "Show more work" under the Portfolio gallery; site.js adds it once a filter
-   holds more than 24 pieces. An outline button, so it never competes with the
-   gold "See the machines" call to action just below it. */
-.gal-more{display:flex;justify-content:center;margin-top:30px}
-.gal-more[hidden]{display:none}
 /* Portfolio grid, three across on tablets. Two columns of ~380px tiles made
    the page about 36,000px tall at 820. */
 @media (min-width:601px) and (max-width:960px){

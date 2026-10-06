@@ -126,51 +126,23 @@ window.siteTurnstileExpired = function () {
   // Both the chips and the figures are re-rendered from the CMS after load, so
   // this delegates from the container instead of binding to elements that may
   // be replaced. Nothing here caches a NodeList.
-  // The gallery shows PAGE pieces of the chosen filter, then a "Show more"
-  // button adds PAGE at a time. At well over a hundred pieces one long run
-  // buried everything below it. 24 fills whole rows at 2, 3 and 4 columns.
-  // The admin's live preview shows every piece, so scrolling to the one being
-  // edited still works.
   var chipBar = document.querySelector('.chips');
   if (chipBar) {
-    var PAGE = 24;
-    var showAll = /[?&]adminPreview=1\b/.test(window.location.search);
-    var currentFilter = 'all', shown = PAGE;
-    var more = document.createElement('div');
-    more.className = 'gal-more';
-    more.hidden = true;
-    var moreBtn = document.createElement('button');
-    moreBtn.type = 'button';
-    moreBtn.className = 'btn btn-line';
-    more.appendChild(moreBtn);
-    var gal = document.querySelector('[data-ae-list="portfolio"]');
-    if (gal) gal.parentNode.insertBefore(more, gal.nextSibling);
-
+    var currentFilter = 'all';
     var applyFilter = function (f) {
       currentFilter = f;
-      var n = 0;
       document.querySelectorAll('.gal figure[data-cat]').forEach(function (fig) {
-        var match = f === 'all' || fig.getAttribute('data-cat') === f;
-        if (match) n++;
-        fig.classList.toggle('hide', !match || (!showAll && n > shown));
+        fig.classList.toggle('hide', f !== 'all' && fig.getAttribute('data-cat') !== f);
       });
-      var left = showAll ? 0 : n - shown;
-      more.hidden = left <= 0;
-      moreBtn.textContent = 'Show more work (' + left + ')';
       chipBar.querySelectorAll('.chip').forEach(function (x) {
         var on = x.getAttribute('data-filter') === f;
         x.classList.toggle('on', on);
         x.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
     };
-    moreBtn.addEventListener('click', function () {
-      shown += PAGE;
-      applyFilter(currentFilter);
-    });
     chipBar.addEventListener('click', function (e) {
       var c = e.target.closest ? e.target.closest('.chip') : null;
       if (!c || !chipBar.contains(c)) return;
-      shown = PAGE;
       applyFilter(c.getAttribute('data-filter'));
       // On a phone the buttons are one sideways-scrolling row: bring the
       // tapped one to the middle so it never sits half under an edge.
