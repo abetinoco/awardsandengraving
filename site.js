@@ -174,7 +174,10 @@ window.siteTurnstileExpired = function () {
       var email = document.getElementById('email').value.trim();
       var ok = name.length > 1 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
       if (!ok) { var bad = !name ? document.getElementById('name') : document.getElementById('email'); bad.style.borderColor = '#e0603f'; bad.focus(); return; }
-      var done = function () { form.style.display = 'none'; success.classList.add('show'); };
+      var done = function () {
+        if (window.gtag) window.gtag('event', 'generate_lead', { method: 'form', page: location.pathname });
+        form.style.display = 'none'; success.classList.add('show');
+      };
       var endpoint = form.getAttribute('data-endpoint');
       if (endpoint) {
         var btn = form.querySelector('.f-submit');
@@ -219,3 +222,10 @@ window.siteTurnstileExpired = function () {
     } catch (e) {}
   })();
 })();
+
+/* Phone and email clicks reach GA4. */
+document.addEventListener('click', function (event) {
+  var link = event.target.closest && event.target.closest('a[href^="tel:"], a[href^="mailto:"]');
+  if (!link || !window.gtag) return;
+  window.gtag('event', link.getAttribute('href').indexOf('tel:') === 0 ? 'click_to_call' : 'email_click', { page: location.pathname });
+});

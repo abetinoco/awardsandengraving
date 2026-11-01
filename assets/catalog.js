@@ -31,7 +31,7 @@
     acrylic:      'v1714429401/products/images/large/MAC401--85d84bd7.png',
     drinkware:    'v1669757725/products/images/large/LWB101--7cda76a7.png',
     leather:      'v1722289232/products/images/large/LTM7451--97203ba5.png',
-    personalized: 'v1669750755/products/images/large/BBQ01A--098b756c.png',
+    personalized: 'v1669750759/products/images/large/BBQ02A--dc860c68.png',
     corporate:    'v1667526286/products/images/large/CPP12--28092af9.jpg',
   };
   function cloud(tail, w) {
