@@ -54,6 +54,36 @@
       "source": "/work",
       "destination": "/portfolio",
       "permanent": true
+    },
+    {
+      "source": "/contactus",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/contactus.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/directions",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/directions.html",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/aboutus",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/aboutus.html",
+      "destination": "/about",
+      "permanent": true
     }
   ]
 }
