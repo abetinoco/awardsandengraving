@@ -7,8 +7,8 @@
   color-scheme:only dark;
   --navy:#132038; --navy-2:#182946; --navy-3:#1e3252; --navy-deep:#0d1729; --navy-glass:rgba(15,24,44,.86);
   --cream:#f0e7d3; --cream-2:#e9dcc0; --cream-3:#e2d3b2;
-  --gold:#d3b878; --gold-2:#e6d29b; --gold-deep:#b08e4e; --gold-soft:rgba(211,184,120,.4); --divider:rgba(211,184,120,.6);
-  --ink:#1a2740; --ink-soft:rgba(240,231,211,.7); --ink-mute:rgba(240,231,211,.45);
+  --gold:#d3b878; --gold-2:#e6d29b; --gold-deep:#b08e4e; --gold-ink:#7a5d26; --gold-head:#9c7c3e; --gold-soft:rgba(211,184,120,.4); --divider:rgba(211,184,120,.6);
+  --ink:#1a2740; --ink-soft:rgba(240,231,211,.7); --ink-mute:rgba(240,231,211,.6);
   --cream-ink:#223049; --cream-ink-soft:rgba(34,48,73,.72); --cream-ink-mute:rgba(34,48,73,.5);
   --line:rgba(240,231,211,.12); --line-strong:rgba(240,231,211,.24);
   --ease:cubic-bezier(.22,1,.36,1);
@@ -300,8 +300,8 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 
 /* ---------- beige band + trusted redesign ---------- */
 .band{position:relative;z-index:2;background:var(--cream);color:var(--cream-ink);padding:74px 0;overflow:hidden;border-top:1px solid var(--divider)}
-.band .eyebrow{color:var(--gold-deep)}.band .eyebrow .eb-ic{color:var(--gold-deep)}
-.band .sec-title{color:var(--cream-ink)}.band .sec-title em{color:var(--gold-deep)}
+.band .eyebrow{color:var(--gold-ink)}.band .eyebrow .eb-ic{color:var(--gold-deep)}
+.band .sec-title{color:var(--cream-ink)}.band .sec-title em{color:var(--gold-head)}
 .band .sec-sub{color:var(--cream-ink-soft)}
 .band .grule{border-top-color:rgba(176,142,78,.5);margin:30px 0 40px;width:90px}
 /* Split head: copy left, circular award photo right. The photo is decorative, so it
@@ -334,7 +334,7 @@ h1.hero-h1 .sm{display:block;font-size:clamp(16px,1.8vw,22px);font-weight:500;fo
 .tb-txt{min-width:0}
 .tb-card h4{font-family:var(--serif);font-weight:700;font-size:20px;color:var(--cream-ink);line-height:1.1}
 .tb-card p{font-size:13.5px;color:var(--cream-ink-soft);margin:5px 0 8px;line-height:1.4}
-.tb-card .tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}
+.tb-card .tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink)}
 .tb-card .tag::before{content:"";width:16px;height:1px;background:var(--gold-deep)}
 @media (hover:hover){
   .tb-card:hover{border-color:var(--gold-deep);background:rgba(255,255,255,.62);transform:translateY(-3px);
@@ -620,7 +620,7 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
    and 3%-cream card tint both vanish. Same override pattern as .band .sec-title. */
 .band .p-step{background:rgba(34,48,73,.035);border-color:rgba(176,142,78,.5)}
 .band .p-step:hover{border-color:var(--gold-deep)}
-.band .p-step .pn{color:var(--gold-deep)}
+.band .p-step .pn{color:var(--gold-ink)}
 .band .p-step h3{color:var(--cream-ink)}
 .band .p-step p{color:var(--cream-ink-soft)}
 
@@ -677,7 +677,7 @@ body.nav-open .nm-foot{animation:nmRise .55s var(--ease) .42s forwards}
 .pullquote{max-width:780px;margin:0 auto;text-align:center}
 .pullquote .stars{color:var(--gold-deep);font-size:14px;letter-spacing:.24em;display:block;margin-bottom:18px}
 .pullquote blockquote{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(20px,3.2vw,31px);line-height:1.45;color:var(--cream-ink);margin:0}
-.pullquote figcaption{margin-top:18px;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+.pullquote figcaption{margin-top:18px;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
 
 /* ---------- gallery filter chips ---------- */
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 34px}
@@ -812,3 +812,7 @@ a.vendor-card:hover{border-color:var(--gold);transform:translateY(-2px)}
 .vendor-meta{display:flex;flex-direction:column;gap:3px;min-width:0}
 .vendor-meta b{font-family:var(--serif);font-size:15px;color:var(--gold)}
 .vendor-meta span{font-size:12.5px;color:var(--cream-soft,#c9c2b4);line-height:1.4}
+
+/* 12 Nov 2026: images carry width/height so the page doesn't jump while they load.
+   Zero specificity: any rule that sizes an image still wins; this only keeps the shape. */
+:where(img[width][height]){height:auto}

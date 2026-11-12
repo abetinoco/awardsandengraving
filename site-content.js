@@ -18,6 +18,17 @@
   var CFG = window.__AE_CONFIG || {};
   var PREVIEW = /[?&]adminPreview=1\b/.test(window.location.search);
 
+  /* Real pixel sizes of the logos and shop photos shipped in /assets, so a list rendered
+     from the database still reserves each image's space before it loads. Uploaded
+     photos (Supabase storage) are not listed and keep no size. Regenerate when
+     /assets/clients or /assets/shop change. */
+  var IMG_SIZES = {"/assets/clients/abbott.svg":[1000,249],"/assets/clients/abbvie.svg":[559,105],"/assets/clients/advocate-condell.webp":[1051,95],"/assets/clients/aramark.svg":[870,248],"/assets/clients/army.webp":[170,170],"/assets/clients/baxter-credit-union.svg":[121,55],"/assets/clients/baxter.svg":[1097,183],"/assets/clients/chicago-bears.svg":[373,248],"/assets/clients/home-depot.svg":[227,228],"/assets/clients/marines.webp":[168,170],"/assets/clients/medline.svg":[316,316],"/assets/clients/milwaukee-tool.svg":[957,467],"/assets/clients/mission-bbq.webp":[484,170],"/assets/clients/navy.webp":[170,170],"/assets/clients/xgolf.webp":[224,140],"/assets/shop/m-aeon-mira-7.webp":[445,433],"/assets/shop/m-full-spectrum-pro.webp":[669,718],"/assets/shop/m-hermes-v3000.webp":[1020,763],"/assets/shop/m-roland-lef-300.webp":[637,516],"/assets/shop/m-rotary-station.webp":[564,636],"/assets/shop/m-sublimation.webp":[599,676],"/assets/shop/m-xtool-f2.webp":[460,458],"/assets/shop/m-xtool-fiber.webp":[657,722],"/assets/shop/s-bench.webp":[1020,680],"/assets/shop/s-console.webp":[1020,680],"/assets/shop/s-diamond-drag.webp":[1020,680],"/assets/shop/s-spindle.webp":[1020,680]};
+  function sizeImg(n, src) {
+    var s = IMG_SIZES[String(src || '').split('?')[0]];
+    if (s) { n.width = s[0]; n.height = s[1]; }
+    return n;
+  }
+
   /* ---------------------------------------------------------------- apply */
 
   function applyField(key, value) {
@@ -187,6 +198,7 @@
       fig.setAttribute('data-cat', r.category || 'awards');
       var img = document.createElement('img');
       img.src = r.image_url || '';
+      sizeImg(img, r.image_url);
       img.alt = r.alt || r.title || '';
       img.loading = 'lazy';
       fig.appendChild(img);
@@ -318,6 +330,7 @@
         media.className = 'svc-media';
         var img = document.createElement('img');
         img.src = r.image_url;
+        sizeImg(img, r.image_url);
         img.alt = r.image_alt || '';
         img.loading = 'lazy';
         media.appendChild(img);
@@ -364,6 +377,7 @@
         var img = document.createElement('img');
         img.className = 'vendor-logo';
         img.src = r.logo_url;
+        sizeImg(img, r.logo_url);
         img.alt = r.name || '';
         img.loading = 'lazy';
         card.appendChild(img);
@@ -472,7 +486,7 @@
   }
   function img(src, alt, cls) {
     var n = document.createElement('img');
-    n.src = src; n.alt = alt || ''; n.loading = 'lazy';
+    n.src = src; sizeImg(n, src); n.alt = alt || ''; n.loading = 'lazy';
     if (cls) n.className = cls;
     return n;
   }
