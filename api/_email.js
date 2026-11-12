@@ -60,7 +60,7 @@ function detailRows(rows) {
     .map((r) => {
       const [label, value, href] = r
       const shown = href
-        ? '<a href="' + href + '" style="color:' + BRAND.linkOnLight + ';text-decoration:none;font-weight:600;">' + escapeEmail(value) + '</a>'
+        ? '<a href="' + escapeEmail(href) + '" style="color:' + BRAND.linkOnLight + ';text-decoration:none;font-weight:600;">' + escapeEmail(value) + '</a>'
         : escapeEmail(value)
       return '<tr><td style="padding:0 0 12px;">' +
         '<div style="font-family:' + FONT + ';font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:' + BRAND.muted + ';padding-bottom:3px;">' + escapeEmail(label) + '</div>' +
@@ -85,7 +85,7 @@ function button(label, href) {
   if (!href) return '';
   return '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;margin:0 0 4px;">' +
     '<tr><td align="center" bgcolor="' + BRAND.btnBg + '" style="background-color:' + BRAND.btnBg + ';border-radius:' + BRAND.btnRadius + 'px;">' +
-    '<a href="' + href + '" style="display:inline-block;padding:14px 30px;font-family:' + FONT + ';font-size:15px;font-weight:700;line-height:1;color:' + BRAND.btnInk + ';text-decoration:none;border-radius:' + BRAND.btnRadius + 'px;">' + escapeEmail(label) + '</a>' +
+    '<a href="' + escapeEmail(href) + '" style="display:inline-block;padding:14px 30px;font-family:' + FONT + ';font-size:15px;font-weight:700;line-height:1;color:' + BRAND.btnInk + ';text-decoration:none;border-radius:' + BRAND.btnRadius + 'px;">' + escapeEmail(label) + '</a>' +
     '</td></tr></table>';
 }
 
